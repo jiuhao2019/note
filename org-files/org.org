@@ -804,7 +804,6 @@ todo.org           -> todo.org_archive
 (3) 集中 + 分类标题
 (setq org-archive-location "~/org/archive.org::* %s")
 #+end_example
-
 ** 归档行为本质
 #+begin_example
 无论哪种配置，核心逻辑都是：
