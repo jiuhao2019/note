@@ -1,0 +1,36 @@
+:PROPERTIES:
+:ID:       7c9a728a-e47a-422b-9cf4-5a8e019a8d81
+:END:
+#+title: 2026-05-28
+* <2026-05-28 09:58>
+:PROPERTIES:
+:CUSTOM_ID: c13d5c6e-e204-41af-8039-af48f3b9e1e4
+:END:
+<<<<<<< Updated upstream
+* TODO 磨豆电机增加空转检测（电流过低检测）给出错误码 :家用咖啡机:冲泡器模块:
+:PROPERTIES:
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-28.org
+:ARCHIVE_CATEGORY: 2026-05-28
+:ARCHIVE_TODO: TODO
+:END:
+=======
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-28.org
+
+
+* FINISHED 磨豆电机增加空转检测（电流过低检测）给出错误码 :冲泡器模块:
+CLOSED: [2026-06-18 Thu 08:28]
+:PROPERTIES:
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-28.org
+:ARCHIVE_CATEGORY: 2026-05-28
+:ARCHIVE_TODO: FINISHED
+:END:
+>>>>>>> Stashed changes
+:PROPERTIES:
+:CUSTOM_ID: c8217816-1ee4-4894-8506-791aed0208aa
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-18 Thu 08:28]
+:END:

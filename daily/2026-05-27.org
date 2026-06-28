@@ -1,0 +1,106 @@
+:PROPERTIES:
+:ID:       e476c359-88c2-493c-94a9-7f87d2742656
+:END:
+#+title: 2026-05-27
+* <2026-05-27 20:06>
+:PROPERTIES:
+:CUSTOM_ID: 23da7844-ec8a-4b1e-aa91-75c4777a4f18
+:END:
+* FINISHED 加一路磨豆，协议也增加磨豆序号,但是两路磨豆用同一个电流adc检测 :冲泡器模块:
+CLOSED: [2026-05-29 Fri 15:09]
+:PROPERTIES:
+:CUSTOM_ID: 39037b77-15bb-494d-ad50-e4c26044c73a
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:09] \\
+  done
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-27.org
+
+
+* FINISHED 加有无豆检测，每个磨豆一个,协议里读状态里加一个字节，用2个bit表示2个磨豆无豆检测,磨豆低流和过流增加错误码bit :冲泡器模块:
+CLOSED: [2026-06-11 Thu 08:53]
+:PROPERTIES:
+:CUSTOM_ID: f48577cd-f92e-43b7-ad72-dcfaca25ef4c
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-11 Thu 08:53] \\
+  done
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-27.org
+
+
+* FINISHED 电源端子移到板边 :冲泡器模块:
+CLOSED: [2026-05-29 Fri 15:07]
+:PROPERTIES:
+:CUSTOM_ID: 70b0efec-d6e2-465e-9c2b-c60ab821d54d
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:07] \\
+  已经移开了
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-27.org
+
+
+* FINISHED 磨豆下面相邻的端子作为5V的调粗细，端子改为2.54的以区分 :冲泡器模块:
+CLOSED: [2026-05-29 Fri 15:08]
+:PROPERTIES:
+:CUSTOM_ID: 75fc148f-7c24-4b5e-9f5c-728801dff3cc
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:08] \\
+  done
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-27.org
+
+
+* FINISHED 板子可以稍微加大，放的下就尽量不加大。 :冲泡器模块:
+CLOSED: [2026-05-29 Fri 15:07]
+:PROPERTIES:
+:CUSTOM_ID: 9856a4d3-6554-4b26-b2fa-541dda208ad4
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:07] \\
+  不加大，可以放的下。
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-27.org
+
+
+* FINISHED 两个没用到的预留串口，看空间位置情况可去掉 :冲泡器模块:
+CLOSED: [2026-05-29 Fri 15:06]
+:PROPERTIES:
+:CUSTOM_ID: f23c1493-a2e1-485c-b676-3407e9f8d4a4
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-27.org
+:ARCHIVE_CATEGORY: 2026-05-27
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:06] \\
+  已经去掉了一个，空间不够放
+:END:

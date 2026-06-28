@@ -1,0 +1,209 @@
+:PROPERTIES:
+:ID:       542219f2-816e-4f1f-9699-d17e0b517ef6
+:END:
+#+title: iar
+#+date: [2026-04-10 Fri 00:52]
+
+* iar工程打开时 文件是ewp   保存s时提示覆盖eww?
+:PROPERTIES:
+:CUSTOM_ID: 801e5732-fdf9-4a8a-9136-ccade9d3481c
+:END:
+#+begin_example
+这是IAR Embedded Workbench的正常现象，你不需要担心：
+
+为什么会出现这种情况？
+EWP文件（.ewp）：
+
+工程配置文件 - 包含编译选项、链接设置、文件列表等
+
+这是你主要编辑和保存的文件
+
+EWW文件（.eww）：
+
+工作空间文件 - 包含窗口布局、打开的文件标签、断点位置等UI状态
+
+每次关闭IAR时自动生成/更新
+
+处理建议：
+正常点击"是"或"确定"：
+
+这只是保存你的工作环境状态
+
+不会影响你的工程设置
+
+如果你不想保存窗口布局等状态：
+
+可以点击"否"，但下次打开时窗口布局会恢复默认
+
+版本控制时：
+
+通常只提交.ewp文件（工程配置）
+
+.eww文件一般加入.gitignore（因人偏好而异）
+
+简单记忆：
+.ewp = 重要的工程设置（必须保存）
+
+.eww = 个人的工作环境偏好（可选保存）
+
+这是IAR的标准行为，不是错误，放心点击"是"即可。
+
+但是双击打开，只能eww？
+你说得对！这是一个常见的困惑点。让我详细解释一下：
+
+IAR工程的正确打开方式：
+实际情况：
+直接双击：系统默认用.eww文件关联，因为它是IAR的“入口文件”
+
+但本质是：.eww只是一个“启动器”，它再加载真正的工程文件.ewp
+
+为什么这样设计？
+.eww = 启动器 + 个人工作环境
+
+双击后：恢复你上次的窗口布局、打开的文件标签等
+
+.ewp = 核心工程配置
+
+包含所有编译设置、文件路径等关键信息
+
+最佳实践：
+方法一：正常使用（推荐）
+直接双击.eww文件打开
+
+关闭时提示保存.eww，点“是”
+
+这样能保持你的工作环境
+
+方法二：从IAR内部打开
+先打开IAR软件
+
+File → Open → Workspace（选择.eww）
+或
+
+File → Open → Project（选择.ewp）
+
+方法三：创建快捷方式
+如果需要频繁打开同一个工程：
+
+可以创建IAR的快捷方式，带参数指向你的工程
+
+文件管理建议：
+text
+你的工程文件夹/
+├── Project.eww      ← 双击打开这个（工作空间）
+├── Project.ewp      ← 实际工程配置（核心文件）
+├── settings/        ← 可能有的其他配置
+└── source/          ← 源代码文件
+重要提示：
+版本控制：一般只提交.ewp和源代码，.eww因人而异
+
+团队协作：如果.eww导致布局冲突，可以删除它，IAR会重新生成默认布局
+
+所以你的操作没错，双击.eww是标准做法！保存时提示覆盖.eww也是正常的。
+#+end_example
+* 减少flash占用的几个设置
+:PROPERTIES:
+:CUSTOM_ID: 53ada91f-c143-4363-a8ee-bf5478d09e53
+:END:
+#+ATTR_ORG: :width 60%
+[[file:~/Downloads/note/pics/iar/1    ad68929a-be42-47b7-923d-7213aec4b5f2.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[[file:~/Downloads/note/pics/iar/2    e60dfe33-3bf2-4520-b884-cecea8d2d739.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[[file:~/Downloads/note/pics/iar/3    a9f263f5-9cdf-424d-8565-d43d3d06e51e.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[[file:~/Downloads/note/pics/iar/4   75e88ca3-6f45-4cc1-9e76-763933b65b7e.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+#+begin_example
+其中的printf fomatter那里设置small还可以正常printf，设置为tiny则打印里文件名和line都异常，
+但是占用flash更少
+#+end_example

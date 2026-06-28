@@ -1,0 +1,830 @@
+:PROPERTIES:
+:ID:       be86ef25-29cd-418e-a612-e599be3c13c3
+:END:
+#+title: git
+#+date: [2026-05-03 Sun 09:10]
+
+* git status 提示 ahead by 1 commit，但是git push 提示 冲突
+:PROPERTIES:
+:CUSTOM_ID: 13434214-e2f6-4440-80e8-8b8bff3f3112
+:END:
+#+begin_example
+
+这种情况本质是：本地分支“领先”，但远端也发生了变化 → 分叉（diverged）了。
+也就是说不是单纯的 “ahead”，而是：
+
+你本地：+1 commit
+远端：也有你没有的 commit
+→ Git 无法 fast-forward，push 被拒绝
+#+end_example
+** 建议工作流（避免再踩坑）
+:PROPERTIES:
+:CUSTOM_ID: 744e0a62-df67-4d3a-b3a4-53a459356085
+:END:
+#+begin_src  sh
+git pull --rebase
+# 开发
+git add .
+git commit
+git push
+#+end_src
+** git pull --rebase 的作用可以精确定义为：
+:PROPERTIES:
+:CUSTOM_ID: 26293f27-17a3-481a-9438-505b97fc9aec
+:END:
+#+begin_example
+先获取远端更新，然后把“你本地的提交”移动（重放）到最新远端提交之后，使历史保持线性。
+git pull --rebase 本质就是：
+把你的提交“挪到别人提交后面”，而不是“合并在一起”。
+#+end_example
+* git branch
+:PROPERTIES:
+:CUSTOM_ID: 160db643-7513-44f3-b6ac-29e32fd02545
+:END:
+** 查询
+:PROPERTIES:
+:CUSTOM_ID: 881910de-e305-4f58-b64d-de6b2f60b09d
+:END:
+*** 查询 本地分支：
+:PROPERTIES:
+:CUSTOM_ID: fb166a27-9162-4635-a778-c78b8ff6d4b7
+:END:
+#+begin_src sh
+git branch
+输出会列出当前仓库中所有本地分支，当前所在分支前面有 \*。
+#+end_src
+*** 查询 远程分支：
+:PROPERTIES:
+:CUSTOM_ID: 50be036e-6dae-40f6-a566-68592b685e66
+:END:
+#+begin_example
+git branch -r
+#+end_example
+*** 查询 本地 + 远程 所有分支：
+:PROPERTIES:
+:CUSTOM_ID: e6d4953a-a10d-453b-9964-fe7490f96667
+:END:
+#+begin_src sh
+git branch -a
+#+end_src
+** 切换
+:PROPERTIES:
+:CUSTOM_ID: cdf1536c-8cad-4c21-b6c4-cc55d662763a
+:END:
+#+begin_src  sh
+git switch xxx
+#+end_src
+** 新增
+:PROPERTIES:
+:CUSTOM_ID: 36164457-e775-4787-869e-392476cd4995
+:END:
+#+begin_example
+git switch -c xxx
+#+end_example
+
+* 忽略文件夹
+:PROPERTIES:
+:CUSTOM_ID: 21ff8bfd-0248-4b74-b093-0cc311bce5be
+:END:
+#+begin_example
+./folder/    只忽略当前文件夹
+folder/      会递归忽所有略文件夹，比如  lisp/folder
+#+end_example
+* 如果你是想“看某个 commit 相对于它的前一个 commit改了什么”，Git 里有几种最常用、也最顺手的方式。
+:PROPERTIES:
+:CUSTOM_ID: 9a1bde61-37ed-4c00-b254-f1bf5c51acab
+:END:
+** 最直接的是用 git show。
+:PROPERTIES:
+:CUSTOM_ID: 2b69b9f1-7e65-449d-ba2b-e047fa58d35e
+:END:
+#+begin_example
+它默认就是把这个 commit 和它的父 commit 做 diff：
+
+git show <commit>
+
+比如：
+
+git show HEAD
+git show a1b2c3d
+
+这会同时显示：
+1）commit 信息
+2）改动的 diff（相对父 commit）
+#+end_example
+** 如果你只想看 diff，不要提交信息，可以加参数：
+:PROPERTIES:
+:CUSTOM_ID: 3abbba53-43f6-4885-8024-b99266f31d37
+:END:
+#+begin_example
+
+git show --pretty=short <commit>
+或者更干脆一点：
+
+git show --pretty=oneline --no-patch <commit>（只看信息）
+git show --pretty=oneline <commit>（信息 + diff）
+#+end_example
+** 如果你已经知道 commit 的父是谁，也可以用 git diff 明确写出来：
+:PROPERTIES:
+:CUSTOM_ID: 4389ff6f-d299-4af1-91fe-b427acf863fc
+:END:
+#+begin_example
+
+git diff <commit>^ <commit>
+
+等价于：
+
+git diff HEAD^ HEAD
+
+这个方式适合你只想“纯 diff”，不想要任何 log 信息。
+#+end_example
+** 如果你是在浏览历史，一条条看每个 commit 的变化，这个组合非常舒服：
+:PROPERTIES:
+:CUSTOM_ID: 580f8324-f173-4f09-8ba7-81fa32c23d66
+:END:
+#+begin_example
+git log -p
+它会按时间倒序，把每个 commit 相对前一个 commit 的 diff 全部展开。
+如果你觉得 diff 太多，可以限制条数：
+git log -p -1（只看最近一次）
+git log -p -3（最近 3 次）
+#+end_example
+**** 还有一个偏“概览”的用法，只看每个文件改了多少行：
+:PROPERTIES:
+:CUSTOM_ID: 50991139-6979-4cd9-b9dc-9dce3cd2ae05
+:END:
+#+begin_example
+git show --stat <commit>
+这个在代码量大的时候很有用，先扫一眼再决定要不要看细节。
+一句话总结一下你平时最常用的三条就够了：
+看某个 commit 改了什么：git show <commit>
+只看 diff：git diff <commit>^ <commit>
+按历史逐个看变化：git log -p
+如果你是在做代码 review 或 bisect，也可以说下场景，我可以给你一套更顺手的命令组合
+#+end_example
+* 回退到指定commit
+:PROPERTIES:
+:CUSTOM_ID: 86576664-3d75-48b2-af14-a4f1ca6588af
+:END:
+** 简单粗暴方式（直接回退 ffa69df，重写历史）
+:PROPERTIES:
+:CUSTOM_ID: 7bffc4d5-4a16-47f2-ba74-9a99879a7ed0
+:END:
+#+begin_example
+
+如果你 确认当前分支没人用，且可以强制推送：
+git reset --hard ffa69df
+git push -f
+直接把 HEAD 移动到 ffa69df
+
+工作区、暂存区都回到 ffa69df 的内容
+
+强制 push 覆盖远端
+
+⚠️ 风险：重写远端历史，别人基于这个分支的提交会冲突。
+#+end_example
+** 安全 revert 多个 commit（保留远端历史）
+:PROPERTIES:
+:CUSTOM_ID: f1149f53-0bf9-405c-aa06-27572164c369
+:END:
+#+begin_example
+先查看git log --oneline -5
+git revert HEAD          # revert 95338e3
+git revert HEAD~1        # revert d65a15a
+git revert HEAD~2        # revert d65a15a
+git revert HEAD~3        # revert d65a15a
+
+依次 revert 本地多余 commit（从最新到最旧）：
+完成后push
+如果不依次，直接revert到指定commit，会提示冲突，需解决冲突，
+所以一般距离当前HEAD不远还是一个一个revert即可
+
+revert与reset的区别是 revert会将想到的旧commit重新原样commit的一次，所以不改变历史。
+#+end_example
+* clone with submodule
+:PROPERTIES:
+:CUSTOM_ID: b6eb3b9f-d91d-41e1-9182-725951021ff0
+:END:
+** 🎯 现象
+:PROPERTIES:
+:CUSTOM_ID: 85d1a5c1-98c4-4a48-9335-01b96d574c72
+:END:
+#+begin_example
+    你 git clone 一个仓库后，里面的某些目录是空的。
+    这些空目录其实是其他 Git 仓库作为子模块引用的，需要你手动初始化和拉取。
+#+end_example
+** ✅ 解决方法
+:PROPERTIES:
+:CUSTOM_ID: bd0f4404-beae-4782-a9f6-f4980292d488
+:END:
+*** 假设你已经执行了：
+:PROPERTIES:
+:CUSTOM_ID: 794fa130-3599-4560-9a39-8c457f626886
+:END:
+#+begin_src shell
+git clone <repo_url>
+cd <repo_dir>
+#+end_src
+*** 接着运行：
+:PROPERTIES:
+:CUSTOM_ID: 364fa68f-be94-4b55-9621-b1d9f0dff531
+:END:
+#+begin_src shell
+git submodule init
+git submodule update
+#+end_src
+*** 🚀 一行搞定
+:PROPERTIES:
+:CUSTOM_ID: 8837910a-f20d-409a-aac8-ae9478069b7b
+:END:
+#+begin_example
+你也可以直接在 clone 时带上 --recursive，一步到位：
+git clone --recursive <repo_url>
+#+end_example
+*** 📌 解释
+:PROPERTIES:
+:CUSTOM_ID: 9a571727-0976-4981-bdff-8a756abf10a8
+:END:
+#+begin_example
+submodule 的本质是：仓库里记录了另一个仓库的地址和某个提交哈希，但不包含实际内容。
+所以需要 init 和 update 来把子仓库 checkout 到对应目录。
+#+end_example
+* clone 指定分支
+:PROPERTIES:
+:CUSTOM_ID: a72b648c-c4b7-4386-8a61-345bc4713af3
+:END:
+#+begin_example
+git clone -b <branch_name> --single-branch <repository_url>
+
+说明：
+
+    -b <branch_name>：指定你想要克隆的分支名
+
+    --single-branch：只克隆指定的分支（不克隆其他分支）
+
+    <repository_url>：仓库地址，比如 https://github.com/user/repo.git
+#+end_example
+* gitblit安装
+:PROPERTIES:
+:CUSTOM_ID: c4e64b26-5ba9-4da0-8714-34c786df9090
+:END:
+** 如下archlinux,gentoo已经验证过
+:PROPERTIES:
+:CUSTOM_ID: 44743941-4c97-4ca9-8438-0a1edc744f13
+:END:
+*** 1. 官网下载jdk-8u421-linux-x64.tar.gz(官网最新版本会更新版本), 解压后得到文件夹
+:PROPERTIES:
+:CUSTOM_ID: 11782de1-7edb-4a11-a637-16957c51b90e
+:END:
+*** 2. 将文件夹cp到/usr/local/
+:PROPERTIES:
+:CUSTOM_ID: 7956d01b-1dfd-42a2-9319-58d687423583
+:END:
+*** 3. 配置环境变量
+:PROPERTIES:
+:CUSTOM_ID: ecc545fb-35ae-46b2-ab8f-4de8f4e5d902
+:END:
+#+begin_example
+   修改/etc/profile ,在这个文件末尾添加如下 (已解压后实际文件名为准,或者自定义文件夹名称) 
+#+end_example
+#+begin_src sh
+   export JAVA_HOME=/usr/local/jdk1.8  
+   export JRE_HOME=${JAVA_HOME}/jre  
+   export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+   export PATH=.:${JAVA_HOME}/bin:$PATH  
+#+end_src
+*** 4. 配置生效  
+:PROPERTIES:
+:CUSTOM_ID: 5cc0904e-e48c-4167-b774-76ada3bb26ed
+:END:
+#+begin_src sh
+     source /etc/profile
+#+end_src
+*** 5. 验证是否成功  
+:PROPERTIES:
+:CUSTOM_ID: 5dc34f9c-128a-4dca-83bf-eacda1ab209b
+:END:
+#+begin_src sh
+    java -version
+#+end_src
+*** 6. 官网下载安装包,类似gitblit-1.9.3.tar.gz(官网最新版本会更新) 解压后文件夹重命名为gitblit
+:PROPERTIES:
+:CUSTOM_ID: a19262e3-fa13-4c1d-b0ab-5458b0a2f159
+:END:
+#+begin_example
+   1) 拷贝到/opt/  (任意文件夹都可以)
+   2) 打开配置文件：  /opt/gitblit/data/defaults.properties
+#+end_example
+#+begin_src sh
+     改动1：server.httpPort = 8080
+     改动2：server.httpsPort =         (空)
+     改动3：server.httpBindInterface = 192.168.0.104     (即自己的ip)
+     改动4：server.httpsBindInterface =               (空)
+#+end_src
+*** 7. 启动gitblit：
+:PROPERTIES:
+:CUSTOM_ID: 434c9472-cece-45cb-8873-9fb7c2716b63
+:END:
+#+begin_src sh
+    sudo ./gitblit.sh
+#+end_src
+  如果没有提示什么错误就是表示正常了。
+*** 8. 通过浏览器访问gitblit服务器
+:PROPERTIES:
+:CUSTOM_ID: d20b90a9-713e-4a04-b400-f9f9de6a4228
+:END:
+#+begin_src sh
+   根据前面设置的比如 192.168.0.104:8080
+   登陆默认admin:admin
+   后面就是在网页 *新建设置* repo即可。
+   局域网里其他电脑可以用显示的http的地址来clone和push等.
+#+end_src
+*** 9. 数据迁移到其他电脑
+:PROPERTIES:
+:CUSTOM_ID: 5afab38f-07c4-4c93-b4e3-1104e5befd91
+:END:
+#+begin_example
+   将/opt/gitblit文件夹全部复制过去即可，或打包再复制.
+#+end_example
+* git stash
+:PROPERTIES:
+:CUSTOM_ID: 975702f2-68f0-41e7-bafe-07a5ec2d70af
+:END:
+#+begin_example
+git stash 是一个非常有用的 Git 命令，用于临时保存工作目录的修改，以便切换分支或执行其他操作，而不必提交未完成的工作。
+
+基本用法
+1. 保存当前修改
+bash
+git stash
+# 或
+git stash save "可选描述信息"
+将工作目录和暂存区的修改保存到存储栈中，并恢复干净的工作目录。
+
+2. 查看存储列表
+bash
+git stash list
+显示所有存储条目，格式：stash@{0}: 分支: 描述
+
+3. 恢复最近存储
+bash
+git stash pop
+# 恢复并删除该存储（默认最近一个）
+或
+
+bash
+git stash apply
+# 恢复但不删除存储
+4. 删除存储
+bash
+git stash drop stash@{n}
+# 删除特定存储
+git stash clear
+# 删除所有存储
+常用选项
+只存储暂存区的修改
+bash
+git stash --keep-index
+包含未跟踪的文件
+bash
+git stash -u
+# 或
+git stash --include-untracked
+包含所有文件（包括忽略的）
+bash
+git stash -a
+# 或
+git stash --all
+恢复特定存储
+bash
+git stash pop stash@{2}
+git stash apply stash@{1}
+实际应用场景
+场景1：临时切换分支
+bash
+# 当前有未提交的修改
+git stash
+git checkout other-branch
+# 处理其他事情...
+git checkout original-branch
+git stash pop
+场景2：测试干净代码
+bash
+git stash
+# 运行测试
+git stash pop
+场景3：存储并创建分支
+bash
+git stash branch new-feature
+# 基于存储创建新分支并自动应用存储
+高级用法
+查看存储内容
+bash
+git stash show stash@{0}
+git stash show -p stash@{1}
+# -p 查看详细差异
+部分存储
+bash
+# 交互式选择要存储的修改
+git stash -p
+创建存储但不保存
+bash
+git stash create
+# 创建存储对象但不从工作区删除
+示例工作流
+bash
+# 1. 开始新功能开发，有未完成的修改
+$ git status
+
+# 2. 紧急修复bug，需要切换分支
+$ git stash -u
+$ git checkout main
+$ git checkout -b hotfix-123
+
+# 3. 修复完成后返回
+$ git checkout feature-branch
+$ git stash pop
+
+# 4. 如果存在冲突，需要解决冲突
+# 5. 完成后清理存储
+$ git stash drop stash@{0}
+注意事项
+存储的是修改，不是文件本身
+
+默认不存储未跟踪文件，使用 -u 选项
+
+pop 与 apply 的区别：pop 恢复后删除存储
+
+存储基于提交，所以可以跨分支应用
+
+冲突可能发生在恢复时，需要手动解决
+
+实用别名配置
+bash
+git config --global alias.st 'stash'
+git config --global alias.sta 'stash apply'
+git config --global alias.std 'stash drop'
+git config --global alias.stl 'stash list'
+git config --global alias.sts 'stash show -p'
+记住：git stash 是你代码的临时保存点，不是永久解决方案，及时应用和清理存储可以保持工作区整洁。
+#+end_example
+* tag 的典型用法就是“冻结历史”，然后把分支删掉，之后需要时再从 tag 拉新分支。
+:PROPERTIES:
+:CUSTOM_ID: b2863121-f029-4da8-9115-8c8988613910
+:END:
+*** 第一步：在两个分支上分别打 tag
+:PROPERTIES:
+:CUSTOM_ID: 62cfc65a-9b33-45a7-818d-674d0a0f2890
+:END:
+        #+begin_example
+        假设仓库有两个分支：
+        
+        cubeide_release
+        cubeide_labtest
+        
+        先切到第一个：
+        git switch cubeide_release
+        
+        打tag
+        git tag -a v1.0.0_release -m "CubeIDE release version"
+        
+        再切到第二个：
+        git switch cubeide_labtest
+        
+        打tag
+        git tag -a v1.0.0_labtest -m "CubeIDE lab test version"
+        
+        然后把 tag 推送到远程：
+        git push origin --tags
+        
+        现在这两个提交点被永久保存。
+        #+end_example
+** 第二步：删除 branch（可选）
+:PROPERTIES:
+:CUSTOM_ID: 0bdaef92-ee08-4375-b2cf-87ee9313ae70
+:END:
+       #+begin_example
+       如果你确定这两个分支以后不再继续开发，可以删掉。
+       
+       删除本地：
+       git branch -d cubeide_release
+       git branch -d cubeide_labtest
+       
+       删除远程：
+       git push origin --delete cubeide_release
+       git push origin --delete cubeide_labtest
+       
+       注意：删除 branch 不会影响 tag。
+       tag 依然指向原来的提交。
+       #+end_example
+** 第三步：以后怎么用 tag？
+:PROPERTIES:
+:CUSTOM_ID: 474c147e-be65-44a0-9b2d-1e87f4af5138
+:END:
+** 1）查看 tag
+:PROPERTIES:
+:CUSTOM_ID: be468631-d3aa-4bc2-ba0a-4d44129ceed1
+:END:
+#+begin_example
+git tag
+#+end_example
+** 2）切换到某个历史版本
+:PROPERTIES:
+:CUSTOM_ID: be1b515e-a765-42d3-9b5c-ef36ed958ab3
+:END:
+#+begin_example
+git switch v1.0.0_release
+
+这时候你会进入“detached HEAD”状态。
+意思是：你只是查看这个版本，不在任何分支上。
+#+end_example
+** 3）如果要基于它继续开发
+:PROPERTIES:
+:CUSTOM_ID: 617c7de1-15fe-43f8-88ea-784b5d487423
+:END:
+#+begin_example
+必须新建 branch：
+git checkout -b hotfix_release   v1.0.0_release
+
+然后你可以：
+git checkout main
+
+以后需要旧版本时，从 tag 拉新 branch。
+#+end_example
+#+begin_example
+简单理解一下：
+branch = 活的开发线
+tag = 冻结的历史快照
+
+先打 tag 并推送到远程
+假设你在本地打了两个 tag：
+git tag -a v1.0.0_release -m "CubeIDE release version"
+git tag -a v1.0.0_labtest -m "CubeIDE lab test version"
+
+推送到远程：
+git push origin --tags
+
+这样远程就有这两个 tag，永远保留历史。
+#+end_example
+** 如果远程仓库没有其他 branch，别人 clone 时只会看到 tag，可以从 tag 拉 branch
+:PROPERTIES:
+:CUSTOM_ID: edff046a-509b-4fcd-850c-55ec4f464fca
+:END:
+**** 基于 release tag新建 branch
+:PROPERTIES:
+:CUSTOM_ID: 835372e9-dc8d-47c4-87e5-7e1609611e47
+:END:
+#+begin_example
+git checkout -b main v1.0.0_release  # 基于 release tag
+git push -u origin main
+#+end_example
+**** 直接新建空 branch
+:PROPERTIES:
+:CUSTOM_ID: 917ad637-8eb0-4699-b817-4b88b2df3d64
+:END:
+#+begin_example
+如果你想从零开始新 branch（不管老 branch）：
+git checkout --orphan main
+
+这会创建一个没有历史的新 branch，适合完全新项目。
+创建一个全新的 孤立分支 test1，它没有任何历史提交。也就是说：
+这个分支一开始是空的（没有 commit 历史）
+仓库里的其他 branch 历史不会跟它共享
+你可以从零开始提交新文件
+
+执行步骤示例：
+- 创建孤立分支 test1
+git checkout --orphan test1
+
+- 删除暂存区旧文件
+git rm -rf .
+
+- 添加新文件
+echo "Hello Test" > README.md
+git add README.md
+
+- 提交
+git commit -m "Initial commit on orphan branch test1"
+
+- 推送到远程
+git push -u origin test1
+#+end_example
+* git merge
+:PROPERTIES:
+:CUSTOM_ID: a4dfa504-57f9-4440-893c-00bc0e708209
+:END:
+** 🔧 一、你是「直接 clone」并有 权限 push 到原仓库 的话：
+:PROPERTIES:
+:CUSTOM_ID: 0697552a-998e-4690-8fd7-e501bf3bc51a
+:END:
+#+begin_example
+✅ 示例流程：
+
+    clone 仓库
+
+git clone https://github.com/xxx/project.git
+cd project
+
+新建分支并修改代码（推荐）
+
+git switch -c fix/bug1
+
+提交
+
+git add .
+git commit -m "Fix bug1"
+
+推送该分支到远程
+
+git push origin fix/bug1
+
+然后合并（merge）到主分支：
+
+    git switch main
+    git pull origin main         # 更新最新主分支
+    git merge fix/bug1
+    git push origin main         # 推送合并结果
+#+end_example
+
+** 🔁 二、如果你是「Fork 别人的仓库」来改（你没权限 push 到原项目）
+:PROPERTIES:
+:CUSTOM_ID: 16f94ebb-1da0-49e5-b234-135ba019a5bc
+:END:
+#+begin_example
+GitHub 上典型流程：
+
+    点击 Fork（网页操作）
+
+    克隆你 Fork 后的仓库：
+
+git clone https://github.com/yourname/project.git
+cd project
+
+修改并提交：
+
+    git switch -c new-feature
+    git add .
+    git commit -m "Add new feature"
+    git push origin new-feature
+
+    然后到 GitHub 发起 Pull Request（简称 PR）：
+
+        向原作者的 main 分支发起 merge 请求
+
+由对方决定是否合并。
+#+end_example
+* 删除branch
+:PROPERTIES:
+:CUSTOM_ID: dcb849cd-f12e-49d1-832a-007dcb9b96f1
+:END:
+** 🧹 删除 本地分支：
+:PROPERTIES:
+:CUSTOM_ID: fb74bbfe-68b0-4be8-9634-1486957572da
+:END:
+
+*** ✅ 普通删除：
+:PROPERTIES:
+:CUSTOM_ID: fb278e04-f382-4243-88ca-a58e191a7c9f
+:END:
+git branch -d 分支名
+这个命令会检查该分支是否已经被合并，没合并就会报错。
+
+***  ✅ 强制删除（未合并也删除）：
+:PROPERTIES:
+:CUSTOM_ID: 3427b765-c99a-44dd-ae07-6811305b1e00
+:END:
+git branch -D 分支名
+例如：
+git branch -D feature/test
+
+** 🧹 删除 远程分支：
+:PROPERTIES:
+:CUSTOM_ID: 1185b47c-142e-4da1-ba27-c876f89a1164
+:END:
+git push origin --delete 分支名   分支名不要加前缀,比如origin/xxx, 直接xxx
+先把默认branch改为其他的，不能是将被删除的branch
+例如：
+git push origin --delete test
+
+** 🔍 补充：删除后本地还看到远程分支？
+:PROPERTIES:
+:CUSTOM_ID: 961ca77f-44fe-4d8b-b438-de68bd3bccc8
+:END:
+使用下面命令同步更新远程分支列表（清理已删除的）：
+git fetch -p
+* 独立分支
+:PROPERTIES:
+:CUSTOM_ID: 0d7cdb59-7cff-47c8-bfdc-00edcc873005
+:END:
+#+begin_example
+其实是：GitHub 主页面默认显示 main 分支的内容
+你 push 到其他分支，比如 feature1，GitHub 提示 Compare & Pull Request
+实际上代码已经推上分支去了。
+这个提示没办法设置不 显示(如下两个方法都不能解决，只能侧面消炎)。
+#+end_example
+** 方法1  把该分支设为默认分支
+:PROPERTIES:
+:CUSTOM_ID: a550d27b-af12-43ba-9087-405c5a60af57
+:END:
+#+begin_example
+进入仓库 → Settings → Branches → Default branch
+改为你要的分支，比如：dev
+这样 push 到 dev 不会再提示你与 main 比较。
+#+end_example
+** 方法2 ✔ 让分支互相独立、互不干扰, 你可以新创建两个完全独立分支：
+:PROPERTIES:
+:CUSTOM_ID: d9192c3e-2bd0-4223-a459-bb7fd23626a7
+:END:
+#+begin_src  sh
+git checkout --orphan branchA   创建新分支
+git commit -m "init branchA"
+git push origin branchA
+
+git checkout --orphan branchB
+git commit -m "init branchB"
+git push origin branchB
+
+--orphan 让每个分支没有共同历史，完全独立，相当于一个仓库里存两个项目
+#+end_src
+*  在archlinux上 gitea使用,在 Arch Linux 上部署 Gitea 非常简单，因为官方仓库已经提供了软件包。
+** 1. 安装
+#+begin_example
+sudo pacman -S gitea
+
+安装后会创建：
+
+用户：git
+配置目录：/etc/gitea
+数据目录：/var/lib/gitea
+systemd 服务：gitea.service
+
+查看版本：
+
+gitea --version
+#+end_example
+** 2. 启动服务
+#+begin_example
+sudo systemctl enable --now gitea
+
+查看状态：
+
+systemctl status gitea
+
+查看日志：
+
+journalctl -u gitea -f
+#+end_example
+** 3. 首次访问
+#+begin_example
+浏览器打开： http://localhost:3000
+如果是局域网： http://服务器IP:3000
+第一次进入会看到安装向导。
+#+end_example
+** 4. 推荐配置
+#+begin_example
+对于个人使用，推荐直接使用 SQLite。
+数据库： SQLite3
+数据库路径： /var/lib/gitea/data/gitea.db
+仓库目录： /var/lib/gitea/data/git/repositories
+#+end_example
+** 5. SSH
+#+begin_example
+查看 SSH 是否开启： sudo systemctl status sshd
+没有的话： sudo systemctl enable --now sshd
+之后可以在 Gitea 中添加自己的公钥：
+Settings
+    SSH / GPG Keys
+        Add Key
+以后即可： git clone git@服务器IP:用户名/仓库.git
+#+end_example
+** 6. HTTP Clone
+#+begin_example
+无需 SSH，也可以： git clone http://服务器IP:3000/用户名/仓库.git
+#+end_example
+** 7. 默认配置文件
+#+begin_example
+配置文件位置： /etc/gitea/app.ini
+如果安装向导生成的是其他位置，也可以查看： sudo find /etc -name app.ini
+修改配置后重启： sudo systemctl restart gitea
+#+end_example
+** 8. 数据备份
+#+begin_example
+主要备份：
+
+/var/lib/gitea/
+
+其中包括：
+
+Git 仓库
+SQLite 数据库
+附件
+LFS（如果启用）
+
+恢复时只需恢复该目录并保留 app.ini。
+#+end_example
+** 9. 更新
+#+begin_example
+sudo pacman -Syu
+Gitea 会随系统一起更新，无需额外步骤。
+对于 Arch Linux，pacman 安装 + systemd 管理是最省心的方式。如果只是个人或小团队使用，SQLite 即可，无需额外安装 MySQL 或 PostgreSQL。
+#+end_example

@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       16698973-fa74-4b67-8318-28a444bf554d
+:END:
+#+title: 2026-06-01
+* <2026-06-01 14:45>
+:PROPERTIES:
+:CUSTOM_ID: f54f4614-3880-40a4-a889-2b1174ecd672
+:END:
+* TODO 24V的开关输出mos的封装用大点，现在的sot23-3有点小，抗损坏兼容大点 :家用咖啡机:PCB:
+:PROPERTIES:
+:CUSTOM_ID: 9de3f1c1-520c-4c88-9aaf-f4a91c79b6c9
+:END:

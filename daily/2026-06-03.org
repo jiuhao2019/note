@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       7d2c3abb-9b9d-4988-9271-3e67c4981877
+:END:
+#+title: 2026-06-03
+* <2026-06-03 09:07>
+:PROPERTIES:
+:CUSTOM_ID: 692ef09a-7bb3-4ac9-b88e-024abbf7f4d3
+:END:
+
+* PENDING action线程里的每个refresh_run_result()函数都用函数里的内容。不用此函数 :家用咖啡机:
+:PROPERTIES:
+:CUSTOM_ID: ee9b86a4-cf74-4c19-829e-7bd7e83af0ab
+:END:
+:LOGBOOK:
+- State "PENDING"    from "TODO"       [2026-06-18 Thu 08:29] \\
+  冲泡器模块那里已经改了，用goto error的形式,
+  而且每个动作都更新cur act   比如压饼前 设置cur act为cur yb
+  压饼电机转完,设置cur act为idle
+  运行结果也是，每个动作前设置idle，最后设置结果。
+  这样清除运行结果命令(0x03)暂时废弃不管，因为运行结果是自己设置的。
+- State "TODO"       from "TODO"       [2026-06-17 Wed 08:36] \\
+  1，改用goto  error-handle的形式，
+  2，判断fault flag时  压饼或排渣可能 只动一点的情况，这种情况靠超时时间来停止的，所以会设置超时fault标志，每次运行完
+          得清除以下该fault标志，否则其他正常动作的fault判断。
+  3, 比如磨豆先打开盖子，再磨豆，如果开盖子有异常则不能继续下一步动作。
+:END:

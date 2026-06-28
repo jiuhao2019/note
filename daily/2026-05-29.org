@@ -1,0 +1,64 @@
+:PROPERTIES:
+:ID:       5d8717b7-e394-4885-b7b9-967e6c169f99
+:END:
+#+title: 2026-05-29
+* <2026-05-29 10:28>
+:PROPERTIES:
+:CUSTOM_ID: 2d4c16bf-66a8-427f-b20e-d19a3d5bf149
+:END:
+* <2026-05-29 10:56>
+:PROPERTIES:
+:CUSTOM_ID: eed75674-b8dd-48f4-a615-d7b4b05d0f94
+:END:
+* FINISHED 两个磨豆端子合并为3pin，压饼和排渣端子合并为4pin
+CLOSED: [2026-05-29 Fri 15:04]
+:PROPERTIES:
+:CUSTOM_ID: bf3eff0b-619b-4259-80f8-18f649704ca5
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:04] \\
+  为了兼容不改了。
+:END:
+* <2026-05-29 15:15>
+:PROPERTIES:
+:CUSTOM_ID: fdee6ee6-4857-4884-925a-2ead85450857
+:END:
+* FINISHED 调粗细电机加了一路，控制和adc也得加，存储粗细档位值也得加一路
+CLOSED: [2026-06-11 Thu 13:09]
+:PROPERTIES:
+:CUSTOM_ID: 729616a5-a5f7-4aa8-a543-815563e7a91b
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-11 Thu 13:09] \\
+  done
+:END:
+* FINISHED 板边加一点，端子丝印加大字，以免插错端子 :冲泡器模块:PCB:
+CLOSED: [2026-05-29 Fri 15:05]
+:PROPERTIES:
+:CUSTOM_ID: 877417bc-b110-49d4-bcab-e9b5eabdf5e0
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-29.org
+:ARCHIVE_CATEGORY: 2026-05-29
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:05] \\
+  done
+:END:
+
+Archived entries from file /home/microvee/Downloads/note/daily/2026-05-29.org
+
+
+* FINISHED 丝印电机1是压饼，电机2是排渣 :冲泡器模块:PCB:
+CLOSED: [2026-05-29 Fri 15:05]
+:PROPERTIES:
+:CUSTOM_ID: f87da731-cd82-4052-99c3-a268b813367f
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-29.org
+:ARCHIVE_CATEGORY: 2026-05-29
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:05] \\
+  done
+:END:

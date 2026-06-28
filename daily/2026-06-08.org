@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       3f606948-a99f-4d88-aa62-eefb3c2a3d24
+:END:
+#+title: 2026-06-08
+* TODO 485丝印PG在焊盘上，须移开 :冲泡器模块:
+:PROPERTIES:
+:CUSTOM_ID: a79496a2-ba52-427f-bf80-b5cf378d519a
+:END:
+* TODO 电解电容等GND脚焊盘十字和全连接形式选择,十字容易焊接，全连接则连通粗。
+:PROPERTIES:
+:CUSTOM_ID: cca2143d-6bc4-4970-b42f-f2f91e4d6c3e
+:END:

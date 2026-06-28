@@ -1,0 +1,66 @@
+:PROPERTIES:
+:ID:       ab9fc3dd-874d-45db-9e25-b6e13c3c9c4c
+:END:
+#+title: 2026-05-07
+* 10:03
+:PROPERTIES:
+:CUSTOM_ID: fbbdb5dd-e50c-421f-9faa-c43ad677dbfc
+:END:
+* FINISHED 制做咖啡动作中，出错复位stm32后，给出制做完成标志，让显示从制做中返回,不然一直卡着显示制做中
+CLOSED: [2026-05-07 Thu 10:28]
+:PROPERTIES:
+:CUSTOM_ID: 0d813389-3efe-43b2-9ae2-9da5776d15ba
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-07 Thu 10:28] \\
+  done
+:END:
+* 10:45
+:PROPERTIES:
+:CUSTOM_ID: 448cdbd7-1b1a-41b0-907e-f5f8de7af149
+:END:
+* FINISHED 出热水或出蒸汽 出错后 stm32复位了，  显示界面还停在 出水中 或 出蒸汽中， 得让显示返回常规界面
+CLOSED: [2026-05-07 Thu 13:11]
+:PROPERTIES:
+:CUSTOM_ID: fb3ebb4e-28e9-49ca-8683-d7321b3e2bff
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-07 Thu 13:11] \\
+  手动点以下即可退出出水中或出蒸汽中，所以不用软件再处理
+:END:
+* 13:56
+:PROPERTIES:
+:CUSTOM_ID: aa635467-40d7-4c69-85ec-770bb026be15
+:END:
+* FINISHED 制做咖啡完成后，再挤压一次饼，停留1s，开盖后，停留3s
+CLOSED: [2026-05-07 Thu 14:39]
+:PROPERTIES:
+:CUSTOM_ID: c1e9f1ef-c4a1-4cc0-bfab-5c4f89b1c8f5
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-07 Thu 14:39] \\
+  done
+:END:
+* 15:02
+:PROPERTIES:
+:CUSTOM_ID: 5bbcda75-ac73-4707-8a8a-37c995259ff6
+:END:
+* FINISHED 家用咖啡机的显示屏幕得烧录新程序，修改配方，数据个数由5个改为6个
+CLOSED: [2026-05-12 Tue 14:18]
+:PROPERTIES:
+:CUSTOM_ID: 232afd67-01dc-4bb4-9750-a89a88a8879a
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-12 Tue 14:18] \\
+  done
+:END:
+
+* FINISHED 显示命令，如果是动作，则完成一次动作后延时稍长，以忽略快速反复的相同命令。比如快速开关出热水，出蒸汽
+CLOSED: [2026-05-08 Fri 20:31]
+:PROPERTIES:
+:CUSTOM_ID: 832040c4-c928-416c-a0d2-16d56b5511b4
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-08 Fri 20:31] \\
+  显示屏 限制了不可能快速 开关，所以代码里不用加此逻辑
+:END:

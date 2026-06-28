@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       ec9479e5-4fa6-4285-918c-fb7b368b8ed5
+:END:
+#+title: 2026-04-30
+* 12:53
+:PROPERTIES:
+:CUSTOM_ID: 83d1bc73-660c-43d0-8fba-1ee0cc55b185
+:END:
+* FINISHED 家用咖啡机增加功能 -> 设置温度比当前检测到温度高，则须循环降温先
+CLOSED: [2026-05-19 Tue 20:16]
+:PROPERTIES:
+:CUSTOM_ID: e885046e-d5e3-464d-890a-51b9a31902d0
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-19 Tue 20:16] \\
+  暂时不加此功能，因为如果设置温度比环境温度低，那一直循环降温也不可能降到设置温度。
+:END:
+* 17:02
+:PROPERTIES:
+:CUSTOM_ID: 91562343-8098-40ac-aff6-bbe091da9c1b
+:END:
+* FINISHED 复位电机位置， 最后盖一下，会挤出剩余咖啡液，  改为->   排完渣 压饼下到底即可
+CLOSED: [2026-05-12 Tue 15:45]
+:PROPERTIES:
+:CUSTOM_ID: d9410acb-d88c-4c08-8a6a-a6e56091f7dd
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-12 Tue 15:45] \\
+  done
+:END:

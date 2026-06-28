@@ -1,0 +1,1539 @@
+:PROPERTIES:
+:ID:       7f201d3a-8a0d-41a1-9e65-280eaab7cb15
+:END:
+#+title: archlinux
+#+date: [2026-05-02 Sat 14:57]
+* 清理 :清理:
+:PROPERTIES:
+:CUSTOM_ID: c7b5a80a-7b95-41cd-9358-0f2f809eb647
+:END:
+** 清理 pacman 包缓存
+:PROPERTIES:
+:CUSTOM_ID: 5eb04e1d-b690-4c58-914e-6dd39ad1cde7
+:END:
+*** 安装 paccache（如果没有）：
+:PROPERTIES:
+:CUSTOM_ID: 2872e423-c667-4df2-b14d-db023666bea9
+:END:
+#+begin_example
+sudo pacman -S pacman-contrib
+- 查看缓存大小：
+du -sh /var/cache/pacman/pkg
+#+end_example
+*** 只保留最近 3 个版本（推荐）：
+:PROPERTIES:
+:CUSTOM_ID: b1ef2ef4-30d3-4b42-b134-c7d75c77e3e6
+:END:
+#+begin_example
+sudo paccache -r
+#+end_example
+*** 只保留 1 个版本：
+:PROPERTIES:
+:CUSTOM_ID: c284bfaa-2948-4839-bc53-94e20302528c
+:END:
+#+begin_example
+sudo paccache -rk1
+#+end_example
+*** 清空所有缓存：
+:PROPERTIES:
+:CUSTOM_ID: 9dc32abe-6632-4f14-a4e4-3b0c9de6b3f8
+:END:
+#+begin_example
+sudo pacman -Scc
+#+end_example
+*** 说明
+:PROPERTIES:
+:CUSTOM_ID: 478da4da-def0-44bc-aa08-859b683bc72a
+:END:
+#+begin_example
+pacman 默认会保留所有安装过的包版本，缓存位于 /var/cache/pacman/pkg。
+paccache 来自 pacman-contrib 包
+-Scc 是最彻底的清理
+#+end_example
+** 清理孤立依赖（最重要）
+:PROPERTIES:
+:CUSTOM_ID: 5890f1f4-2404-4be4-b6a3-6812c115cb16
+:END:
+*** 先查看有哪些：
+:PROPERTIES:
+:CUSTOM_ID: a018318e-aa25-4a8d-ae90-44c2bffdeb7c
+:END:
+#+begin_example
+pacman -Qtdq
+#+end_example
+*** 删除已经不被任何包依赖的库：
+:PROPERTIES:
+:CUSTOM_ID: 08a5b988-c3d6-428b-949a-9c051b329079
+:END:
+#+begin_example
+sudo pacman -Rns $(pacman -Qtdq)
+#+end_example
+*** 含义：
+:PROPERTIES:
+:CUSTOM_ID: 5bf6d68d-c7b9-4cde-9a86-3ddd6ad8fcca
+:END:
+#+begin_example
+-Qdt 查找孤立依赖
+-Rns 删除包 + 配置文件 + 依赖
+#+end_example
+** 清理旧日志
+:PROPERTIES:
+:CUSTOM_ID: 121e8d1b-b7f0-4888-b9b5-e591d3df1641
+:END:
+#+begin_example
+日志系统来自 systemd。
+查看日志占用：
+journalctl --disk-usage
+只保留 7 天日志：
+sudo journalctl --vacuum-time=7d
+或限制大小：
+sudo journalctl --vacuum-size=100M
+#+end_example
+** 清理用户缓存
+:PROPERTIES:
+:CUSTOM_ID: 09ffce29-2310-49a7-8d52-7556ddc9800e
+:END:
+#+begin_example
+很多软件会在 ~/.cache 产生缓存。
+查看：
+du -sh ~/.cache
+删除：
+rm -rf ~/.cache/*
+#+end_example
+** 清理临时文件
+:PROPERTIES:
+:CUSTOM_ID: 3be2f941-a5ca-4d9f-b358-f99249b657e6
+:END:
+#+begin_example
+sudo rm -rf /tmp/*
+系统会自动清理，一般不需要手动做。
+#+end_example
+** 查找占用空间最大的目录（推荐）
+:PROPERTIES:
+:CUSTOM_ID: 580cfc38-11f9-4f15-b525-55cb6c2ccbc8
+:END:
+#+begin_example
+sudo du -xh / | sort -rh | head -20
+或安装工具：
+sudo pacman -S ncdu
+sudo ncdu /
+ncdu 可以交互式删除。
+#+end_example
+* administration
+:PROPERTIES:
+:CUSTOM_ID: 2ac51479-a177-4426-badb-703a27f440d7
+:END:
+** 修改开机键功能
+:PROPERTIES:
+:CUSTOM_ID: e11e58ca-35f3-4ee1-abd8-9e283f0e7ab5
+:END:
+#+begin_src
+    1. 打开 /etc/systemd/logind.conf 配置文件。
+    2. 查找有 HandlePowerKey=poweroff 的行。
+    3. 如果行以 # 符号开头，请将其删除以启用设置。
+
+      使用以下选项之一替换 poweroff ：
+          poweroff 来关闭计算机。
+          reboot 进行系统重启。
+          halt 来发起系统停止。
+          kexec 用于基于 kexec 的重启。
+          suspend 来挂起系统。
+          hibernate 发起系统休眠。
+          ignore 什么都不做。
+
+      例如，要在按下电源按钮时重启系统，请使用这个设置：
+      HandlePowerKey=reboot
+
+    4. 保存更改并关闭编辑器。
+#+end_src
+** 回收站的路径：～/.local/share/Trash
+:PROPERTIES:
+:CUSTOM_ID: abf06417-99df-4d46-98a3-66254466b93f
+:END:
+** 同名的bin文件
+:PROPERTIES:
+:CUSTOM_ID: 8116708b-82fe-4031-91b4-085280e6c155
+:END:
+  比如 cp，
+  在/usr/bin里有,而/usr/local/bin里也有，
+  运行时谁被选择，跟PATH有关系， PATH环境变量里谁先出现就选择谁。
+** 挂载卸载u盘
+:PROPERTIES:
+:CUSTOM_ID: 315555c6-22ec-49c9-a737-642e2a7ee6e4
+:END:
+*** 自动挂载u盘或移动硬盘
+:PROPERTIES:
+:CUSTOM_ID: 58018cb9-4bb0-4ec2-b761-787241cb30f4
+:END:
+#+begin_src
+    sudo pacman -S udisks2
+    paru -S udevil
+    systemctl enable devmon@cz.service
+    cz是用户名
+#+end_src
+*** 卸载移动硬盘
+:PROPERTIES:
+:CUSTOM_ID: 47531acf-86c5-4658-8cf6-f124a0eb0173
+:END:
+#+begin_src
+    lsblk或者fdisk -l   查看设备文件名称
+    sudo umount /dev/xxx
+   或者 eject xxx
+    最后给硬盘断电
+    sudo udisksctl power-off -b /dev/xxx
+#+end_src
+*** 修改磁盘卷标名称
+:PROPERTIES:
+:CUSTOM_ID: 5d74f181-88fc-4d29-84e5-f17dc4685288
+:END:
+#+begin_src
+    1. 先umount 要改卷标的磁盘
+    2. sudo e2label /dev/sdd1 hello
+        将/dev/sdd1   改卷标为    hello
+
+    注：e2label是系统自带的，直接用，不用安装，安装也提示找不到。
+#+end_src
+** 删除文件失败
+:PROPERTIES:
+:CUSTOM_ID: ae26617e-5440-4d90-ae9d-abc887d88963
+:END:
+#+begin_example
+比如rm -rf #note.org# 运行后失败。
+解决：rm -rf "#note.org#"  即可
+#+end_example
+
+* greetd+tuigreet
+:PROPERTIES:
+:CUSTOM_ID: 7d650497-500b-4040-af61-3c4f8748d6a1
+:END:
+sudo pacman -S greetd
+paru -S greetd-tuigreet
+
+stop other login service,like ly
+then:
+sudo systemctl enable greetd.service
+sudo systemctl start greetd.service
+* FiraCode Nerd Font :font:
+:PROPERTIES:
+:CUSTOM_ID: b41dd56a-cf00-4074-82c7-74f072a56517
+:END:
+#+begin_example
+ln到这个/usr/share/fonts/
+#+end_example
+* gtk主题 :theme:
+:PROPERTIES:
+:CUSTOM_ID: 57e6aada-cac5-4c41-92c1-b2316288bbf4
+:END:
+#+begin_example
+ln -sT /home/nerd/Downloads/deploy-linux/.themes /home/nerd/.themes
+#+end_example
+* 鼠标主题 :theme:
+:PROPERTIES:
+:CUSTOM_ID: 7c52f245-8cc8-490d-bf59-5ba3aad93d64
+:END:
+#+begin_example
+ln -sT /home/nerd/Downloads/deploy-linux/Futrue-cursors  /usr/share/icons/Future-cursors
+#+end_example
+* fastfetch配置
+:PROPERTIES:
+:CUSTOM_ID: 373f9175-5a15-4e27-8af0-6208a8a11f1b
+:END:
+#+begin_example
+ln -sT /home/nerd/Downloads/deploy-linux/fastfetch /home/nerd/fastfetch
+#+end_example
+* 生成fstab信息
+:PROPERTIES:
+:CUSTOM_ID: d1b54306-37bf-44fb-9317-0d37377384ba
+:END:
+#+begin_example
+sudo genfstab -U / | sudo tee -a /etc/fstab
+#+end_example
+* 安装带进度条的mv cp命令
+:PROPERTIES:
+:CUSTOM_ID: 1f77e253-2035-4e00-86c5-58d84999f898
+:END:
+#+begin_src 
+sudo ln /home/nerd/Downloads/deploy-linux/advcp /usr/local/bin/advcp
+sudo ln /home/nerd/Downloads/deploy-linux/advmv /usr/local/bin/advmv
+#+end_src
+#+begin_example
+然后在fish配置文件 ~/.config/fish/config.fish增加alias
+#+end_example
+#+begin_src 
+abbr cp "/usr/local/bin/advcp -g"
+abbr mv "/usr/local/bin/advmv -g"
+#+end_src
+* 安装rime :rime:
+:PROPERTIES:
+:CUSTOM_ID: ce0bdcea-9f6b-45bb-b691-7a1a0abc5345
+:END:
+#+begin_src 
+sudo emerge -aq ibus ibus-rime
+#+end_src
+#+begin_example
+把某个rime配置文件夹里第一层文件和文件夹都软连接到ibus-rime的文件夹里
+这样不会污染原始文件，方便切换各个rime配置
+#+end_example
+#+begin_src 
+bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/oh-my-rime/  ~/.config/ibus/rime/
+#+end_src
+#+begin_example
+切换rime配置
+#+end_example
+先unlink所有的旧配置
+#+begin_src 
+cd ~/.config/ibus/rime
+bash ~/Downloads/deploy-linux/shell-script/unlink_all_of_cur_folder.sh
+#+end_src
+#+begin_example
+再link新配置即可
+#+end_example
+#+begin_src 
+bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/rime-ice/ ~/.config/ibus/rime/
+#+end_src
+* 安装eza，平替ls
+:PROPERTIES:
+:CUSTOM_ID: 855fca6f-984f-4647-878c-2846a1359836
+:END:
+#+begin_src 
+sudo emerge -qa eza
+#+end_src
+* 权限问题解决
+:PROPERTIES:
+:CUSTOM_ID: 3cc00368-9ca5-46da-a5b7-e4ed9d2d7ad1
+:END:
+#+begin_example
+遇到的：
+parse_vt_settings cannot open /dev/tty0: permission denied
+大概率是因为你缺少以下用户组权限：
+sudo usermod -aG video,audio,input,tty your_username
+然后 重新启动 
+#+end_example
+* 非 root 用户要运行 X11，需要加入以下用户组：
+:PROPERTIES:
+:CUSTOM_ID: 9bb127a8-1e10-45dd-ba22-2b985fc1d561
+:END:
+#+begin_src sh
+sudo usermod -aG video input tty audio users your_username
+最少需要加入：video（访问 GPU）、input（键鼠）、tty（访问 /dev/tty）
+加入后请务必 注销或重启登录，以便用户组生效。
+#+end_src
+* 安装 NVIDIA 驱动
+:PROPERTIES:
+:CUSTOM_ID: 9f2d39c2-797c-4f33-aeb6-150188fc183b
+:END:
+#+begin_example
+emerge --ask x11-drivers/nvidia-drivers
+添加：
+echo "blacklist nouveau" > /etc/modprobe.d/blacklist.conf
+配置 NVIDIA 模块加载
+编辑：
+/etc/conf.d/modules
+添加：
+modules="nvidia"
+重启加载：
+rc-update add modules default
+#+end_example
+** 验证 NVIDIA 驱动是否正常
+:PROPERTIES:
+:CUSTOM_ID: abf3899f-3b33-49ce-b4fe-c19b3e5aa9ba
+:END:
+#+begin_example
+glxinfo | grep "OpenGL renderer"
+应该显示 NVIDIA 的设备名
+nvidia-smi
+显示 GPU 信息
+#+end_example
+#+begin_example
+下面是详细说明和推荐配置文件：
+虽然 /usr/share/X11/xorg.conf.d/ 可以放配置，但更推荐放在 /etc/X11/xorg.conf.d/，因为：
+    /usr/share/... 是包管理器的写入目录（可能被覆盖）
+    /etc/X11/xorg.conf.d/ 是你的用户自定义配置，优先级更高
+所以我们使用：
+/etc/X11/xorg.conf.d/10-nvidia.conf
+#+end_example
+** 创建 NVIDIA 显卡配置文件
+:PROPERTIES:
+:CUSTOM_ID: d34cce1d-4410-4c81-95be-6f41ec9d0b19
+:END:
+#+begin_src  sh
+sudo mkdir -p /etc/X11/xorg.conf.d
+sudo nano /etc/X11/xorg.conf.d/10-nvidia.conf
+内容如下：
+
+Section "Device"
+Identifier "Nvidia Card"
+Driver "nvidia"
+VendorName "NVIDIA Corporation"
+Option "NoLogo" "1"
+Option "Coolbits" "4" # 可选，允许 nvidia-settings 控制风扇（需支持）
+EndSection
+#+end_src
+** 启动时自动加载 NVIDIA 模块
+:PROPERTIES:
+:CUSTOM_ID: c02e84fb-88f9-43e7-9ddf-fc0c1123e328
+:END:
+#+begin_example
+确认 /etc/conf.d/modules 中设置了：
+modules="nvidia"
+
+rc-update add modules default
+#+end_example
+* 在vmware里的archlinux不能全屏
+:PROPERTIES:
+:CUSTOM_ID: 035be5a3-f116-4a84-8370-ad82718c3d34
+:END:
+#+begin_example
+解决：安装如下软件
+open-vm-tools            
+并且开机启动    vmtoolsd
+xf86-video-intel mesa vulkan
+#+end_example
+
+<<<<<<< Updated upstream
+* 虚拟机里的archlinux重新连接网络
+:PROPERTIES:
+:CUSTOM_ID: e996065e-5d3b-4bdc-9486-a5e49f24d942
+:END:
+** 先确认网络名称
+:PROPERTIES:
+:CUSTOM_ID: 73205c37-4a9a-45dc-920a-a9360b66f84d
+:END:
+#+begin_src sh
+ip link
+#+end_src
+** 如果networkmanager
+:PROPERTIES:
+:CUSTOM_ID: 99cb8bae-c25b-459b-9727-9709a354e3e2
+:END:
+#+begin_src 
+sudo nmcli dev reapply ens33
+#+end_src
+=======
+* 安装paru :paru:
+:PROPERTIES:
+:CUSTOM_ID: 8ac08b8c-595f-460f-b4a5-3f14d734d7eb
+:END:
+** 先确保你有编译环境：
+:PROPERTIES:
+:CUSTOM_ID: b1d248b7-d241-4d9b-b9bc-31a47f42b571
+:END:
+#+begin_src  sh
+sudo pacman -S --needed base-devel git
+#+end_src
+** 然后从 AUR 获取 paru 源码：
+:PROPERTIES:
+:CUSTOM_ID: 6ca3854d-0953-4b12-887c-da85291ba2db
+:END:
+#+begin_src sh
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+#+end_src
+
+>>>>>>> Stashed changes
+* archlinux使用软件
+:PROPERTIES:
+:CUSTOM_ID: 3143ed90-d67e-4d2b-9106-80afe5f9df75
+:END:
+** 软件的仓库release里只有deb rpm还有source， 怎么archlinux用
+:PROPERTIES:
+:CUSTOM_ID: d8fb8bcb-0fe8-4315-9f5a-2fce6e84a0c0
+:END:
+*** 优先看看有没有 AUR 包，十有八九已经有人写好了 PKGBUILD。
+:PROPERTIES:
+:CUSTOM_ID: d6f858ff-67c5-495b-8b55-5754d4712f98
+:END:
+#+begin_src sh
+yay -Ss 软件名
+# 或
+paru -Ss 软件名
+如果有
+yay -S  软件名
+# 或
+paru -S  软件名
+#+end_src
+如果网络很慢，可以手动下载，方法如下
+paru -G 是用来从 AUR（Arch User Repository）下载 PKGBUILD 文件的命令。
+它会下载指定包的源代码和相关构建文件，但不会直接安装包，而是让你可以查看、修改或构建源代码。
+
+如果你有 .deb 文件，并且想用 paru -G 来生成 Arch 包，你可以按以下步骤操作：
+
+使用 paru -G 生成包
+
+下载 PKGBUILD：
+如果该包在 AUR 中有对应的源代码，可以使用 paru -G <package_name> 来下载对应的 PKGBUILD 文件。
+这会将包的构建脚本下载到当前目录，供你查看或修改。
+自己下载，pkgbuild文件所需的同名.deb文件，放在生成的文件夹里即可
+
+PKGBUILD 文件：
+
+构建并安装：
+修改好 PKGBUILD 后，你可以使用 makepkg -si 命令来构建并安装包。
+*** 方案二：只有 source → 自己 build（很常见）
+:PROPERTIES:
+:CUSTOM_ID: 4bc3eb10-a63f-4d9f-a416-8cc41c4290ce
+:END:
+#+begin_example
+release 里有 source.tar.gz / source.zip，那基本就是 官方态度：你自己编译。
+通用套路：
+sudo pacman -S base-devel
+tar xf source.tar.gz
+cd source
+然后看项目类型：
+#+end_example
+**** 1️⃣ autotools
+:PROPERTIES:
+:CUSTOM_ID: 98637c31-f000-4171-91fd-a8a24db044b4
+:END:
+#+begin_src  sh
+./configure
+make
+sudo make install
+#+end_src
+**** cmake
+:PROPERTIES:
+:CUSTOM_ID: c56dc9ec-d73e-475a-8185-d11170d7d875
+:END:
+#+begin_src  sh
+mkdir build && cd build
+cmake ..
+make
+sudo make install
+#+end_src
+**** meson
+:PROPERTIES:
+:CUSTOM_ID: 91ac20d7-2468-4101-bef8-4edc0feb3b53
+:END:
+#+begin_src  sh
+meson setup build
+ninja -C build
+sudo ninja -C build install
+#+end_src
+*** 👉 强烈建议：
+:PROPERTIES:
+:CUSTOM_ID: ad3382b1-07e6-4ebd-883e-1446175892e3
+:END:
+如果你打算长期用，最好写个 PKGBUILD，而不是 make install 直接污染系统。
+* install chromium plugin
+:PROPERTIES:
+:CUSTOM_ID: 1de08fd9-c60f-45fe-a126-4ed02c866df2
+:END:
+** www.ilovechrome.com/zh-cn/      可以搜索和下载crx，即可安装
+:PROPERTIES:
+:CUSTOM_ID: 254d2afa-3d06-4132-8b75-48252c061cb6
+:END:
+#+begin_example
+打开chromium-> extension -> manage-extension   界面，将crx拖到页面即自动安装了插件
+#+end_example
+** 代理插件zeroomega
+:PROPERTIES:
+:CUSTOM_ID: f3a0033e-2c55-429f-ac8b-468f13288045
+:END:
+#+begin_example
+点击chromium的extension设置的 developer-mode才会出现load unpacked按钮
+在github搜到后下载crx文件，打开chromium-> extension -> manage-extension   界面，将crx拖到页面即自动安装了插件
+使用方法，在网页右上角 点击插件图标  点击zeroomega即可对该网页代理
+已经放到deploy-linux文件夹了
+#+end_example
+* paru缓存文件夹的 clone文件夹里的app文件夹，后面装机可以用？ :paru:
+:PROPERTIES:
+:CUSTOM_ID: 941e96d2-07a8-4795-8fd7-99cdb9b2877c
+:END:
+#+begin_example
+保存clone文件夹里的app文件夹，后面装机可以用？
+是的，保存 ~/.cache/paru/clones/ 里的应用文件夹，可以在后续装机时重复使用，但需要注意一些细节。
+
+什么情况下有用？
+✅ 适合保存的情况：
+自定义 PKGBUILD 的应用 - 你自己修改过配置的
+
+已被删除的 AUR 包 - 原维护者删除了，但你还保留着
+
+特定版本锁定 - 你想保留某个旧版本
+
+网络受限环境 - 避免重复下载
+
+批量部署 - 在多台机器安装相同 AUR 包
+
+❌ 不适合的情况：
+版本已过时 - 可能需要更新
+
+依赖关系变化 - 新的依赖可能需要新版本
+
+Arch 兼容性问题 - 太旧的包可能不兼容新系统
+
+如何备份和恢复？
+方法 1：简单复制整个 clones 目录
+bash
+# 备份
+cp -r ~/.cache/paru/clones/ /备份路径/paru-clones-backup/
+
+# 恢复（新系统）
+mkdir -p ~/.cache/paru/
+cp -r /备份路径/paru-clones-backup/ ~/.cache/paru/clones/
+方法 2：选择性备份重要应用
+bash
+# 备份特定应用
+tar -czf aur-packages-backup.tar.gz \
+    ~/.cache/paru/clones/google-chrome \
+    ~/.cache/paru/clones/visual-studio-code-bin \
+    ~/.cache/paru/clones/your-custom-app
+
+# 恢复
+tar -xzf aur-packages-backup.tar.gz -C ~/.cache/paru/
+恢复后如何使用？
+方案 A：直接从缓存构建安装
+bash
+# 进入克隆的目录
+cd ~/.cache/paru/clones/package-name/
+
+# 检查 PKGBUILD
+cat PKGBUILD
+
+# 手动构建安装
+makepkg -si
+
+# 或用 paru 从本地构建
+paru -S --build ~/.cache/paru/clones/package-name/
+方案 B：配置 paru 优先使用缓存
+在 ~/.config/paru/paru.conf 中添加：
+
+bash
+# 优先使用本地缓存
+# BuildDir = /home/user/.cache/paru/clones
+
+# 不清除克隆的目录
+CleanMethod = KeepInstalled
+自动化脚本示例
+备份脚本 backup-aur.sh：
+bash
+#!/bin/bash
+BACKUP_DIR="/path/to/backup/aur-$(date +%Y%m%d)"
+mkdir -p "$BACKUP_DIR"
+
+# 备份所有克隆的包
+for pkg in ~/.cache/paru/clones/*/; do
+    pkg_name=$(basename "$pkg")
+    echo "备份: $pkg_name"
+    tar -czf "$BACKUP_DIR/${pkg_name}.tar.gz" -C ~/.cache/paru/clones/ "$pkg_name"
+done
+
+echo "备份完成到: $BACKUP_DIR"
+恢复脚本 restore-aur.sh：
+bash
+#!/bin/bash
+BACKUP_DIR="/path/to/backup/aur-20240115"
+
+for pkg_archive in "$BACKUP_DIR"/*.tar.gz; do
+    pkg_name=$(basename "$pkg_archive" .tar.gz)
+    echo "恢复: $pkg_name"
+    tar -xzf "$pkg_archive" -C ~/.cache/paru/clones/
+done
+
+# 批量安装
+for pkg_dir in ~/.cache/paru/clones/*/; do
+    cd "$pkg_dir" && makepkg -si --noconfirm
+done
+最佳实践建议
+1. 定期清理和更新
+bash
+# 检查哪些包有更新
+cd ~/.cache/paru/clones/package-name/
+git pull origin master  # 如果是从git克隆的
+
+# 或重新克隆
+paru -G package-name
+2. 验证完整性
+bash
+# 检查 PKGBUILD 是否有效
+cd ~/.cache/paru/clones/package-name/
+namcap PKGBUILD
+
+# 生成校验和
+makepkg -g >> PKGBUILD
+3. 备份元数据
+除了克隆目录，也备份：
+
+bash
+# AUR 包列表
+cp ~/.cache/paru/packages.aur /备份路径/
+# 或完整 aur 缓存
+cp -r ~/.cache/paru/aur/ /备份路径/
+4. 创建免网络安装包
+bash
+# 构建完整包文件（包含所有依赖）
+cd ~/.cache/paru/clones/package-name/
+makepkg -sr --noconfirm
+# 生成的 .pkg.tar.zst 可以复制到其他机器直接安装
+注意事项
+版本兼容性：旧的 PKGBUILD 可能依赖已不存在的软件包
+
+签名验证：某些包需要 PGP 密钥，新系统可能没有
+
+许可证问题：确保你有权重新分发
+
+空间占用：完整的 clones 目录可能很大（几个GB）
+
+推荐工作流
+bash
+# 1. 定期备份重要 AUR 包
+paru -G --cloneonly important-package
+cp -r ~/.cache/paru/clones/important-package /备份/
+
+# 2. 新系统恢复
+mkdir -p ~/.cache/paru/clones/
+cp -r /备份/important-package ~/.cache/paru/clones/
+
+# 3. 从本地安装
+cd ~/.cache/paru/clones/important-package
+paru -U  # 或 makepkg -si
+
+# 4. 可选：更新到最新版
+paru -S important-package  # 从网络获取最新
+这样既保留了自定义配置，又能方便地迁移到新系统。
+
+This response is AI-generated, for reference only.
+#+end_example
+* 设置打开qt应用后为暗黑模式 :theme:
+:PROPERTIES:
+:CUSTOM_ID: cfbeb718-0585-4312-bb83-1e1560fd29fe
+:END:
+| [[../linux/S设置打开qt应用后为暗黑模式.org][设置打开qt应用后为暗黑模式]] |
+* 比如要让 file manager程序Double Commander 打开后使用 Qt 暗色主题，可以这样配置。 :theme:
+:PROPERTIES:
+:CUSTOM_ID: b2c7f0c2-ba65-4f1b-a127-3fb7d6dc390a
+:END:
+** fish配置环境变量
+:PROPERTIES:
+:CUSTOM_ID: a4e05c34-eb82-4ff2-89ff-6951640288cf
+:END:
+*** 第一种，仅当前终端启动时生效：
+:PROPERTIES:
+:CUSTOM_ID: 81eb6c14-4d60-4586-867e-a91547582cee
+:END:
+#+begin_example
+set -x QT_STYLE_OVERRIDE Fusion
+set -x QT_QPA_PLATFORMTHEME qt5ct
+doublecmd
+#+end_example
+*** 第二种，永久生效（推荐）：
+:PROPERTIES:
+:CUSTOM_ID: 96cc247d-75ec-4a57-ac68-50d8fb69cae0
+:END:
+#+begin_example
+set -Ux QT_STYLE_OVERRIDE Fusion
+set -Ux QT_QPA_PLATFORMTHEME qt5ct
+#+end_example
+** 然后安装并运行
+:PROPERTIES:
+:CUSTOM_ID: 35aa15a7-4079-43eb-9b60-c10577c19801
+:END:
+#+begin_example
+qt5ct
+在里面设置：
+Appearance → Style: Fusion
+Palette → Dark
+这样所有 Qt 程序（包括 Double Commander）都会变成暗色。
+如果系统没有 qt5ct，先安装，例如：
+sudo pacman -S qt5ct
+补充一点：
+如果你是在 i3 环境下运行 Qt 程序，必须设置 QT_QPA_PLATFORMTHEME=qt5ct，否则 Qt 默认不会加载主题配置。
+#+end_example
+* 将那些不是emerge安装的程序放到rofi菜单里 :rofi:
+:PROPERTIES:
+:CUSTOM_ID: 778c61f8-a838-40f9-b728-3b33e8f8ae8a
+:END:
+#+begin_src sh
+ln -sT /home/nerd/Downloads/deploy-linux/applications ~/.local/share/applications
+#+end_src
+* powershell使用proxy
+:PROPERTIES:
+:CUSTOM_ID: 04a884b9-177a-42fe-a7a9-b217853beb4d
+:END:
+#+begin_src sh
+$env:HTTP_PROXY="socks5://127.0.0.1:10808"
+$env:HTTPS_PROXY="socks5://127.0.0.1:10808"
+或者
+$env:HTTP_PROXY="http://127.0.0.1:10809"
+$env:HTTPS_PROXY="http://127.0.0.1:10809"
+点开代理设置一看就知道，任选一个就可 
+#+end_src
+#+attr_org: :width 90%
+[[../../pics/proxy/proxy1.png]]
+* clash dashboard
+:PROPERTIES:
+:CUSTOM_ID: d3857b07-c1df-4bbe-93e4-78be2cc8dbe9
+:END:
+#+attr_org: :width 60%
+[[../../pics/proxy/clash-dashboard-1.png]]
+[[../../pics/proxy/clash-dashboard-2.png]]
+[[../../pics/proxy/clash-dashboard-3.png]]
+[[../../pics/proxy/clash-dashboard-4.png]]
+* 在 Ranger 中创建文件或目录主要使用 :touch 和 :mkdir 命令，方式与 Vim 命令模式类似。
+:PROPERTIES:
+:CUSTOM_ID: d47e026e-d7d2-4101-81e6-f90c3792ea80
+:END:
+
+创建文件：
+
+进入 ranger 后按 : 进入命令模式，然后输入：
+
+:touch filename
+
+例如：
+
+:touch main.c
+
+会在当前目录创建 main.c 文件。
+
+创建目录：
+
+:mkdir dirname
+
+例如：
+
+:mkdir src
+
+会创建 src 目录。
+
+同时创建多级目录：
+
+:mkdir src/include
+
+如果父目录不存在，ranger 会自动创建。
+
+批量创建：
+
+:touch a.c b.c c.c
+
+会一次创建多个文件。
+* ranger预览图片 :ranger:
+:PROPERTIES:
+:CUSTOM_ID: ec10e33a-288a-4c35-a3e8-c5af2aa82f70
+:END:
+** 1. 安装依赖：
+:PROPERTIES:
+:CUSTOM_ID: 7fec97e7-7e41-45d6-93cf-9fb181713556
+:END:
+#+begin_src sh
+ranger ueberzug
+#+end_src
+** 2. 编辑 ranger 配置文件：
+:PROPERTIES:
+:CUSTOM_ID: 772344cb-fc7a-477f-8fea-b92445f249d1
+:END:
+#+begin_src sh
+ranger --copy-config=all
+然后编辑 ~/.config/ranger/rc.conf，加入：
+set preview_images true
+set preview_images_method ueberzug
+#+end_src
+** 3. 使用 ranger 启动图片预览：
+:PROPERTIES:
+:CUSTOM_ID: a7903f18-37fa-49e7-8b8b-6c7a53ae4dc5
+:END:
+#+begin_src 
+直接运行：
+ranger
+#+end_src
+
+* ln: failed to create symbolic link '/home/nerdng/Downloads/tmp_mnt/work-project/multi-param/src/FM33A0-Drivers/Include': Operation not supported :link:
+:PROPERTIES:
+:CUSTOM_ID: e203cbfc-108d-46c5-8363-9e47d021c5d4
+:END:
+#+begin_example
+ChatGPT said:
+
+你遇到的这个错误：
+
+ln: failed to create symbolic link '/home/nerdng/Downloads/tmp_mnt/work-project/multi-param/src/FM33A0-Drivers/Include': Operation not supported
+
+意味着你尝试在某个目录下创建符号链接（symlink），但当前文件系统不支持符号链接操作。
+可能原因
+
+从路径来看：
+
+/home/nerdng/Downloads/tmp_mnt/...
+
+这个 tmp_mnt 很可能是一个挂载点（mount point），比如：
+
+    NFS（网络文件系统）挂载
+
+    Samba（Windows 共享）挂载
+
+    虚拟机的共享文件夹（如 VirtualBox 的 vboxsf）
+
+    挂载了 FAT32、exFAT、NTFS 等不支持 POSIX symlink 的文件系统
+
+这些文件系统很多时候不支持创建符号链接。
+解决方案
+✅ 方法一：确认文件系统类型
+
+可以使用以下命令查看该路径所在挂载点的文件系统类型：
+
+df -T /home/nerdng/Downloads/tmp_mnt/
+
+或更详细：
+
+mount | grep tmp_mnt
+
+如果你看到是如下类型之一：
+
+    vboxsf（VirtualBox 共享）
+
+    fuseblk（NTFS）
+
+    cifs（Samba）
+
+    nfs
+
+    exfat
+
+    vfat
+
+这些通常都不支持 symlink。
+✅ 方法二：使用 硬链接（如果目标是文件）：
+
+如果你只是链接一个文件，可以尝试使用硬链接：
+
+ln /path/to/source.h /home/nerdng/Downloads/tmp_mnt/.../Include
+
+⚠️ 硬链接不能链接目录，也不能跨文件系统。
+✅ 方法三：改为在本地支持 symlink 的目录操作
+
+你可以将 FM33A0-Drivers 放在本地支持 symlink 的目录中（比如 ~/workspace），然后在项目中用 symlink 引用：
+
+ln -s ~/workspace/FM33A0-Drivers ~/project/xxx/
+
+✅ 方法四：复制代替链接
+
+如果实在无法使用 symlink，可以临时用复制代替：
+
+cp -r /path/to/FM33A0-Drivers/Include /home/nerdng/Downloads/tmp_mnt/.../
+
+虽然不优雅，但兼容所有文件系统。
+#+end_example
+
+* sudo dd制作upan
+:PROPERTIES:
+:CUSTOM_ID: 50c68f88-5e9a-4ad5-9b78-1690595ac09d
+:END:
+
+使用 dd 命令制作 U 盘启动盘（或写入镜像）时，请务必小心，因为一旦指定了错误的设备，将会导致数据丢失。下面是详细步骤：
+🔧 使用 dd 命令制作 U 盘启动盘
+1. 插入 U 盘
+
+插入 U 盘之后，使用如下命令查看设备名：
+
+lsblk
+
+假设你看到 U 盘的设备是 /dev/sdb，而不是像 /dev/sdb1（后者是分区，前者是整块设备）。
+2. 卸载 U 盘的挂载点（如果已挂载）
+
+sudo umount /dev/sdb*
+
+3. 执行 dd 命令写入镜像
+
+假设你的系统镜像文件是 ubuntu.iso，位于当前目录：
+
+sudo dd if=ubuntu.iso of=/dev/sdb bs=4M status=progress conv=fsync
+
+参数解释：
+
+    if=ubuntu.iso：输入文件（ISO 镜像）
+
+    of=/dev/sdb：输出设备（整个 U 盘）
+
+    bs=4M：块大小，提高写入速度（可换成 1M 也可以）
+
+    status=progress：显示写入进度
+
+    conv=fsync：确保缓存写入磁盘，增加数据完整性
+
+4. 同步数据并安全移除
+
+sync
+
+等几秒钟后再移除 U 盘。
+⚠️ 注意事项
+
+    绝不要写错设备路径，尤其不要写成你的硬盘（如 /dev/sda），否则会导致整个系统被覆盖。
+
+    备份数据：操作前请确保 U 盘中的重要数据已备份。
+
+    如果你不确定设备名，可以先拔掉 U 盘，再插入一次，用 lsblk 或 dmesg | tail 确认设备名变化。
+
+如果你要写入的是 .img 文件，比如树莓派镜像 raspbian.img，命令格式一样。
+
+如需帮助确认设备名或写一个脚本简化这类操作，也可以告诉我。
+
+
+* samba :samba:
+:PROPERTIES:
+:CUSTOM_ID: 876e9ca8-3911-4e05-b736-54d0f04716a0
+:END:
+** linux端配置samba服务
+:PROPERTIES:
+:CUSTOM_ID: 3d00e028-f5d8-40bc-ab63-19d9e72f43ff
+:END:
+#+begin_src 
+sudo pacman -S samba
+
+打开如下网址，复制默认配置
+https://git.samba.org/samba.git/?p=samba.git;a=blob_plain;f=examples/smb.conf.default;hb=HEAD
+创建一个文件 /etc/samba/smb.conf
+将网站内容全部复制到该文件。
+或者直接下载该文件： wget "https://git.samba.org/samba.git/?p=samba.git;a=blob_plain;f=examples/smb.conf.default;hb=HEAD" -O /etc/samba/smb.conf
+
+文件末尾添加一个共享文件夹
+[myshare]
+   comment = Mary's and Fred's stuff
+   path = /home/cz/share_to_win11
+   valid users = cz
+   public = no
+   writable = yes
+   printable = no
+   create mask = 0765
+
+   添加samba用户(用来登陆samba的,是系统中已经存在的用户)
+smbpasswd -a xxx_user_xxx
+
+共享文件夹owner
+sudo chown -R user:user /abc/def/folder
+
+共享文件夹权限
+sudo chmod 700 /abc/def/folder
+
+开机自动启动服务
+sudo systemctl enable smb.service
+sudo systemctl enable nmb.service
+重启电脑
+#+end_src
+** windows端配置samba服务
+:PROPERTIES:
+:CUSTOM_ID: 2abe0664-9685-44d9-925f-88f887abee80
+:END:
+控制面板 -> 启用/关闭windows功能
+[[./reference_note/windows/启用windows-samba.png]]
+再将文件夹设置为共享
+** windows作为client
+:PROPERTIES:
+:CUSTOM_ID: 3a6dce2d-3381-4ca2-b767-16b72594a784
+:END:
+win+r
+\\192.168.x.x   输入用户和密码即可打开共享文件夹
+** linux作为client
+:PROPERTIES:
+:CUSTOM_ID: 9bfa06f8-2f07-4ccb-b04a-84f9d796cc64
+:END:
+*** 全部输入指令参数
+:PROPERTIES:
+:CUSTOM_ID: 7c7a2a6f-ecc7-4c56-aa2b-0c0b7c3b816d
+:END:
+  #+begin_src 
+  sudo mount.cifs -v //192.168.0.112/Downloads /home/cz/share_from_win10_Downloads --verbose -o user=Administrator,password=1,domain=192.168.0.112,uid=$(id -u),gid=$(id -g),dir_mode=0777,file_mode=0777,vers=1.0
+- windows上Downloads文件夹或“下载”文件夹设置为共享属性，这里直接在ip后跟文件夹即可。（虽然Downloads文件夹在windows上路径为C:\Users\Administrator\Downloads）
+- uid：指定挂载点的文件所有者的用户 ID(id -u xxx_user可知)。
+- gid：指定挂载点的文件所有者的组 ID（id -g xxx_user可知道）。
+- file_mode=0777：文件的权限设置为 rwxrwxrwx。
+- dir_mode=0777：目录的权限设置为 rwxrwxrwx。
+  #+end_src
+*** 隐藏用户密码
+:PROPERTIES:
+:CUSTOM_ID: e33c4d13-1c21-485a-b2ff-b82ff0d15888
+:END:
+#+begin_src 
+如果你不想在命令行中显式地写入用户名和密码，可以创建一个 credentials 文件，这样可以避免密码暴露。
+创建一个文件，存储 Windows 的用户名和密码。例如，创建 ~/.smbcredentials 文件：
+  vim ~/.smbcredentials
+在文件中写入以下内容：
+
+username=your_username
+password=your_password
+
+设置文件权限，以确保只有你自己可以读取：
+  chmod 600 ~/.smbcredentials
+修改挂载命令，使用 credentials 选项指定凭据文件：
+    sudo mount.cifs //192.168.1.10/sharefolder /mnt/win_share -o credentials=/home/your_user/.smbcredentials,uid=user,gid=users,file_mode=0777,dir_mode=0777,vers=1.0
+#+end_src
+** 连接出错
+:PROPERTIES:
+:CUSTOM_ID: 1344b677-45fb-4226-9f4b-1bfb3d67c772
+:END:
+VFS: Error connecting to socket. Aborting operation.
+CIFS: VFS: cifs_mount failed w/return code = -115
+解决：
+1. 同时都检查client和server的防火墙有开启smb，或者有阻止smb
+2. windows 一端防火墙允许exporler.exe联网
+** 查看本机或远程服务器的共享列表：
+:PROPERTIES:
+:CUSTOM_ID: 6854cee0-f19f-44b4-a0ff-f581f9a19e4b
+:END:
+#+begin_src sh
+  debian12先安装sudo apt install smbclient -y
+  smbclient -L   //IP   -U  用户名 -m SMB3   (使用sm3协议）
+  smbclient -L   //IP   -U  用户名
+#+end_src
+输入密码后，将列出服务器上的所有共享，包括每个共享的名称和类型。
+如果是查看本地共享，IP可以用localhost替代
+* firewalld :firewalld:
+:PROPERTIES:
+:CUSTOM_ID: ef43c283-7bb6-488b-9d41-f196335897e4
+:END:
+** 安装
+:PROPERTIES:
+:CUSTOM_ID: 155fed27-fefa-4f86-b44a-780a0111f4e5
+:END:
+#+BEGIN_SRC sh
+  sudo pacman -S firewalld
+  sudo systemctl enable firewalld.service
+#+END_SRC
+** gui模式配置
+:PROPERTIES:
+:CUSTOM_ID: e7884527-6191-48c6-b964-a32ad86a24e1
+:END:
+#+BEGIN_SRC sh
+  firewall-config
+#+END_SRC
+** cmd模式配置
+:PROPERTIES:
+:CUSTOM_ID: f4292975-c260-442b-a0e6-62179c81b664
+:END:
+*** zone
+:PROPERTIES:
+:CUSTOM_ID: 0d91bb99-4092-4ec2-b2b7-7adfa647a1f0
+:END:
+预定义区的默认设置如下：
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| block    | 任何传入的网络连接都会拒绝，并会拒绝IPv4的icmp-host-prohibited（用于IPv6）和 icmp6-adm-prohibited。只用从系统启动的网络连接才能进行。 |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| dmz      | 对于你的非企业化区里的计算机来说，这些计算机可以被公开访问，且有限访问你的内部网络。只接受所选的入站连接。                                |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| drop     | 所有传入的网络数据包都会丢失，没有任何通知。只有外发网络连接是可行的。                                                             |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| external | 适用于启用了伪装的外部网络，特别是路由器。再不信任网络中的其他计算机不会损害自身的计算机。只接受所选的入站连接。                           |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| home     | 用于家用，因为你可以信任其他计算机。只接受所选的入站连接。                                                                       |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| internal | 当你主要信任网络中的其他计算机时, 供内部网络使用。只接受所选的入站连接。                                                           |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| public   | 可用于你不信任网络中其他计算机的公共区域。只接受所选的入站连接。                                                                  |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| trusted  | 所有网络连接否被接受。                                                                                                     |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+| work     | 可用于你主要信任网络中其他计算机的工作。只接受所选的入站连接。                                                                    |
+|----------+------------------------------------------------------------------------------------------------------------------------|
+这些区中的一个被设置为default区。当接口连接添加到NetworkManager时，它们会被分配给默认区。
+安装时，firewalld的默认区设置为public区。默认区可以被修改。
+*** 查找Firewalld支持的服务列表
+:PROPERTIES:
+:CUSTOM_ID: 384bf042-fd60-410e-9c3c-2653e9894b0f
+:END:
+#+begin_src sh 
+  sudo firewall-cmd --get-services 
+#+end_src
+*** 查看存在哪些区
+:PROPERTIES:
+:CUSTOM_ID: 4399b68c-65f1-4fa7-8627-b603257b6b9e
+:END:
+**** 查看系统中有那些可用区：
+:PROPERTIES:
+:CUSTOM_ID: d5721198-3181-4f00-b61a-884f8480ab98
+:END:
+#+begin_src sh
+  sudo firewall-cmd --get-zones
+#+end_src
+firewall-cmd --get-zones 命令显示系统中所有可用的区域，但不显示具体区的详情。
+**** 查看所有区的详细信息：
+:PROPERTIES:
+:CUSTOM_ID: 9c8d06d2-5d21-43dc-9da5-1743156287f5
+:END:
+#+begin_src sh
+  sudo firewall-cmd --list-all-zones
+#+end_src
+
+**** 查看所有激活区的详细信息：
+:PROPERTIES:
+:CUSTOM_ID: 9fa71a22-efe7-4800-9dec-4d2cd8b28ccd
+:END:
+#+begin_src sh
+  sudo firewall-cmd --list-all
+#+end_src
+
+**** 查看特定区的详细信息：
+:PROPERTIES:
+:CUSTOM_ID: 349935f4-2cac-4edd-b005-9f92de248339
+:END:
+#+begin_src sh
+  sudo firewall-cmd --zone=zone-name --list-all
+#+end_src
+
+*** 查看当前区域允许哪些服务
+:PROPERTIES:
+:CUSTOM_ID: 53d189cf-9c4d-43c9-8085-229d68043d01
+:END:
+#+begin_src sh 
+sudo  firewall-cmd --list-service 
+#+end_src
+*** 将服务添加到区域
+:PROPERTIES:
+:CUSTOM_ID: 7c67a15d-061e-4042-9808-dc75d50be4c5
+:END:
+#+begin_src sh 
+  firewall-cmd --zone=public --add-service=samba --permanent 
+#+end_src
+*** 从区域中删除服务
+:PROPERTIES:
+:CUSTOM_ID: fcdffca3-1688-4959-8d19-0cf0912ba748
+:END:
+#+begin_src sh 
+  firewall-cmd --zone=public --remove-service=samba --permanent 
+#+end_src
+*** 紧急禁用所有网络
+:PROPERTIES:
+:CUSTOM_ID: cc48f3fb-6961-4496-b658-bdf37c950203
+:END:
+**** 在紧急情况下，要立即禁用网络流量，
+:PROPERTIES:
+:CUSTOM_ID: 30e030e2-703c-4381-bfd6-1ff53aef35cf
+:END:
+#+begin_src sh
+  sudo firewall-cmd  --panic-on
+#+end_src
+注意：启用 panic 模式可停止所有网络流量。因此，他应只在对服务器有web控制终端时才使用
+
+**** 防火墙恢复到其永久设置。
+:PROPERTIES:
+:CUSTOM_ID: e7758e9e-ec38-49e1-a231-7bb4738df972
+:END:
+#+begin_src sh
+    sudo firewall-cmd --panic-off
+#+end_src
+
+**** 查看是否打开或关闭panic模式：
+:PROPERTIES:
+:CUSTOM_ID: 97a1e64c-9afe-49a4-97b9-402ad9a0a118
+:END:
+#+begin_src sh
+  sudo firewall-cmd --query-panic
+#+end_src
+
+*** 更改默认区
+:PROPERTIES:
+:CUSTOM_ID: e499354b-1395-480a-960b-e97738a90530
+:END:
+**** 显示当前的默认区：
+:PROPERTIES:
+:CUSTOM_ID: 0c2af482-f240-41cf-b5cb-3b4753aa87cc
+:END:
+#+begin_src sh
+  sudo firewall-cmd --get-default-zone
+#+end_src
+**** 设置新的默认区:
+:PROPERTIES:
+:CUSTOM_ID: 029902ad-a828-417f-9bd6-500af3cd1586
+:END:
+#+begin_src sh
+  sudo firewall-cmd --set-default-zone new-zone-name
+#+end_src
+*** 这个软件是配置外来端口网络权限，某个ip连入权限等,
+:PROPERTIES:
+:CUSTOM_ID: 3f89887a-c94d-482e-97d4-d3a2988f947c
+:END:
+*** 但 *不能* 设置某个应用访问网络权限，比如禁止firefox访问网络。
+:PROPERTIES:
+:CUSTOM_ID: fca9a984-99d5-4f98-8d67-90d338d3aab9
+:END:
+*** Firewalld有规则两种状态
+:PROPERTIES:
+:CUSTOM_ID: 59b800a6-c8b6-440f-863c-37296c038dfa
+:END:
+ 1. 运行时（runtime)：修改规则马上生效,但是临时生效
+ 2. 持久配置（permanent）：修改后需要重载才会生效
+ #+begin_src sh
+   firewall-cmd --permanent [RULE]
+   firewall-cmd --reload
+ #+end_src
+ 一旦使用了 --permanent 会将配置写入到/etc/firewalld/{services,zones}/*.xml对应的文件中，
+ 配置完成后一定要 reload，否则只能待防火墙重启后这些配置才能生效。
+ Firewalld配置文件:
+    /etc/firewalld/{services,zones}/*.xml 优先级最高，--permanent 模式生效的策略会放到这里
+    /lib/firewalld/{services,zones}/*.xml 优先级要低些，是一些默认配置，可以当做模板使用
+
+** 常见服务
+:PROPERTIES:
+:CUSTOM_ID: 03595946-15bf-4f35-bab7-82a041b72cf2
+:END:
+默认情况下，firewalld 中的 HTTPS 服务包含了 443 端口的 TLS 流量支持。
+如果运行的是非标准端口 TLS 服务，例如 8443，需使用 --add-port 明确指定。
+#+begin_src sh
+  sudo firewall-cmd --zone=public --add-service=https --permanent
+  sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
+  sudo firewall-cmd --reload    重载
+#+end_src
+
+** gentoo下配置日常使用
+:PROPERTIES:
+:CUSTOM_ID: 2b9c3c41-dd68-47be-a4af-228ce165ac54
+:END:
+*** 安装
+:PROPERTIES:
+:CUSTOM_ID: 8020ae68-8f24-43c6-a77c-8bc26eb6924e
+:END:
+    sudo emerge -aq net-firewall/firewalld
+*** 启动
+:PROPERTIES:
+:CUSTOM_ID: f3b9765b-7f2a-4e89-b89e-48976198f4f5
+:END:
+    sudo rc-service firewalld start
+    添加到默认运行级别：
+    sudo rc-update add firewalld default
+*** 检查当前设置
+:PROPERTIES:
+:CUSTOM_ID: cfc752ce-3515-4bf1-b8ad-843fa0918934
+:END:
+   查看活动区域和分配的接口：
+   sudo firewall-cmd --get-active-zones
+   如果没有分配接口，可以分配一个（假设你的接口是 enp0s3）：
+   sudo firewall-cmd --zone=home --change-interface=enp0s3
+*** 设置默认区域
+:PROPERTIES:
+:CUSTOM_ID: 1c6f792f-a053-492c-9b2e-6f7b8e2af522
+:END:
+   sudo firewall-cmd --set-default-zone=public
+*** 开启常用服务
+:PROPERTIES:
+:CUSTOM_ID: 8db8b148-6481-42fa-b71c-6a88e33a69c6
+:END:
+允许常用服务（如 SSH、HTTP、HTTPS）：
+sudo firewall-cmd --zone=public --add-service=ssh --permanent
+sudo firewall-cmd --zone=public --add-service=http --permanent
+sudo firewall-cmd --zone=public --add-service=https --permanent
+*** 重新加载规则：
+:PROPERTIES:
+:CUSTOM_ID: 62c6d0ec-30f5-424b-befa-8440ca047ff1
+:END:
+ sudo firewall-cmd --reload
+*** 查看已添加的服务：
+:PROPERTIES:
+:CUSTOM_ID: 2c82c3e8-75bf-4272-94bc-cb4ec7c2deee
+:END:
+ sudo firewall-cmd --zone=home --list-all
+*** 配置端口访问
+:PROPERTIES:
+:CUSTOM_ID: b3f04f07-e321-4920-8024-6c6c02dd2d20
+:END:
+    如 8080：
+    sudo firewall-cmd --zone=home --add-port=8080/tcp --permanent
+    删除端口：
+    sudo firewall-cmd --zone=home --remove-port=8080/tcp --permanent
+*** 设置网络共享（NAT）
+:PROPERTIES:
+:CUSTOM_ID: 56908448-2cad-4601-ad7a-d5af4ece33dc
+:END:
+   如果需要共享网络连接，可以启用 IP 伪装：
+   sudo firewall-cmd --zone=home --add-masquerade --permanent
+   sudo firewall-cmd --reload
+*** 允许特定 IP 访问：
+:PROPERTIES:
+:CUSTOM_ID: 96dd7b83-fb18-4f80-bd76-02f07b9d81d4
+:END:
+   sudo firewall-cmd --zone=home --add-rich-rule='rule family="ipv4" source address="192.168.1.100" accept' --permanent
+*** 拒绝特定 IP 访问：
+:PROPERTIES:
+:CUSTOM_ID: 6b91ebb6-31fc-4c4a-9348-e7e76b3cd408
+:END:
+    sudo firewall-cmd --zone=home --add-rich-rule='rule family="ipv4" source address="192.168.1.200" drop' --permanent
+*** 允许某个应用程序的网络连接：
+:PROPERTIES:
+:CUSTOM_ID: 9cfc3f95-45a1-43ce-bb4d-1f11f6ba4ef8
+:END:
+   sudo firewall-cmd --zone=home --add-service=samba --permanent
+   sudo firewall-cmd --reload
+*** 查看防火墙规则是否生效：
+:PROPERTIES:
+:CUSTOM_ID: bfaa9a02-70bb-463f-aedc-b4935c449f82
+:END:
+   sudo firewall-cmd --list-all
+* awesome-wm
+:PROPERTIES:
+:CUSTOM_ID: cccc4685-e7c4-4ce2-98c4-ef555c2e9211
+:END:
+** root key和client key
+:PROPERTIES:
+:CUSTOM_ID: 2a5b6f16-cf2b-4b70-8130-bdd3890e5086
+:END:
+*** 在 AwesomeWM 里，“root key”和“client key”不是加密概念，而是键绑定作用域（hotkey scope）的分类。
+:PROPERTIES:
+:CUSTOM_ID: 7fb8afa5-289a-4faf-a8af-ef18de88833b
+:END:
+
+*** 一、Root key（全局按键 / root window key）
+:PROPERTIES:
+:CUSTOM_ID: c23ab82b-5e8e-4291-a128-4d895f021df4
+:END:
+指绑定在 root window（桌面本身）上的快捷键。
+
+特点：
+
+全局生效（不依赖当前窗口）
+桌面级别快捷键
+典型用于：切换 tag、打开 launcher、调音量等
+在 AwesomeWM 里通常对应：
+root.keys(...)
+或 awful.key 中未绑定 client 的 global key
+
+例子：
+
+Mod4 + Return → 打开终端
+Mod4 + p → launcher
+Mod4 + j/k → 切换窗口
+
+*** 二、Client key（客户端按键）
+:PROPERTIES:
+:CUSTOM_ID: e6557c3e-cc6a-4424-a4b1-42c4f09efc54
+:END:
+指绑定在“窗口（client）”上的快捷键。
+
+特点：
+
+只有当前有焦点窗口时才生效
+不同程序可以有不同 keybinding
+常用于窗口操作或应用内快捷键映射
+
+在 AwesomeWM 里对应：
+
+awful.key({mod}, "x", func, {client = true})
+或 clientkeys（rc.lua 里常见）
+
+例子：
+
+Mod4 + q → 关闭当前窗口
+Mod4 + f → 全屏当前窗口
+Mod4 + m → 最大化窗口
+
+*** 三、在 hotkeys_popup 里的含义
+:PROPERTIES:
+:CUSTOM_ID: a62c5645-eaf9-4ae7-97a6-39d9ded3f9e7
+:END:
+
+awful.hotkeys_popup 会把 key 分组展示：
+
+root / global：桌面级快捷键
+client：窗口级快捷键
+sometimes还有：
+widget
+layout
+custom group（你自己定义的 group）
+
+*** 四、关键区别总结
+:PROPERTIES:
+:CUSTOM_ID: 957fd63f-90b3-4a2d-a6b6-99eecccd760d
+:END:
+
+类型	作用范围	依赖窗口	常见用途
+root key	整个桌面	否	启动器 / tag / system control
+client key	当前窗口	是	窗口操作 / 应用控制
+
+如果你是在 hotkeys_popup.show_help() 里看到 “root / client” 分组，那只是对 awful.key 的 group 分类展示，不是额外机制。
+* chromium
+:PROPERTIES:
+:CUSTOM_ID: e4558755-b052-4e30-bc61-b76a106fca09
+:END:
+** 1,首先
+:PROPERTIES:
+:CUSTOM_ID: 8a7eb0f4-1984-4d35-b449-acef59e7c52f
+:END:
+#+begin_example
+在 Chrome 地址栏输入并访问：
+
+text
+chrome://flags/
+然后搜索并修改以下标志：
+
+Smooth Scrolling
+
+确保已启用。这是最基本的平滑滚动开关。
+#+end_example
+** 2,其次
+:PROPERTIES:
+:CUSTOM_ID: 79b68a34-cd6c-4adc-950c-ee699e82538c
+:END:
+#+begin_example
+安装smoothscroll插件
+#+end_example
+** omni-bookmark
+:PROPERTIES:
+:CUSTOM_ID: 07b36ed5-ab79-4282-8f6a-9dfbd536c857
+:END:
+*** First, activate Omnibookmarks by typing the letter "b" into the address bar, followed by a space:
+:PROPERTIES:
+:CUSTOM_ID: 61a98569-7edb-475a-922a-0641ae9e2e69
+:END:
+
+*** To add a bookmark for the current page, type "+" followed by the keyword you want to assign it, and press Enter:
+:PROPERTIES:
+:CUSTOM_ID: 7f5e19ee-2214-47f8-afa7-dc548351f000
+:END:
+
+*** To open a bookmark you previously added, type its keyword and press Enter:
+:PROPERTIES:
+:CUSTOM_ID: 68132da9-81af-4812-9207-718b139bd000
+:END:
+
+*** To remove a bookmark you previously added, type "-" followed by its keyword, and press Enter:
+:PROPERTIES:
+:CUSTOM_ID: 1180be4a-ed50-4c6b-b334-28b2a912f19b
+:END:
+
+*** Viewing all bookmarks
+:PROPERTIES:
+:CUSTOM_ID: 2555807f-db12-4dbb-83d8-45d3ebe74608
+:END:
+#+begin_example
+Omnibookmarks saves pages to a bookmarks folder named "Omnibookmarks". This folder is placed in "Other Bookmarks" by default, but you can move it to a different location if you want to.
+#+end_example
+* pandoc-cli 是用 Haskell 编写的，安装 Pandoc 时会连带安装大量 Haskell 运行库。
+:PROPERTIES:
+:CUSTOM_ID: 4a9294ca-f81a-48f0-9c94-02aa93998e31
+:END:
+#+begin_example
+如果你只是为了 Org 导出 Markdown、PDF 等功能，并不关心系统集成，有几种办法：
+使用静态版 Pandoc
+直接从官方发布的二进制安装：
+sudo pacman -S pandoc
+选择pandoc-bin
+
+查看当前安装的是哪个pancdoc
+sudo pacman -Qo $(which pandoc)
+可能显示    /usr/bin/pandoc is owned by pandoc-cli 3.6-73
+
+如果你只是为了 Org Mode 导出文档，并不关心 Arch 的包管理集成，可以考虑卸载 sudo pacman -R pandoc-cli
+然后安装官方发布的静态二进制版本。
+sudo pacman -Syu
+就不会再因为 Pandoc 牵扯出几十个 haskell-* 包更新。
+不过需要注意一点：如果你系统里还有其他 Haskell 软件（例如通过 pacman 安装的 Haskell 工具），即使卸载 Pandoc，也可能仍然看到大量 haskell-* 更新。
+
+可以统计一下：
+sudo pacman -Q | grep '^haskell-' | wc -l
+
+再看看有哪些 Haskell 包：
+sudo pacman -Q | grep '^haskell-'
+
+建议先清理所有孤立包：
+sudo pacman -Rns $(pacman -Qdtq)
+然后再次统计： sudo pacman -Q | grep '^haskell-' | wc -l
+
+很多时候这一步会连锁删除大量 Haskell 库。
+更快的方法是查看系统里还有哪些顶层 Haskell 软件：
+pacman -Qq | grep -E '^(ghc|cabal|stack|haskell-|hslua)'
+
+路线 A：彻底清掉 Haskell（推荐如果你不开发 Haskell）
+执行： sudo pacman -Rns ghc-libs hslua-cli
+然后再： sudo pacman -Rns $(pacman -Qdtq)
+
+最后检查：
+pacman -Q | grep '^haskell-' | wc -l
+理想结果： 0 或接近 0
+#+end_example

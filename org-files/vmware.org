@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       b33eefed-d13f-42cf-8687-496a6dffa08c
+:END:
+#+title: vmware
+#+date: [2026-05-12 Tue 08:22]
+
+* vmware共享文件夹
+:PROPERTIES:
+:CUSTOM_ID: 0a5b142f-5de1-4a0b-b139-c8b4449300cc
+:END:
+** 先安装 VMware Tools 或 open-vm-tools
+:PROPERTIES:
+:CUSTOM_ID: c82a8865-e6cb-43aa-95b1-61a16c9c1126
+:END:
+#+begin_example
+sudo pacman -S open-vm-tools
+#+end_example
+** 开机启动
+:PROPERTIES:
+:CUSTOM_ID: fbd6294b-0266-42fa-adeb-47b655f2a0a6
+:END:
+#+begin_example
+sudo systemctl enable --now vmtoolsd
+sudo systemctl enable --now vmware-vmblock-fuse
+#+end_example
+** 打开 VMware 设置
+:PROPERTIES:
+:CUSTOM_ID: b2bea7bf-922f-4534-941d-32bc1d0b3b85
+:END:
+#+begin_example
+选中你的虚拟机 → 点“设置”
+打开 Options → Shared Folders
+勾选：
+ Always enabled（总是启用）
+ Map as a network drive in Windows guests（可选）
+点击“Add…”
+选择一个宿主机上的文件夹，比如 D:\vmshare
+指定一个名字，例如 vmshare
+VMware Tools 会自动把共享目录映射到 /mnt/hgfs/ 下。
+#+end_example
+#+begin_example
+ls /mnt/hgfs
+如果能看到 vmshare 文件夹，那说明成功了。
+#+end_example
+** 要开机自动挂载，编辑 /etc/fstab
+:PROPERTIES:
+:CUSTOM_ID: 165652a9-1374-4208-a6dc-a4cca7bdcef3
+:END:
+#+begin_src 
+.host:/  /mnt/hgfs  fuse.vmhgfs-fuse  allow_other,uid=1000,gid=1000,defaults  0  0
+#+end_src

@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       f346d2c3-5e1a-45f7-9a76-ad55f833f292
+:END:
+#+title: 2026-03-30
+* FINISHED 预热结束后，先不关循环水阀，等冲泡阀门打开，再关闭循环水阀。 -> 预热结束时可能因压力而导致冲泡桶里有热气冒出来
+CLOSED: [2026-03-30 Mon 20:00]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-03-30 Mon 20:00] \\
+  经过检查代码，发现已经是这样处理的，不用修改
+:END:
+* FINISHED 缺水后自动补水。
+CLOSED: [2026-04-08 Wed 01:24]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-04-08 Wed 01:24]
+:END:

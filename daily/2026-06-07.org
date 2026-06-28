@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       2de09faf-efdc-421d-bb0e-2eb01f5abd44
+:END:
+#+title: 2026-06-07
+* <2026-06-07 07:15>
+:PROPERTIES:
+:CUSTOM_ID: 140a7c79-68dd-41aa-9b25-00fbd92813c3
+:END:
+
+* FINISHED nvim 增加插件打开后显示欢迎页面，列举workspace
+CLOSED: [2026-06-07 Sun 09:27]
+:PROPERTIES:
+:CUSTOM_ID: f3d46ee8-9099-4b2e-95a4-c5a37556cdc2
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-07 Sun 09:27] \\
+  没有列举workspace,但有提示快捷键
+:END:
+
+* <2026-06-07 16:06>
+:PROPERTIES:
+:CUSTOM_ID: 92a9e97c-7320-4f6d-a135-1a17ca98ca9e
+:END:
+
+* stm32产生和弦音
+:PROPERTIES:
+:CUSTOM_ID: 0a24afaf-0880-4c36-aca4-052e9699d12a
+:END:
+#+begin_example
+pwm输出4k方波
+io输出72ms高，io变低
+1s后pwm关闭
+#+end_example

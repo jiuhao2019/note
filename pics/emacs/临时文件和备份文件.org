@@ -1,0 +1,26 @@
+* Emacs的临时文件和备份文件
+- 编辑文件的时并非对文件本身进行编辑， 而是将编辑的文件内容拷贝到临时缓冲区， 编辑的时，也只是对缓冲区更改。
+- Emacs会自动产生临时文件和备份文件。
+* 临时文件(Auto-Save file)
+*** 临时文件的文件名是使用“#”包围，在编辑文件的同目录内生成，在保存文件之后自动被emacs删除。 作用是为了防止异常退出造成的损失。
+    1. [C-x,C-f]打开要编辑的文件(test-file.txt)
+    2. 编辑内容
+    3. Emacs自动侦测buffer是否更改，如果更改会自动Auto-Save
+    4. 此时我们能够在编辑的文件同一目录下看到临时文件为: #test-file.txt#
+    5. 使用[C-x,C-s]保存当前buffer
+    6. 当前buffer中的内容被写入文件,#test-file.txt#消失——被Emacs自动删除
+*** 如果不想产生临时文件，就关闭自动保存功能，添加这行 (setq auto-save-default nil) ;; 默认值是t
+*** 恢复:
+       1. 打开要恢复的文件，如：test.txt
+       2. [M-x] recover-file 回车
+       4. 确认恢复
+* 备份文件（Backup files）
+备份文件是在第一次保存的时候，如果保存的文件已经存在，Emacs会自动将当前已经存在的文件重命名作为备份文件，并将当前buffer的内容写入同名的文件中来替代原来的文件。而备份文件使用的是一个“～”作为后缀(如：file-name~)。大概的流程如下：
+   1. 打开文件,如:MitchellChu.txt
+   2. 编辑...（这涉及到临时文件的问题，忽略）
+   3. 在emacs内发出保存指令
+   4. emacs先将MitchellChu.txt保存为：MitchellChu.txt~
+   5. 保存完成后，Emacs将当前buffer的内容写入MitchellChu.txt
+   注意：此时的MitchellChu.txt已经不再是原来的那个文件，但所有连接到原来那个文件的，现在被这个新文件接管。
+    可以要求emacs通过拷贝，而非重命名的方式来备份文件，
+       (setq backup-by-copying t) ;; 默认是nil，开启之后使用拷贝模式

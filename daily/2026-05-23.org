@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       981d509f-678c-43a6-9f90-a9df12da3ee6
+:END:
+#+title: 2026-05-23
+* <2026-05-23 10:18>
+:PROPERTIES:
+:CUSTOM_ID: 6cf98ef7-7fd2-4fe2-b525-06056d84d5b7
+:END:
+* FINISHED pcb上的mos开关得加防护，比如续流二极管，tvs等，以提高环境适应，如果没有任何防护，很容易损坏。 :家用咖啡机:PCB:
+CLOSED: [2026-05-29 Fri 15:09]
+:PROPERTIES:
+:CUSTOM_ID: 86039f7b-b418-4136-acce-cc108a18b2cc
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:09] \\
+  done
+:END:
+* <2026-05-23 17:34>
+:PROPERTIES:
+:CUSTOM_ID: cec0e086-fc89-442c-8af2-a447c6056beb
+:END:
+* FINISHED 考虑静电防护，在端子，或有人接触，比如按键屏幕的输入端子加TVS :PCB:
+CLOSED: [2026-05-29 Fri 15:09]
+:PROPERTIES:
+:CUSTOM_ID: d20ba429-3a05-427f-9245-0a0b39e5124f
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:09] \\
+  done
+:END:

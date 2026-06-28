@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       a1be4c12-54e8-478b-a73c-0d1fe9f7c2a1
+:END:
+#+title: 2026-06-02
+* <2026-06-02 15:00>
+:PROPERTIES:
+:CUSTOM_ID: 03130eb5-f2ea-46e8-89c4-09bdf1daec80
+:END:
+* FINISHED 磨豆命令里加个粗细档位，磨豆时间后加一个字节档位数据,兼容原协议，如果发送的命令里带粗细档位字节，则先调节粗细再磨豆，如果没有则不用调节粗细档位 :冲泡器模块:
+CLOSED: [2026-06-11 Thu 08:51]
+:PROPERTIES:
+:CUSTOM_ID: 0c43cf43-753f-4483-974d-b24ed3679105
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-06-02.org
+:ARCHIVE_CATEGORY: 2026-06-02
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-11 Thu 08:51] \\
+  done
+:END:
+* TODO 磨豆丝印改CN6,排渣改CN8,压饼改CN7 :冲泡器模块:
+:PROPERTIES:
+:CUSTOM_ID: b4527e57-f386-4f21-9026-44a418fd173d
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-06-08.org
+:ARCHIVE_CATEGORY: 2026-06-08
+:ARCHIVE_TODO: TODO
+:END:
+

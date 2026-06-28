@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       6e460515-47c3-45b9-8665-d1b6f9886886
+:END:
+#+title: 2026-05-15
+* <2026-05-15 11:23>
+:PROPERTIES:
+:CUSTOM_ID: 86c00c3e-fafb-4613-aac1-bcf262c8e951
+:END:
+* FINISHED 当前动作变量，各个动作检查收否都有设置和清除
+CLOSED: [2026-05-15 Fri 12:46]
+:PROPERTIES:
+:CUSTOM_ID: 8c9b2b0f-2d92-4136-a241-4feaa1553b13
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-15 Fri 12:46] \\
+  done
+:END:
+* <2026-05-15 13:47>
+:PROPERTIES:
+:CUSTOM_ID: 54299c81-d10d-4b76-9bb7-44ef52aecf2d
+:END:
+* FINISHED 家用咖啡机，修改功能，显示修改 -> 缺豆了，点一次退出显示缺豆， 再点制做咖啡时再弹出，不用一直自动弹出,即，只点制做咖啡时才读取一下缺豆，显示缺豆，点一下就清除显示
+CLOSED: [2026-05-16 Sat 08:31]
+:PROPERTIES:
+:CUSTOM_ID: cf355308-70d9-4d13-9842-992fe1a1743d
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-16 Sat 08:31] \\
+  姚工已经把显示屏修改
+:END:

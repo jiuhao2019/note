@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       6cc7b345-6a01-4c24-901d-bb64dacf3966
+:END:
+#+title: 2026-05-14
+* <2026-05-14 09:38>
+:PROPERTIES:
+:CUSTOM_ID: 58313396-90b7-4c58-9b57-6475201130b3
+:END:
+* TODO 增加清洗功能 :家用咖啡机:
+:PROPERTIES:
+:CUSTOM_ID: 0086e21c-9d93-4102-8ff7-605209a7a567
+:END:
+* <2026-05-14 10:38>
+:PROPERTIES:
+:CUSTOM_ID: 56a2921f-7cc7-443e-b4b7-e5993b58914f
+:END:
+* FINISHED 冲泡器模块，动作完成后自己复位电机位置，比如收到压饼指令，执行后，自己复位电机动作，不用等复位电机命令才复位
+CLOSED: [2026-05-19 Tue 13:18]
+:PROPERTIES:
+:CUSTOM_ID: 1a816c36-5863-4ff3-af3d-95d795199ccc
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-19 Tue 13:18] \\
+  done
+:END:
+* <2026-05-14 14:39>
+:PROPERTIES:
+:CUSTOM_ID: 46d88cbb-7446-453c-9243-360a42257428
+:END:
+* FINISHED 家用咖啡机，预留的wifi/蓝牙串口，丝印GND标成了PG，应该是GND
+CLOSED: [2026-05-29 Fri 15:14]
+:PROPERTIES:
+:CUSTOM_ID: c69c410d-6f4f-4f18-b0f7-e60839ed73eb
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-29 Fri 15:14] \\
+  画pcb都得考虑
+:END:
+* <2026-05-14 21:08>
+:PROPERTIES:
+:CUSTOM_ID: 46066db8-b04a-43b0-809c-486d2ce62f41
+:END:
+* FINISHED 冲泡预热结束后， 还泵水，但温度不加热，问题修改
+CLOSED: [2026-05-15 Fri 09:48]
+:PROPERTIES:
+:CUSTOM_ID: 883523ad-3012-454a-b946-854244af1fed
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-15 Fri 09:48] \\
+  done
+:END:

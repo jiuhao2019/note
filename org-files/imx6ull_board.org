@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       b01b88a0-d649-4fcd-a7ed-21c64d78f9af
+:END:
+#+title: imx6ull_board
+#+date: [2026-05-10 Sun 22:28]
+* 用官方sdk，得用iar，的版本- IAR embedded Workbench 7.80.4
+:PROPERTIES:
+:CUSTOM_ID: 30af1a5a-e17b-4eaf-b928-41681b062b3d
+:END:
+

@@ -1,0 +1,333 @@
+:PROPERTIES:
+:ID:       d5996e61-9381-49ef-996b-1b816dba5c1a
+:END:
+#+title: emacs
+#+date: [2026-05-02 Sat 12:38]
+* 在 GNU Emacs 的 Dired 模式中，修改文件名有几种常用方式：
+:PROPERTIES:
+:CUSTOM_ID: d1fe962f-3851-4e8b-a647-57c1d6f0f345
+:END:
+#+begin_example
+1. 单个文件重命名（最常用）
+光标移动到文件上
+按 R（shift + r，dired-do-rename）
+输入新文件名并回车
+
+2. 批量重命名（标记 + 操作）
+用 m 标记多个文件
+按 R
+输入目标（可以是新目录或新文件名规则）
+
+3. 直接编辑（类似文本编辑）
+按 C-x C-q 进入可编辑模式（wdired-change-to-wdired-mode）
+直接修改文件名（像编辑文本一样）
+修改完成后按 C-c C-c 保存修改
+若取消：C-c C-k
+
+这种方式适合批量修改，例如：
+
+添加前缀/后缀
+批量改扩展名
+
+4. 正则批量重命名
+
+% R（dired-do-rename-regexp）
+输入正则表达式和替换内容
+
+示例：
+
+把 .txt 改为 .md
+
+% R
+\.txt$
+.md
+
+建议
+
+简单改名：用 R
+批量规则修改：用 wdired 或 % R
+
+如果你有具体批量规则（比如加时间戳、编号），可以给出
+#+end_example
+* 在 Emacs 的 Dired 中，文件和目录的创建、删除都属于基本功能，且操作方式比较直接。
+:PROPERTIES:
+:CUSTOM_ID: 80de1a10-bc2b-4071-807a-0bb03b20fc1c
+:END:
+** 1. 创建文件
+:PROPERTIES:
+:CUSTOM_ID: de501fd1-5bd5-42fb-9127-989323d7abc7
+:END:
+#+begin_example
+在 Dired 缓冲区中：
+C-x C-f
+输入新文件路径即可创建文件（如果不存在会新建）。
+例如：
+C-x C-f test.c
+若 test.c 不存在，保存时会创建。
+#+end_example
+** 2. 创建目录
+:PROPERTIES:
+:CUSTOM_ID: bcff7ed8-61f8-47c3-9b5c-01fb0305109e
+:END:
+#+begin_example
+按： +
+然后输入目录名，例如：
+test_dir
+Dired 会创建该文件夹。
+#+end_example
+** 3. 删除文件 / 文件夹
+:PROPERTIES:
+:CUSTOM_ID: 26639e70-6a19-430a-8f1b-78464d50e87f
+:END:
+#+begin_example
+删除分两步：
+(1) 标记删除
+按： d
+该文件前会出现 D 标记。
+(2) 执行删除
+按： x
+Dired 会询问确认，然后删除。
+#+end_example
+** 4. 直接删除当前文件
+:PROPERTIES:
+:CUSTOM_ID: 761ab7db-e12e-4fb4-b4f2-aa0554f744c9
+:END:
+#+begin_example
+也可以： D
+直接删除当前文件（会确认）。
+#+end_example
+** 5. 批量删除
+:PROPERTIES:
+:CUSTOM_ID: 0dfa6611-f1e3-4ee6-9d01-1d3555f439da
+:END:
+#+begin_example
+流程： d  d  d  （标记多个）
+x      （统一删除）
+#+end_example
+** 6. 创建空文件的另一种方式
+:PROPERTIES:
+:CUSTOM_ID: b65ad0f3-dd2b-4ed2-86de-653336874daf
+:END:
+#+begin_example
+C-x C-f new.txt
+C-x C-s
+保存即创建。
+如果你是从 ranger 转到 Dired 使用，Dired 的设计理念其实和 ranger 类似：
+先标记 → 再执行批量操作。
+如果需要，我可以给你一份 Dired 高频按键表（10 个键就够日常开发），写代码时效率会明显高于普通文件管理器。
+#+end_example
+* 重命名文件时minibuffer提示类似文件名选项导致不能按回车
+:PROPERTIES:
+:CUSTOM_ID: e6be5b87-d070-4615-a725-aefe07c08682
+:END:
+#+begin_quote
+    minibuffer受ivy控制，而ivy里有个命令
+    C-M-j (ivy-immediate-done)
+    Exits with the current input instead of the current candidate (like other commands).
+    This is useful e.g. when you call find-file to create a new file,
+    but the desired name matches an existing file.
+    In that case, using C-j would select that existing file, which isn't what you want - use this command instead.
+#+end_quote
+* tab和空格互转
+:PROPERTIES:
+:CUSTOM_ID: a1df8fea-aeb3-47aa-9f76-1a4b08d8c01a
+:END:
+** 方法1
+:PROPERTIES:
+:CUSTOM_ID: 51391949-488c-4fc6-9d2d-cdcbfcb800ef
+:END:
+#+begin_example
+M-x replace-regexp
+C-q C-i
+____(4个空格)
+#+end_example
+** 方法2
+:PROPERTIES:
+:CUSTOM_ID: d5a268cc-9574-4664-bb1d-895f9d8e2e91
+:END:
+#+begin_example
+首先，M-x whitespace-mode，高亮所有空白区域，区别显示出tab和空格，
+然后，选中区域,
+接着 M-x untabify
+就把tab全换成空格了。
+当然，emacs还有一个逆操作命令tabify, 能全部换回去。
+#+end_example
+* 加密解密
+:PROPERTIES:
+:CUSTOM_ID: a963798e-97a7-4f5a-a5aa-9745bef231d9
+:END:
+** emacs自带的EasyPG作为gnupg接口
+:PROPERTIES:
+:CUSTOM_ID: 9047b62d-0480-47ca-b3a7-aefbe8e2a8f6
+:END:
+*** 文件级别
+:PROPERTIES:
+:CUSTOM_ID: 03ae70b7-cc8a-4b32-bbd4-b4088666ebb2
+:END:
+**** 概述
+:PROPERTIES:
+:CUSTOM_ID: fbfda8dd-f4a4-4f76-979b-223ddbbe9f7e
+:END:
+- emacs和gpg可以加密笔记，emacs可以直接编辑加密的文件，保存时自动加密。
+- gpg的加密通过密钥实现，只有拿到密钥才可以解密。
+- 为了在不同的电脑上记录笔记，可以把密钥导出到自己常用的电脑上。
+- 那如果其他人拿到自己电脑，是不是也可以直接打开加密的笔记了呢？
+  并不是，生成密钥的时候gpg会要求你输入一个passphrase，这个就是整个加密的最后一道防线。
+- sudo pacman -S gnupg
+**** 生成新的gpg key
+:PROPERTIES:
+:CUSTOM_ID: aadc470f-8425-44b2-842c-ed1802b4d127
+:END:
+gpg加密需要使用密钥，通过如下的命令生成新的密钥。一定要输入passphrase，这是保证安全的最后一道防线了。
+#+begin_src sh
+$ gpg --full-gen-key
+#+end_src
+执行命令后会交互式的让你输入加密算法、姓名和邮箱、选择过期时间等信息，按提示操作即可。
+**** 导出key
+:PROPERTIES:
+:CUSTOM_ID: dd320b0b-23b0-4612-a149-9a7971a7bf8a
+:END:
+- 先查看key id(长串字符串)
+#+begin_src  sh
+gpg --list-keys
+#+end_src
+- 导出密钥,比如在创建密钥使用的姓名是jxq，执行命令后密钥就会保存在jxq.asc这个文件中。
+#+begin_src sh
+$ gpg --armor --export-secret-keys jxq > jxq.asc
+#+end_src
+- 导出的密钥离线保存好,丢了，加密文件就gameover了。
+**** 导入key
+:PROPERTIES:
+:CUSTOM_ID: 3c572ed6-9a59-4f3e-a2d6-5fa96b0ecbbb
+:END:
+把key同步到另一个电脑上之后，再执行以下命令导入key，并且信任该key。
+
+#+begin_src sh
+  $ gpg --import jxq.asc
+
+  $ gpg --edit-key jxq
+  gpg> trust
+  Please decide how far you trust this user to correctly verify other users' keys
+  (by looking at passports, checking fingerprints from different sources, etc.)
+
+    1 = I don't know or won't say
+    2 = I do NOT trust
+    3 = I trust marginally
+    4 = I trust fully
+    5 = I trust ultimately
+    m = back to the main menu
+
+  Your decision? 5
+  Do you really want to set this key to ultimate trust? (y/N) y
+#+end_src
+**** 创建文件并加密
+:PROPERTIES:
+:CUSTOM_ID: c6549d1f-0521-4438-9bdc-3379e4d8afb0
+:END:
+- 方式1：在emacs里面创建文件，比如 note.org.gpg ，然后保存的时候会让你选择用哪一个key加密。
+- 方式2：可以在文件开头一行指定用哪个key来加密解密。 不用加.gpg后缀.
+#+begin_src org
+    # -*- mode:org; epa-file-encrypt-to: ("jxq@jxq.me") -*-
+#+end_src
+- 以后再打开文件时，emacs会提示你输入passphrase并自动解密，后面就像编辑正常的文件一样操作了。
+**** 让git diff也支持解密
+:PROPERTIES:
+:CUSTOM_ID: 570e820b-1db0-4fea-bfae-da2defcbf424
+:END:
+- 笔记保存在git里，那如何看到每个版本间的diff呢？执行下面的操作即可。
+#+begin_src sh
+  $ git config --global diff.gpg.textconv "gpg --no-tty --decrypt"
+  $ echo "*.gpg filter=gpg diff=gpg" > .gitattributes
+#+end_src
+*** 标题级别
+:PROPERTIES:
+:CUSTOM_ID: 0193a76d-c919-4dcd-952b-476ae0e656e7
+:END:
+**** 配置
+:PROPERTIES:
+:CUSTOM_ID: 854f0465-e0c8-4dc1-a892-e6588ff2f99e
+:END:
+#+begin_src src
+  (require 'org-crypt);; org-mode 設定
+  (org-crypt-use-before-save-magic);; 當被加密的部份要存入硬碟時，自動加密回去
+  (setq org-crypt-tag-matcher "secret");; 設定要加密的 tag 標籤為 secret,或其他自定义
+  ;; 避免 secret 這個 tag 被子項目繼承 造成重複加密
+  ;; (但是子項目還是會被加密喔)
+  (setq org-tags-exclude-from-inheritance (quote ("secret")))
+  ;; 用於加密的 GPG 金鑰
+  ;; 可以設定任何 ID 或是設成 nil 來使用對稱式加密 (symmetric encryption)
+  ;; nil:需要手动输入密码
+  ;; ID: gpg的id
+  (setq org-crypt-key nil)
+#+end_src
+**** 進行加/解密
+:PROPERTIES:
+:CUSTOM_ID: 786e942d-950a-4378-8c4f-b67fa572176b
+:END:
+***** 加密項目
+:PROPERTIES:
+:CUSTOM_ID: 59a99ddc-f1f4-4964-84d9-afab911da57e
+:END:
+- 如果是按照上面的設定，你只要對一個項目設定他的 TAGS 為 secret(上面配置设置的) ，
+- 這樣在進行儲存檔案时，emacs就會自動幫你進行加密了。
+***** 解密項目
+:PROPERTIES:
+:CUSTOM_ID: 81dc45a4-5330-4938-9a73-fece0c4ca9f2
+:END:
+如果某天你想要觀看被加密的項目，你將游標移動到該項目上，並在你的 emacs 中，輸入
+#+begin_src org
+  M-x org-decrpt-entry
+#+end_src
+這樣就可以解密了。 (當然存檔時還是會被加密)
+***** 移除加密設定
+:PROPERTIES:
+:CUSTOM_ID: b9ff0636-3cec-4e7f-82a1-7c5c890d9efb
+:END:
+- 移除加密的設定非常簡單，你只需要將 secret 這個 TAGS 拿掉就好了，這樣該項目就不會在儲存時被加密。
+** GPG v1 versus GPG v2
+:PROPERTIES:
+:CUSTOM_ID: d56c1336-f0b7-4af6-822c-26d6baafa51d
+:END:
+#+begin_example
+若你使用EasyPG时发生错误,告诉你找不到gpg程序,那通常是因为你安装的是第二版的GPG,
+它的文件名是gpg2. 你可以设置一下 epg-gpg-program 的值:
+#+end_example
+#+begin_src ORG
+  (setq epg-gpg-program "gpg2")
+#+end_src
+
+* 源码编译安装emacs
+:PROPERTIES:
+:CUSTOM_ID: b6d9f46c-1a64-495b-ba96-7c70e166913c
+:END:
+#+begin_src  sh
+   Arch Linux：
+   安装依赖：
+           sudo pacman -S \
+           base-devel \
+           gtk3 \
+           imagemagick \
+           libgccjit \
+           jansson \
+           tree-sitter \
+           gnutls \
+           libxml2
+   编译：
+       ./autogen.sh
+       
+       ./configure \
+       --with-imagemagick \
+       --with-native-compilation \
+       --with-tree-sitter \
+       --with-json \
+       --with-mailutils
+
+    make -j$(nproc)
+    sudo make install
+
+  验证imagemagick支持否：
+  M-:                                      <-  alt+冒号后再输入以下语句 回车
+   (image-type-available-p 'imagemagick)
+  返回：
+   t
+#+end_src

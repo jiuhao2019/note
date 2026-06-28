@@ -1,0 +1,48 @@
+:PROPERTIES:
+:ID:       1611e850-6529-403c-b721-28db64fa767e
+:END:
+#+title: 2026-05-16
+* <2026-05-16 20:55>
+:PROPERTIES:
+:CUSTOM_ID: ec6b6a16-13db-478e-916a-9fbcdfd53a66
+:END:
+* stm32f1的hal库 flash解锁
+:PROPERTIES:
+:CUSTOM_ID: 7cc02e15-d64d-4a78-ac33-fa1dfd8ffceb
+:END:
+** 给哪个page上锁
+:PROPERTIES:
+:CUSTOM_ID: 780982d4-54a0-45c3-8e1a-b5fc11215ba2
+:END:
+#+begin_example
+ob.OptionType   = OPTIONBYTE_WRP;
+ob.WRPState     = OB_WRPSTATE_DISABLE;
+ob.WRPPage      = 0x00000001;
+if(HAL_FLASHEx_OBProgram(&OptionsBytesStruct) != HAL_OK)
+#+end_example
+注意： WRState = disable
+跟着的 WRPPage = xxx       <- 1 是解锁(disable)
+** 如下读哪个是否锁定则也是1
+:PROPERTIES:
+:CUSTOM_ID: 6b6e881d-11f3-4f31-91d5-58099458af14
+:END:
+#+begin_src  C
+uint8_t flash_is_write_protected(void)
+{
+    FLASH_OBProgramInitTypeDef ob;
+
+    HAL_FLASH_Unlock();
+    HAL_FLASH_OB_Unlock();
+
+    HAL_FLASHEx_OBGetConfig(&ob);
+
+    HAL_FLASH_OB_Lock();
+    HAL_FLASH_Lock();
+    if (ob.WRPPage != 0xffffffff)
+    {
+        return 1;   // 有区域被写保护
+    }
+
+    return 0;       // 无写保护
+}
+#+end_src

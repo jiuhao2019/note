@@ -1,0 +1,40 @@
+:PROPERTIES:
+:ID:       e8b822aa-3487-4fae-9db3-5c82c6221629
+:END:
+#+title: iap
+#+date: [2026-05-13 Wed 18:17]
+* 这是 STM32 iap功能很常见的布局： :iap:
+:PROPERTIES:
+:CUSTOM_ID: 13119a7c-cc29-4215-a92b-1080ffbade76
+:END:
+
+| Bootloader | APP | EEPROM模拟区 |
+#+begin_example
+例如 STM32F103：
+
+0x08000000 ----------------
+             Bootloader
+0x08004000 ----------------
+             APP
+0x0801F800 ----------------
+             EEPROM PAGE0
+0x0801FC00 ----------------
+             EEPROM PAGE1
+0x08020000 ----------------
+
+
+Bootloader 和 APP 都访问最后两个 page，完全没问题。
+关键是：
+
+两边都要使用同一套地址定义
+不要把 EEPROM 区放进代码链接区域
+擦除时不能误擦
+#+end_example
+* stm32的app起始地址须对齐
+:PROPERTIES:
+:CUSTOM_ID: d22d2f76-4d2f-44aa-9b94-311ca3916581
+:END:
+#+begin_example
+内部flash的page size是1k的则须按1k对齐
+           2k的则须按2k对齐
+#+end_example

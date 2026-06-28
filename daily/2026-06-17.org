@@ -1,0 +1,67 @@
+:PROPERTIES:
+:ID:       cf8e1717-5dfb-420e-bd3e-374364debf43
+:END:
+#+title: 2026-06-17
+* <2026-06-17 09:24>
+:PROPERTIES:
+:CUSTOM_ID: 2dc3606d-528e-4a41-bf3a-cd9669a121e2
+:END:
+
+* FINISHED 复位延时取消，否则在复位时显示一次超时
+<<<<<<< Updated upstream
+CLOSED: [2026-06-23 Tue 08:27]
+=======
+CLOSED: [2026-06-18 Thu 08:26]
+>>>>>>> Stashed changes
+:PROPERTIES:
+:CUSTOM_ID: a24bf5b1-ffa1-424b-b034-5b8fe21e02fd
+:END:
+:LOGBOOK:
+<<<<<<< Updated upstream
+- State "FINISHED"   from "TODO"       [2026-06-23 Tue 08:27]
+=======
+- State "FINISHED"   from "TODO"       [2026-06-18 Thu 08:26] \\
+  姚工主板跟显示屏通信延时缩短
+>>>>>>> Stashed changes
+:END:
+
+* FINISHED 压饼压力调试，改为1 ~ 10 档，兼容旧协议，默认刚刚能压饼的压力
+CLOSED: [2026-06-17 Wed 12:41]
+:PROPERTIES:
+:CUSTOM_ID: db6f6ff5-39d8-449a-a3ad-6deeaae15e35
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-17 Wed 12:41]
+:END:
+
+* FINISHED 磨豆的每个动作都 有运行结果，以便上层判断
+CLOSED: [2026-06-17 Wed 12:45]
+:PROPERTIES:
+:CUSTOM_ID: 4157e6e9-e8b6-4864-b0ab-543148bc5e4c
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-17 Wed 12:45]
+:END:
+
+* <2026-06-17 14:10>
+:PROPERTIES:
+:CUSTOM_ID: 469132e6-da64-42d4-9979-19100351c1cd
+:END:
+
+<<<<<<< Updated upstream
+* FINISHED 当前动作正在执行，则重复命令忽略，只响应
+CLOSED: [2026-06-23 Tue 08:26]
+=======
+* FINISHED 当前动作正在执行，则重复命令忽略，只响应 :冲泡器模块:
+CLOSED: [2026-06-18 Thu 08:27]
+>>>>>>> Stashed changes
+:PROPERTIES:
+:CUSTOM_ID: 663c81ca-18ec-4451-a058-e6867a0644b7
+:END:
+:LOGBOOK:
+<<<<<<< Updated upstream
+- State "FINISHED"   from "TODO"       [2026-06-23 Tue 08:26]
+=======
+- State "FINISHED"   from "TODO"       [2026-06-18 Thu 08:27]
+>>>>>>> Stashed changes
+:END:

@@ -1,0 +1,156 @@
+:PROPERTIES:
+:ID:       5f4239e5-5487-4a45-afc8-b6a5d8c1002f
+:END:
+#+title: windows
+#+date: [2026-05-26 Tue 02:00]
+* 禁用win10自动更新
+:PROPERTIES:
+:CUSTOM_ID: 294c688c-f616-438d-ba3e-13971bdc2cb0
+:END:
+#+begin_example
+- gpedit.msc
+- 计算机配置 -> 管理模板 -> windows组件 -> windows更新
+  禁用：
+  - 允许按流量计费的连接下载更新
+  - 配置自动更新
+  启用：
+  - 删除使用所有windwos更新功能的访问权限
+#+end_example
+* powershell使用
+:PROPERTIES:
+:CUSTOM_ID: d0ccaffe-559c-4dfd-98a7-26efab0de7cb
+:END:
+** 无法将 识别为cmdlet
+:PROPERTIES:
+:CUSTOM_ID: 0c0611cc-8200-4d93-a774-6d86ef0ae495
+:END:
+#+begin_example
+系统环境变量未生效（因为软件刚装，重启系统即可）
+#+end_example
+** 安装firefox
+:PROPERTIES:
+:CUSTOM_ID: 932578e2-c39f-429a-9260-ddafc66f855c
+:END:
+#+begin_example
+以管理员身份运行powershell
+下载：Invoke-WebRequest 'https://download.mozilla.org/?product=firefox-latest&os=win64&lang=en-US' -OutFile $Download
+安装： Invoke-Expression "$Download /S"
+#+end_example
+** 安装choco
+:PROPERTIES:
+:CUSTOM_ID: e835cbf7-7138-4849-85c6-baf0d9896a5a
+:END:
+#+begin_src 
+- Set-ExecutionPolicy AllSigned
+- Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+#+end_src
+** 常用cmd
+:PROPERTIES:
+:CUSTOM_ID: aed4eaba-e512-4dc8-b5a8-d6da98f0f887
+:END:
+*** 入门级别
+:PROPERTIES:
+:CUSTOM_ID: e9cd7032-61cc-4483-a793-7220fa33ebfc
+:END:
+#+begin_example
+1. 像文件系统那样操作Windows Registry——cd hkcu:
+2. 在文件里递回地搜索某个字符串——dir –r | select string "searchforthis" 
+3. 使用内存找到五个进程——ps | sort –p ws | select –last 5
+4. 循环（停止，然后重启）一个服务，如DHCP——Restart-Service DHCP
+5. 在文件夹里列出所有条目——Get-ChildItem – Force
+6. 递归一系列的目录或文件夹——Get-ChildItem –Force c:\directory –Recurse
+7. 在目录里移除所有文件而不需要单个移除——Remove-Item C:\tobedeleted –Recurse
+8. 重启当前计算机——(Get-WmiObject -Class Win32_OperatingSystem -ComputerName .).Win32Shutdown(2)
+#+end_example
+*** 收集信息
+:PROPERTIES:
+:CUSTOM_ID: de500777-a1e9-4104-9159-8b645e18fd5d
+:END:
+#+begin_example
+9. 获取计算机组成或模型信息——Get-WmiObject -Class Win32_ComputerSystem
+10. 获取当前计算机的BIOS信息——Get-WmiObject -Class Win32_BIOS -ComputerName .
+11. 列出所安装的修复程序（如QFE或Windows Update文件）——Get-WmiObject -Class Win32_QuickFixEngineering -ComputerName .
+12. 获取当前登录计算机的用户的用户名—— Get-WmiObject -Class Win32_ComputerSystem -Property UserName -ComputerName .
+13. 获取当前计算机所安装的应用的名字——Get-WmiObject -Class Win32_Product -ComputerName . | Format-Wide -Column 1
+14. 获取分配给当前计算机的IP地址——Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName . | Format-Table -Property IPAddress
+15. 获取当前机器详细的IP配置报道——Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName . | Select-Object -Property [a-z]* -ExcludeProperty IPX*,WINS*
+16. 找到当前计算机上使用DHCP启用的网络卡——Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter "DHCPEnabled=true" -ComputerName .
+17. 在当前计算机上的所有网络适配器上启用DHCP——Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process {$_.EnableDHCP()}
+#+end_example
+*** 软件管理
+:PROPERTIES:
+:CUSTOM_ID: ad7599fd-1f15-4a0f-ac1f-ec6a54599839
+:END:
+#+begin_example
+18. 在远程计算机上安装MSI包——(Get-WMIObject -ComputerName TARGETMACHINE -List | Where-Object -FilterScript {$_.Name -eq "Win32_Product"}).Install(\MACHINEWHEREMSIRESIDES\path\package.msi)
+19. 使用基于MSI的应用升级包升级所安装的应用——(Get-WmiObject -Class Win32_Product -ComputerName . -Filter "Name='name_of_app_to_be_upgraded'").Upgrade(\MACHINEWHEREMSIRESIDES\path\upgrade_package.msi)
+20. 从当前计算机移除MSI包——(Get-WmiObject -Class Win32_Product -Filter "Name='product_to_remove'" -ComputerName . ).Uninstall()
+#+end_example
+*** 机器管理
+:PROPERTIES:
+:CUSTOM_ID: 0a442cf6-6dc2-48fb-ae79-92f4d9462f05
+:END:
+#+begin_example
+21. 一分钟后远程关闭另一台机器——Start-Sleep 60; Restart-Computer –Force –ComputerName TARGETMACHINE
+22. 添加打印机——(New-Object -ComObject WScript.Network).AddWindowsPrinterConnection(\printerserver\hplaser3)
+23. 移除打印机——(New-Object -ComObject WScript.Network).RemovePrinterConnection("\printerserver\hplaser3 ")
+24. 进入PowerShell会话——invoke-command -computername machine1, machine2 -filepath c:\Script\script.ps1
+#+end_example
+** 新建文件
+:PROPERTIES:
+:CUSTOM_ID: f29c057f-801a-488a-ab01-1344e0d14d64
+:END:
+*** 使用 New-Item 通过 Windows PowerShell 创建新的文本文件
+:PROPERTIES:
+:CUSTOM_ID: ff21abdc-4da3-46dd-aeb0-2ed3c83e98ae
+:END:
+#+begin_example
+New-Item -Path "C:\New\" -Name "testfile1.txt" -ItemType File
+它创建一个空文本文件。你可以使用 -Value 参数将一些内容放入新文件中。
+New-Item -Path "C:\New\" -Name "testfile2.txt" -ItemType File -Value "Hello World"
+Get-Content cmdlet 用于获取指定路径中文件的内容。
+Get-Content -Path C:\New\testfile2.txt
+输出： Hello World
+#+end_example
+*** 使用 ni 命令通过 Windows PowerShell 创建新的文本文件
+:PROPERTIES:
+:CUSTOM_ID: 6545a1e7-9743-43ee-93e4-89bb97b92355
+:END:
+#+begin_src 
+ni -Path "C:\New\" -Name "testfile3.txt" -ItemType File
+#+end_src
+*** 使用 fsutil 通过 Windows PowerShell 创建新的文本文件
+:PROPERTIES:
+:CUSTOM_ID: 7fa51c97-d4d9-4ed8-bdbf-cbf77fd71662
+:END:
+#+begin_example
+fsutil 是一个强大的命令，可以执行不同的任务，包括从命令行创建新文件。它允许你创建具有特定大小的新文件。
+例如，以下命令在当前目录中创建一个名为 testfile4.txt 的新文件，大小为 10000 字节，即 10KB。
+fsutil file createnew testfile4.txt 10000
+#+end_example
+*** 使用 echo 命令通过 Windows PowerShell 创建新的文本文件
+:PROPERTIES:
+:CUSTOM_ID: 4db0fea4-1b74-4ca1-a9b8-be825df4d7d1
+:END:
+#+begin_src 
+echo "PowerShell Tutorial" > testfile5.txt
+#+end_src
+*** 使用文本编辑器通过 Windows PowerShell 创建新的文本文件
+:PROPERTIES:
+:CUSTOM_ID: e6f7157f-7bd5-4ab6-bb84-11fb518c8b97
+:END:
+#+begin_example
+例如 nano、notepad、vim、emacs 等。
+notepad testfile6.txt
+#+end_example
+* 关闭System Guard 
+:PROPERTIES:
+:CUSTOM_ID: 086b7e75-0758-4346-83db-0946925c1394
+:END:
+#+begin_example
+1. Win+r    regedit.exe 
+2. 进注册表HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SgrmBroker路径把delayedAutoStart参数改成“3“变成手动模式，start参数也改成3，重启电脑进服务看就是手动模式，不再是自动延迟模式了。
+3. 网上基本都是这种说法，有部分人好使有部分人就不好使，我改成3之后，重启system guard运行时监视器服务依然在运行；
+4. 注册表参数意思：2-->自动；3-->手动；4--禁用；
+5. 我将注册表的delayedAutoStart和start 改为4，重启就好使了；
+#+end_example

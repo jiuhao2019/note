@@ -1,0 +1,824 @@
+:PROPERTIES:
+:ID:       ec9e7eb1-a66c-47dc-9741-4f93ff026580
+:END:
+#+title: org
+#+date: [2026-05-02 Sat 13:25]
+* 光标放在在代码区域， c-c   c-c即可运行
+:PROPERTIES:
+:CUSTOM_ID: 92d8976f-9d97-46a5-a2f2-7aab1890653f
+:END:
+* 文本标记
+:PROPERTIES:
+:CUSTOM_ID: ef02e534-8b7f-4cd4-a66b-2a3c6b208b7c
+:END:
+** 标记
+:PROPERTIES:
+:CUSTOM_ID: 98ba2e17-3c77-4e7b-9a29-53dfb6adb38d
+:END:
+   |---------+-------------------------|
+   | *       | a bold object           |
+   |---------+-------------------------|
+   | /       | an italic object        |
+   |---------+-------------------------|
+   | _       | an underline object     |
+   |---------+-------------------------|
+   | =       | a verbatim object       |
+   |---------+-------------------------|
+   | ~       | a code object           |
+   |---------+-------------------------|
+   | +       | a strike-through object |
+   |---------+-------------------------|
+   | 语法     | 效果                     |
+   | ------- | --------------          |
+   | `*abc*` | **粗体**                   |
+   | `/abc/` | *斜体*                     |
+   | `_abc_` | 下划线                   |
+   | `=abc=` | 等宽字体（verbatim）      |
+   | `~abc~` | 代码（code）             |
+   | `+abc+` | 删除线                   |
+
+#+begin_example
+举例：ijk会被加粗，标记符号两边要留空格
+abcdefgh *ijk* lmn-end
+#+end_example
+#+begin_example
+Emphasis and Monospace
+You can make words ‘*bold*’, ‘/italic/’, ‘_underlined_’, ‘=verbatim=’ and ‘~code~’,
+ and, if you must, ‘+strike-through+’. Text in the code and verbatim string is not processed for Org specific syntax;
+ it is exported verbatim. Org provides a single command as entry point for inserting the marker character.
+
+ C-c C-x C-f (org-emphasize)
+    Prompt for a marker character and insert or change an emphasis.
+    If there is an active region, change that region to a new emphasis.
+    If there is no region, just insert the marker characters and position the cursor between them.
+#+end_example
+** 首先是给标题加 tag。
+:PROPERTIES:
+:CUSTOM_ID: ee2bf4ae-366d-4fc8-8708-5cf57b9591f0
+:END:
+#+begin_example
+在 Org 文件里，直接在标题行末尾写即可，格式是用冒号包起来：
+
+,* TODO 学习 RTOS :work:embedded:
+tag 可以有多个，用 : 分隔。保存后 Org 会自动识别。
+
+如果你不想手敲，光标在标题上按：
+
+C-c C-q：为当前标题设置 tag（最常用）
+
+C-c C-c：在标题行上也能修改 tag
+
+这两个都会弹出补全，很顺手。
+#+end_example
+** 第二是设置全局可选的 tag 列表（强烈推荐）。
+:PROPERTIES:
+:CUSTOM_ID: 112a15bd-75e9-4076-98c3-1fe68082412b
+:END:
+#+begin_example
+在 Org 文件头部加：
+
+,#+TAGS: work(w) home(h) embedded(e) linux(l) note(n)
+括号里的字母是快速键，之后 C-c C-q 时直接按对应字母就行。
+你如果是长期写嵌入式 / Linux / RTOS 的，这种方式效率最高。
+
+如果你希望所有 Org 文件都共享一套 tag，放到配置里：
+
+(setq org-tag-alist
+      '((:startgroup)
+        ("work" . ?w)
+        ("home" . ?h)
+        ("embedded" . ?e)
+        ("linux" . ?l)
+        (:endgroup)
+        ("note" . ?n)))
+:startgroup / :endgroup 表示互斥组，比如 work 和 home 只能选一个。
+#+end_example
+** 第三是按 tag 搜索和视图。
+:PROPERTIES:
+:CUSTOM_ID: d323f8f7-b389-4e48-b845-04c733539180
+:END:
+#+begin_example
+这是 tag 真正好用的地方：
+
+C-c / m：按 tag 搜索（match）
+
+C-c a m：在 agenda 里按 tag 查询
+
+比如只看嵌入式相关任务：
+
+embedded
+看“工作 + Linux”：
+
+work+linux
+排除某个 tag：
+
+work-linux
+#+end_example
+** 第四是继承关系（容易踩坑）。
+:PROPERTIES:
+:CUSTOM_ID: 3ba80c90-1414-4df9-872a-ec7521dd46e8
+:END:
+#+begin_example
+Org 默认是：子标题会继承父标题的 tag。
+如果你不想继承，在配置里关掉：
+
+(setq org-use-tag-inheritance nil)
+或者只让某些 tag 不继承：
+
+(setq org-tags-exclude-from-inheritance '("work" "home"))
+最后给你一个推荐组合（比较适合你这种技术笔记 + TODO）：
+
+文件头 #+TAGS: 定义技术域（embedded / linux / rtos）
+
+标题级 tag 标记场景（work / note / idea）
+
+Agenda 用 tag 做筛选，不靠目录结构
+
+如果你愿意，我可以直接帮你设计一套 适合嵌入式 / Linux 学习的 org tag 体系，包括 TODO workflow 和 agenda 视图，一次配好就不用再折腾。
+#+end_example
+** 在 Emacs 里，Org mode 的 tag 主要有三种常见用法： 文件级 tag、标题级 tag，以及集中管理的 tag 列表。
+:PROPERTIES:
+:CUSTOM_ID: 6993b460-6bd3-4531-9298-6a23a044de96
+:END:
+* 显示图片
+** 先安装imagemagick
+:PROPERTIES:
+:CUSTOM_ID: 943ad9a7-4bab-4c17-9fd0-1c7434aa1a45
+:END:
+** 检查支持imagemagick
+:PROPERTIES:
+:CUSTOM_ID: 42a852fd-57db-4d8f-9688-32bf06059242
+:END:
+#+begin_example
+在 Emacs 中运行以下命令来查看支持的图像类型：
+  alt 加 冒号
+  image-types   回车
+如果输出中包含 imagemagick，说明 Emacs 已启用 ImageMagick 支持。
+#+end_example
+** 设置图片显示的大小
+#+begin_example
+  输入图片路径，如下所示:
+  [[./img/a.jpg]]
+  显示/隐藏图片只需要 C-c C-x C-v
+  也就是 M-x org-toggle-inline-images 就可以了，
+  或者设置 org-startup-with-inline-images, 让启动时就生效图片.
+#+end_example
+#+begin_example
+改变图片显示大小，不改变原图大小:
+在图片链接上面一行增加如下(举例)
+#+end_example
+#+attr_html: :width 180px
+#+attr_org: :width 100
+#+attr_org: :width 100px
+#+attr_org: :width 15%
+#+begin_example
+带html的是设置导出的html文件里图片大小，
+带org的是设置在buffer里显示图片的大小。
+#+end_example
+* 支持的代码块 列表如下
+:PROPERTIES:
+:CUSTOM_ID: a6153261-6f1d-4f28-b22c-e167f2e80272
+:END:
+|------------+------------|
+| 语言        | 标识符      |
+|------------+------------|
+| C          | C          |
+|------------+------------|
+| C++        | C++        |
+|------------+------------|
+| CSS        | css        |
+|------------+------------|
+| Emacs Lisp | emacs-lisp |
+|------------+------------|
+| Java       | java       |
+|------------+------------|
+| Javascript | js         |
+|------------+------------|
+| LaTeX      | latex      |
+|------------+------------|
+| Lisp       | lisp       |
+|------------+------------|
+| MATLAB     | matlab     |
+|------------+------------|
+| Org mode   | org        |
+|------------+------------|
+| Perl       | perl       |
+|------------+------------|
+| Python     | python     |
+|------------+------------|
+| shell      | sh         |
+|------------+------------|
+| SQL        | sql        |
+|------------+------------|
+* 不同bock的区别
+:PROPERTIES:
+:CUSTOM_ID: 291005f0-e602-4d58-9217-70b55ce20960
+:END:
+** src
+:PROPERTIES:
+:CUSTOM_ID: 44ccb026-42e3-496f-9659-28f14ecad501
+:END:
+#+begin_example
+显示 / 行为特点：
+等宽字体（通常）
+语法高亮（org-src-fontify-natively）
+可进入专用编辑缓冲区（C-c '）
+支持执行（C-c C-c，babel）
+导出时会按代码块处理（HTML/PDF 都很友好）
+适合：
+C / Python / Shell 等真正的代码
+你这种嵌入式、脚本、配置示例
+👉 这是最“重”的块，功能最多。
+#+end_example
+** quote
+:PROPERTIES:
+:CUSTOM_ID: 86f3315f-e6d3-4da7-b4c7-ae82e501fe1e
+:END:
+#+begin_example
+显示 / 行为特点：
+通常缩进显示
+不做语法高亮
+不可执行
+导出时会变成 <blockquote> 或类似格式
+适合：
+文档引用
+说明性文字
+README 里的大段解释
+👉 强调“这是别人说的 / 被引用的内容”
+#+end_example
+** example
+:PROPERTIES:
+:CUSTOM_ID: 52bb4b9f-2abb-4526-9383-9c3a5dcd10f5
+:END:
+#+begin_example
+显示 / 行为特点：
+等宽字体
+不高亮、不执行
+内容原样保留（空格、符号）
+导出时当作示例显示
+适合：
+命令行输出
+终端示例
+配置文件片段（不想被当代码）
+👉 看起来像代码，但语义上不是代码
+#+end_example
+** verse
+:PROPERTIES:
+:CUSTOM_ID: 5a193cc2-29df-4af7-9e72-231612da7b32
+:END:
+#+begin_example
+特点：
+保留换行和缩进
+偏向“文本排版”
+用得比较少
+#+end_example
+** comment
+:PROPERTIES:
+:CUSTOM_ID: edfcbd2f-25fa-4d84-b6e8-dc0b6b867e25
+:END:
+#+begin_example
+行为特点：
+在 Emacs 里可见
+导出时完全不输出（HTML / PDF / Markdown 都不见）
+不参与任何结构、编号、引用
+不高亮、不执行
+适合：
+临时说明
+TODO / 想法
+写给“未来的自己”的备注
+#+end_example
+** center
+:PROPERTIES:
+:CUSTOM_ID: 45da286a-4fef-4737-9999-f0472b967b0e
+:END:
+#+begin_example
+行为特点：
+在 Emacs 里就会居中显示（取决于主题）
+导出时强制居中（HTML <center> / LaTeX \centering）
+不改变内容语义
+不做代码处理
+适合：
+标题页
+强调性文本
+图片说明、署名、章节引言
+👉 这是给读者看的视觉效果。
+#+end_example
+
+* 关闭org导出html文件里自动加在标题前的数字,关闭html的 toc :导出:
+:PROPERTIES:
+:CUSTOM_ID: e84635f9-2bf8-4a8b-9c48-a59ff3e3f074
+:END:
+#+begin_example
+在 Org 导出 HTML 时，标题前面的 1.1、1.1.1 是 section number。
+关闭方法：
+,#+OPTIONS: num:nil
+
+例如：
+,#+TITLE: test
+,#+OPTIONS: toc:nil num:nil
+这样：
+
+org的TOC仍然保留，但是不生成html的toc
+标题不再自动编号
+
+
+HTML 中不会出现 1.、1.1.
+
+
+如果想全局关闭，可以放到 Emacs 配置：
+(setq org-export-with-section-numbers nil)
+只对当前文件关闭，则使用：
+,#+OPTIONS: num:nil
+#+end_example
+* 关闭org导出html文件里标题 末尾显示tag :导出:
+:PROPERTIES:
+:CUSTOM_ID: 55707786-6216-4686-b1db-74dad7ac3d05
+:END:
+#+begin_src  lisp
+,#OPTIONS: tags:nil
+#+end_src
+* 关闭org导出html文件末尾显示创建日期 :导出:
+:PROPERTIES:
+:CUSTOM_ID: 4a8434ac-69d7-4340-9616-51d8900a6a35
+:END:
+#+begin_src  Lisp
+,#+OPTIONS: date:nil html-postamble:nil
+#+end_src
+* 导出word :导出:
+:PROPERTIES:
+:CUSTOM_ID: a96b6cb6-5e24-460a-8e73-d2ef986d5ddf
+:END:
+#+begin_example
+安装插件ox-pandoc
+然后：
+C-c C-e
+进入导出菜单后选择：
+docx
+即可导出 Word。
+ox-pandoc 优点：
+
+支持 docx
+支持 markdown/gfm/latex/html 等
+保留标题层级较好
+表格兼容性更强
+
+如果要控制 Word 样式，可以使用 reference doc：
+
+pandoc input.org -o out.docx --reference-doc=template.docx
+pandoc input.org -o out.odt --reference-doc=template.odt
+
+先准备一个你喜欢格式的 Word 模板或者odt。
+之后导出的字体、标题、段落样式都会继承模板。
+
+ODT 模板通常比 DOCX 更稳定，因为：
+Pandoc 对 ODT XML 控制较直接
+LibreOffice 对 ODT 原生支持更完整
+尤其 Linux 下中文文档，ODT 往往更省事
+#+end_example
+
+* 导出的docx或odt修改style :导出:
+:PROPERTIES:
+:CUSTOM_ID: 1b88e4b6-9606-4df0-9217-582d3264859f
+:END:
+通常 C-c C-e 导出 docx 有两种路线：
+- Org → ODT → DOCX
+- Org → Pandoc → DOCX（更推荐）
+
+其中真正控制 Word 样式（标题、正文、目录、代码块字体等）的，一般是：
+reference.docx 或 reference.odt
+也就是“模板文件”。
+例如：
+pandoc input.org -o out.docx --reference-doc=template.docx
+如果是 Emacs 里：
+(setq org-pandoc-options      '((reference-doc . "~/template.docx")))
+或者：
+(setq org-pandoc-options-for-docx      '((reference-doc . "~/template.docx")))
+然后：
+(org-pandoc-export-to-docx)
+这样导出的 docx 会继承 template.docx 里的：
+
+Heading 1/2/3
+Normal
+Code
+TOC
+Caption
+字体
+行距
+页边距
+中文字体
+编号样式
+等 Word style。
+
+如果是 org 自带 ODT 导出：
+(setq org-odt-styles-file "~/template.odt")
+它会使用 odt 模板中的 style。
+但注意：
+org-odt 的样式控制较复杂
+中文兼容性一般
+toc 容易变 list
+pandoc 路线通常更稳定
+
+实际最常见方案：
+Org ↓pandoc ↓reference.docx 控制样式 ↓最终 docx
+你甚至可以：
+手工创建一个 Word 文件
+设置好所有样式
+保存为 template.docx
+作为 reference-doc 使用
+这是最简单可靠的方法。
+
+* 大纲相关的快捷键 :快捷键:
+:PROPERTIES:
+:CUSTOM_ID: ff27c5ec-d197-421b-8afd-a943e59b47d7
+:END:
+** 折叠
+:PROPERTIES:
+:CUSTOM_ID: 2e284d27-06fe-44db-8f99-bc58c0b04b7f
+:END:
+| 快捷键 | 说明                                                       |
+| S-TAB | 循环切换 整个文档 的大纲状态（三种状态：折叠，打开下一级，打开全部） |
+| TAB   | 循环切换光标 所在大纲 的状态 （三种状态：折叠，打开下一级，打开全部  |
+** 大纲间移动
+:PROPERTIES:
+:CUSTOM_ID: 180dcd09-6c75-4125-a4b5-58c7e9e41278
+:END:
+| 快捷键     | 说明                     |
+| C-c C-n/p | 下/上一标题               |
+| C-c C-f/b | 下/上一标题（仅限同级标题） |
+| C-c C-u   | 跳到上一级标题            |
+| C-c C-j   | 切换到大纲浏览状态         |
+** 基于大纲的编辑
+:PROPERTIES:
+:CUSTOM_ID: 2ee293e5-c27b-4312-80ad-11ada1bddba9
+:END:
+| 快捷键          | 说明                                        |
+| M-RET          | 插入一个同级标题                              |
+| M-S-RET        | 插入一个同级TODO标题                          |
+| M-LEFT/RIGHT   | 将当前标题升/降级                             |
+| M-S-LEFT/RIGHT | 将子树升/降级                                |
+| M-S-UP/DOWN    | 将子树上/下移                                |
+| C-c *          | 将本行设为标题/正文                           |
+| C-c C-w        | 将子树或区域移动到另一标题处（跨缓冲区）          |
+| C-x n s/w      | 只显示当前子树/返回                           |
+| C-c C-x b      | 在新缓冲区显示当前分支（类似C-x n s)            |
+| C-c /          | 只列出包含搜索结果的大纲，并高亮，支持多种搜索方式 |
+| C-c C-c        | 取消高亮                                    |
+** 列表快捷键
+:PROPERTIES:
+:CUSTOM_ID: 3d852989-90f9-4254-b1cf-b6cc7dd5507f
+:END:
+| 快捷键          | 说明                         |
+| C-c 竖线        | 创建或转换成表格               |
+| 快捷键          | 说明                         |
+| C-c C-c        | 调整表格，不移动光标           |
+| TAB            | 移动到下一区域，必要时新建一行   |
+| S-TAB          | 移动到上一区域                |
+| RET            | 移动到下一行，必要时新建一行     |
+| M-LEFT/RIGHT   | 移动列                       |
+| M-UP/DOWN      | 移动行                       |
+| M-S-LEFT/RIGHT | 删除/插入列                   |
+| M-S-UP/DOWN    | 删除/插入行                   |
+| C-c -          | 添加水平分割线                |
+| C-c RET        | 添加水平分割线并跳到下一行      |
+| C-c ^          | 根据当前列排序，可以选择排序方式 |
+** 脚注
+:PROPERTIES:
+:CUSTOM_ID: 96c60065-03f3-4a06-a84b-d4b3a7252dd8
+:END:
+在 org mode 中，你可以为你的文章添加注脚（footnote）。注脚的格式有两种，一是方括号+数字，二是方括号+fn+名字。
+
+光标移[fn:1]动到插入脚注的位置，快捷键 C-c C-x f，接下来会自动跳转到文章末尾，填写脚注内容（注意：必须要顶格写）：
+
+[1] The link is: http://orgmode.org
+[fn:orghome] The link is: http://orgmode.org
+
+* Footnotes,即脚注
+:PROPERTIES:
+:CUSTOM_ID: 98118f75-b262-40ee-9329-a2b153212e43
+:END:
+#+begin_example
+例如技术文档中：
+
+AGA8-92DC 是天然气物性计算标准[fn:aga8]。
+
+[fn:aga8] American Gas Association Report No.8.
+
+脚注适合放参考资料、补充说明、引用来源等，不会打断正文阅读。
+#+end_example
+** 常用操作：
+:PROPERTIES:
+:CUSTOM_ID: 73fae536-9c45-4a61-b075-1fa2b7558a2c
+:END:
+
+| 操作         | 快捷键                  |
+| 插入/编辑脚注 | C-c C-x f              |
+| 跳转脚注定义  | C-c C-c                |
+| 重新编号脚注  | org-footnote-normalize |
+* lists,即列表
+:PROPERTIES:
+:CUSTOM_ID: def710b5-82b9-46fe-911b-a3a88188364e
+:END:
+- Ordered Lists :: 带数字序号
+- Unordered Lists :: 不带数字序号
+- Description Lists :: Start with -, +, or * and followed by ::
+* Category,即分类，一个属性,CATEGORY 更多用于 Agenda 分类显示和 Clock 时间统计
+:PROPERTIES:
+:CUSTOM_ID: 058f8890-a2ed-43b5-bf9f-312e8bbfe537
+:END:
+#+begin_example
+在 Org Mode 中：
+:CATEGORY: 列表
+是一个属性（Property），用于给当前标题（或整个文件）指定分类名称（Category）。
+例如：
+,* TODO 学习数据结构
+  :PROPERTIES:
+  :CATEGORY: 学习
+  :END:
+
+,* TODO 修改驱动
+  :PROPERTIES:
+  :CATEGORY: 工作
+  :END:
+
+主要影响：
+Agenda 显示
+在 Agenda 中可以显示分类名：
+Today:
+  学习:     TODO 学习数据结构
+  工作:     TODO 修改驱动
+分类名通常显示在任务前面。
+
+日志和时间统计
+Clock Report、日志记录等功能中，可以按 Category 汇总：
+Category    Time
+----------------
+学习        2:30
+工作        1:45
+Agenda 过滤
+可以按 Category 过滤任务：
+(org-agenda-filter-by-category "学习")
+导出或 Lisp 代码处理
+很多 Org API 会读取 CATEGORY 属性进行分类统计。
+如果没有设置 CATEGORY：
+,#+CATEGORY: 学习
+则整个文件默认使用这个分类。
+如果文件和标题都没设置，则默认使用文件名作为 Category。
+例如：
+notes.org
+Agenda 中可能显示：
+notes: TODO ...
+所以 :CATEGORY: 本身不会改变标题显示效果，也不会影响折叠、排序等，主要是给 Agenda、Clock、统计报表等功能提供一个“分类标签”。
+#+end_example
+* 导出为指定格式(字体, 字号, 颜色)的word文档
+:PROPERTIES:
+:CUSTOM_ID: 76e89904-04c6-427d-8fc5-11326809cfd9
+:END:
+
+** 核心概念: 引用文档(Reference Doc)
+:PROPERTIES:
+:CUSTOM_ID: 9c532c18-5571-4ab9-8856-e194c5c8bdf8
+:END:
+Org Mode 导出 Word 文档的秘密武器是 Pandoc. Pandoc 在转换 Markdown/Org 文件到 DOCX 时, 不会凭空想象样式, 而是会参照一个现有的 Word 文档作为模板. 这个模板就是所谓的" 引用文档" . 你在这个模板里设置好" 正文" , "标题1" , " 代码块" 等样式的字体, 字号, 颜色等, Pandoc 就会把这些样式应用到最终导出的 Word 文档中.
+
+** 第一步: 创建并定制你的引用文档
+:PROPERTIES:
+:CUSTOM_ID: bc00caf7-b11f-483d-8304-ab8fc2d3ebba
+:END:
+#+begin_example
+生成一个默认模板: 如果你手头没有现成的 Word 模板, 可以先让 Pandoc 生成一个默认的. 打开终端, 输入:
+
+pandoc -o my-template.docx --print-default-data-file reference.docx
+这会在当前目录生成一个名为 my-template.docx 的文件.
+
+用 Word 软件编辑 my-template.docx: 用 Microsoft Word 或 LibreOffice Writer 打开 my-template.docx.
+
+核心操作: 修改" 样式" ! 在 Word 的" 主页" 选项卡下, 找到" 样式" 窗格. Pandoc 导出的内容会映射到这里已有的样式.
+正文: 找到并右键点击 "Normal" 或 "Body Text" 样式, 选择" 修改..." . 在这里设置你希望的默认字体(如微软雅黑, 思源宋体), 字号(如小四, 10.5pt), 颜色和段落间距.
+标题: 找到并修改 "Heading 1" , "Heading 2" 等样式, 设置各级标题的字体, 字号和颜色.
+代码块: 找到并修改 **"Code" ** 或 "Source Code" 样式(通常是等宽字体), 设置代码的字体和字号.
+其他如列表, 引用块等, Pandoc 也有对应的默认样式名.
+务必保存: 修改完成后, 确保保存 my-template.docx 文件.
+第二步: 在 Emacs Org Mode 中配置导出
+推荐使用 Emacs 的 ox-pandoc 包, 它能让 Org Mode 无缝调用 Pandoc 进行导出.
+
+安装 ox-pandoc: 如果尚未安装, 通过 MELPA 安装: M-x package-install RET ox-pandoc RET.
+
+全局设置: 在 Emacs 配置中指定引用文档路径: 在你的 Emacs 配置文件(如 ~/.emacs.d/init.el)中加入:
+
+(require 'ox-pandoc)
+(setq org-pandoc-options
+      '((docx . ((standalone . t)
+                 ("reference-doc" . "/path/to/your/my-template.docx")))))
+请将 "/path/to/your/my-template.docx" 替换为你实际的 my-template.docx 文件路径.
+
+逐个文件设置:直接在 Org 文件头部指定(更灵活): 如果只想为某个特定的 Org 文件使用自定义模板, 可以在 Org 文件开头添加 PANDOC_OPTIONS 选项:
+
+,#+TITLE: 我的定制文档
+,#+AUTHOR: 你的名字
+,#+PANDOC_OPTIONS: reference-doc:/path/to/your/my-template.docx
+这种方式下, ox-pandoc 会自动读取并使用这个引用文档.
+
+第三步: 导出你的 Word 文档
+在 Org 文件中, 执行标准的导出命令:
+
+C-c C-e (或 M-x org-export-dispatch)
+选择 p (for Pandoc)
+选择 X 生成docx文档
+ox-pandoc 会自动调用 Pandoc, 并使用指定的 my-template.docx 来生成带有你自定义字号和字体的 Word 文档.
+
+遇到问题了? 如何调试
+如果导出后格式仍然不对, 最常见的问题是 my-template.docx 内部的样式设置有问题.
+
+打开 my-template.docx 并手动测试样式:
+
+在 Word 中, 输入一些文本, 然后尝试手动将这些文本应用你修改过的样式(例如, 选中一段文字, 点击" 样式" 窗格中的" Normal" ).
+如果手动应用后, 字体和颜色仍然不生效, 那说明你保存的 my-template.docx 文件本身有问题, 或者你修改的不是正确的样式. 请仔细检查并确保保存.
+检查 Pandoc 日志: 你之前在 Emacs *Message* 缓冲区看到的 Pandoc 命令参数(例如 pandoc ... --reference-doc=/Users/.../my-template.docx ...)很重要. 这表明 Pandoc 确实接收到了引用文档参数. 如果格式未生效, 问题极大概率出在 my-template.docx 文件内部, 而不是 Pandoc 命令.
+
+通过以上步骤, 就能让 Org Mode 导出的 Word 文档拥有想要的专业外观了!
+#+end_example
+
+* Org Agenda 支持同时按 TODO 状态 和 Tag 过滤
+:PROPERTIES:
+:CUSTOM_ID: 7822e0f5-7108-4c43-bc70-95a2a5e8b42d
+:END:
+- 例如：
+
+#+begin_example
+,* TODO 写驱动         :work:
+,* DONE 修复bug        :work:
+,* TODO 学习Linux      :study:
+,* NEXT 完成文档       :work:
+#+end_example
+- 在 agenda 自定义搜索
+#+begin_example
+使用： M-x org-tags-view
+输入： work/TODO
+表示：
+tag 为 work
+TODO 状态为 TODO
+结果只显示：
+#+end_example
+#+begin_example
+,* TODO 写驱动 :work:
+#+end_example
+
+* org归档,一般是TODO完成后，确定不会再维护了，即可archived
+#+begin_example
+在列举的org tag界面 ，默认按键绑定 $ -> org-agenda-archive
+也就是说，$ 并不是删除，而是归档（Archive）。
+org-agenda-archive 的作用是：
+将当前 Agenda 对应的 Org 条目移动到归档位置（通常是 xxx.org_archive 文件，或者你配置的归档位置）。
+原文件中的该条目会被移走，因此 Agenda 会立即刷新，看起来像“删掉了”。
+因此 Agenda 中这一行消失了，但实际上并没有删除，只是移动到了归档文件。
+#+end_example
+** 移动到归档文件是什么意思
+#+begin_example
+“移动到归档文件”在 org-mode 里指的是：把某个 Org 条目从当前 .org 文件中移走，保存到一个专门的归档文件中，而不是删除。
+
+1. 归档文件是什么
+
+默认情况下：
+
+xxx.org          → 当前工作文件
+xxx.org_archive  → 归档文件
+
+归档文件是 Org 用来保存“历史完成/不再需要处理的内容”的地方。
+#+end_example
+** 本质行为
+#+begin_example
+归档 = 移动（move），不是复制，也不是删除：
+
+从当前 buffer 删除该 subtree
+写入 archive 文件
+保留完整内容（包括子任务、属性、LOGBOOK 等）
+#+end_example
+** 为什么 Org 要这样设计
+#+begin_example
+因为 Org 强调“任务生命周期管理”：
+
+TODO：进行中
+DONE：已完成（仍留在原文件）
+ARCHIVE：长期不需要，但保留历史记录
+
+适合：
+项目结束的任务
+已完成但不想污染当前文件的内容
+需要保留审计/记录
+#+end_example
+** 和删除的区别
+       | 操作         | 是否保留 | 是否可恢复 | 作用        |
+       |-------------+---------+----------+------------|
+       | kill/delete | 否      | 否       | 真删        |
+       | done        | 是      | 是       | 状态变化    |
+       | archive     | 是      | 是       | 移到归档文件 |
+** 归档位置可配置
+#+begin_example
+可以改为：
+
+(setq org-archive-location "~/org/archive.org::")
+
+或者按标题分文件、分树等。
+org-archive-location 决定归档的“去向规则”，不仅仅是一个固定文件路径，它还可以控制如何归档（按文件 / 按标题 / 按层级）。
+格式本质是： (setq org-archive-location "PATH::SCOPE")
+#+end_example
+*** 最基础：固定归档文件
+#+begin_example
+(setq org-archive-location "~/org/archive.org::")
+
+含义：
+
+所有归档内容 → archive.org
+:: 后为空 → 使用默认“当前子树归档”
+
+效果：
+
+notes.org        -> archive.org
+#+end_example
+*** 按“当前文件”分文件归档（推荐常见）
+#+begin_example
+(setq org-archive-location "%s_archive.org::")
+
+含义：
+
+%s = 当前 org 文件名
+每个文件有自己的 archive
+
+例子：
+
+project.org        -> project.org_archive
+todo.org           -> todo.org_archive
+#+end_example
+*** 按标题分层归档（子树归档）
+
+#+begin_example
+默认 :: 表示：
+
+:: = 当前条目整个 subtree
+
+也可以指定层级：
+
+(setq org-archive-location "%s_archive.org::* Archived Tasks")
+
+含义：
+
+归档到指定标题 “Archived Tasks” 下面
+所有归档条目集中在一个 heading
+
+归档文件结构：
+#+end_example
+
+*** 按日期/路径分组（更高级）
+
+#+begin_example
+例如按月份：
+
+(setq org-archive-location "%s_archive.org::datetree/")
+
+或：
+
+(setq org-archive-location "%s_archive.org::%s")
+
+不同配置会影响插入位置策略。
+#+end_example
+
+*** 常见组合推荐
+#+begin_example
+(1) 每文件一个 archive（最常用）
+(setq org-archive-location "%s_archive.org::")
+
+优点：
+
+清晰隔离项目
+不会混乱
+(2) 单一 archive 总库
+(setq org-archive-location "~/org/archive.org::")
+
+优点：
+
+统一管理历史记录
+
+缺点：
+
+容易变大
+(3) 集中 + 分类标题
+(setq org-archive-location "~/org/archive.org::* %s")
+#+end_example
+
+** 归档行为本质
+#+begin_example
+无论哪种配置，核心逻辑都是：
+
+从当前 buffer 移除 subtree
+写入 archive file
+保留完整结构（tags/properties/LOGBOOK）
+
+如果你想进一步控制：
+
+不移动，只标记
+归档时压缩 subtree
+自动归档 DONE
+
+可以继续细化配置（org-archive-subtree / org-auto-archive）。
+#+end_example
+

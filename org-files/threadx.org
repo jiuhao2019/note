@@ -1,0 +1,526 @@
+:PROPERTIES:
+:ID:       4ba7bdef-8f31-4edf-9cd9-bc7a007833d3
+:END:
+#+title: threadx
+#+date: [2026-05-03 Sun 09:13]
+
+* 重置线程
+:PROPERTIES:
+:CUSTOM_ID: 5d56f962-ba99-4056-b732-cd2678c228b7
+:END:
+** 当某个线程运行周期任务时，比如水泵开100ms关100ms的间歇供水的任务。
+:PROPERTIES:
+:CUSTOM_ID: c11bc10f-3fdc-48b1-b0d5-dfae95ac5ea9
+:END:
+** 其他线程可以按此步骤来重置该周期线程，
+:PROPERTIES:
+:CUSTOM_ID: bf581d93-db12-4aca-9317-b0aa1bc1ad9f
+:END:
+** 先终止线程
+:PROPERTIES:
+:CUSTOM_ID: 25b01bb7-cb60-4720-803a-d90b99351cba
+:END:
+#+begin_src c
+        tx_ret =  tx_thread_terminate(&obj.threads.pump_ctr);
+        if (tx_ret != TX_SUCCESS)
+        {
+            RTT_RECV_INFO_E("error-> terminate thread result= %d\r\n", tx_ret);
+        }
+        tx_ret = tx_thread_reset(&obj.threads.pump_ctr);
+        if (tx_ret != TX_SUCCESS)
+        {
+            RTT_RECV_INFO_E("error-> reset thread result= %d\r\n", tx_ret);
+        }
+#+end_src
+** 再恢复线程，线程就会从函数体最开始运行，不是while（1）里面,相当于线程刚被创建后运行。
+:PROPERTIES:
+:CUSTOM_ID: 7a9b609e-d6fc-416c-87ff-18e4cab42c7c
+:END:
+#+begin_src 
+        tx_ret = tx_thread_resume(&obj.threads.pump_ctr);
+        if (tx_ret != TX_SUCCESS)
+        {
+            RTT_RECV_INFO_E("error-> reset thread result= %d\r\n", tx_ret);
+        }
+#+end_src
+
+* 系统频率
+:PROPERTIES:
+:CUSTOM_ID: 120f4a6a-4905-4126-95a2-8c5e471be0a1
+:END:
+** 在tx_user.h里
+:PROPERTIES:
+:CUSTOM_ID: f9caf953-67d0-47f9-af6f-56b19e69aa5b
+:END:
+#+begin_example
+#define TX_TIMER_TICKS_PER_SECOND (1000UL)
+#+end_example
+** tx_initialize_low_level.s里
+:PROPERTIES:
+:CUSTOM_ID: dab6a52b-b035-4da9-ae3e-37dad2fee92c
+:END:
+#+begin_example
+SYSTEM_CLOCK      EQU   7200000
+SYSTICK_CYCLES    EQU   ((SYSTEM_CLOCK / 1000) -1)
+#+end_example
+
+
+* 在 ThreadX 中，优先级数值是“越小越高”。
+:PROPERTIES:
+:CUSTOM_ID: cf001380-195f-44d1-9d13-8165cc00bc5d
+:END:
+#+begin_example
+具体规则：
+0 → 最高优先级
+数值越大 → 优先级越低
+
+
+最大值取决于配置（通常 32 / 64 / 256 级）
+
+
+示例：
+
+
+优先级 1 > 优先级 5 > 优先级 10
+
+
+调度行为：
+
+
+高优先级任务会立即抢占低优先级任务（前提是可运行）
+
+
+同优先级任务采用时间片轮转（time-slice）（如果启用）
+
+
+一个典型误区是把它当作 FreeRTOS 用法：
+
+FreeRTOS：数值越大 → 优先级越高
+ThreadX：数值越小 → 优先级越高
+
+
+一般建议：
+实时性强的 AO → 小数字（高优先级）
+后台/日志 → 大数字（低优先级）
+如果需要，可以帮你把 AO 优先级映射做一套合理分配方案。
+#+end_example
+* cubeide移植stm32
+:PROPERTIES:
+:CUSTOM_ID: ef0da58c-76a4-4e68-9371-5ed57962e07f
+:END:
+** 下载 threadx 源码
+:PROPERTIES:
+:CUSTOM_ID: c6aa0195-198a-4243-9681-a60628196b63
+:END:
+#+begin_example
+https://github.com/eclipse-threadx/threadx
+移植所需要的全部文件
+源码解压后的文件夹只留common/和ports/
+因为 stm32l475 使用的内核为 conter-m4，使用的开发环境为 CubeIDE,所以选择 ports 文件的时候选择 cm4 以及 gnu。
+    • common/src 文件夹下所有源文件
+    • common/inc 文件夹下所有头文件
+    • ports/cortex_m4/gnu/src 文件夹下所有源文件
+    • ports/cortex_m4/gnu/inc 文件夹下的所有头文件
+    • ports/cortex_m4/gnu/example_build 文件夹下的 tx_initialize_low_level.S 文件
+以上所列即为移植 threadx 最小系统所需要的全部文件
+如果是其他mcu则找对应的文件夹,比如stm32f103是cm3，则找cortex_m3/文件夹。
+#+end_example
+** 添加源码到工程
+:PROPERTIES:
+:CUSTOM_ID: 0554d4ea-08ae-414b-8854-ad51a019a2f8
+:END:
+#+begin_example
+将上述文件添加到本地工程的文件夹中，
+CubeIDE 会自动将文件的目录结构显示在工程中，如果没有显示，刷新工程即可，
+添加完成之后工程目录如下所示：
+#+end_example
+#+attr_org: :width 95%
+[[../pics/threadx/threadx在cubeide里移植stm32/工程目录结构.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#+begin_example
+工程目录结构和本地资源目录结构是一致的，这里只是修改了工程目录结构，但是源码并不会参与编译，而且头文件路径也没有设置。
+另一种方法添加源码，在cubeide里工程选中再右键，New → Source Folder,这个文件夹会自动显示C标志，然后手动复制源码文件到这个文件夹，这个文件夹里的源码会被cubeide自动添加为参与编译，就不用设置手动添加的源码文件的路径了，否则如果只是复制文件夹到工程里，就要按照如下方法将源码参与编译。
+#+end_example
+** 添加头文件路径
+:PROPERTIES:
+:CUSTOM_ID: 8b9e7f3a-7b7b-4f5e-9ed8-c8e2a461dde7
+:END:
+#+begin_example
+右键工程，选择 Properties 属性，如下图所示
+#+end_example
+#+attr_org: :width 30%
+[[../pics/threadx/threadx在cubeide里移植stm32/工程属性.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 添加汇编文件的头文件路径
+:PROPERTIES:
+:CUSTOM_ID: d6f167cd-d398-40df-a241-ba236971f485
+:END:
+#+attr_org: :width 30%
+[[../pics/threadx/threadx在cubeide里移植stm32/添加汇编头文件路径.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 汇编文件的头文件添加完成之后如下
+:PROPERTIES:
+:CUSTOM_ID: 4880ed8a-c931-433b-b7ee-b80a48bf7133
+:END:
+[[../pics/threadx/threadx在cubeide里移植stm32/添加汇编头文件路径后.png]]
+ 
+ 
+ 
+ 
+** C 文件的头文件路径
+:PROPERTIES:
+:CUSTOM_ID: 4065ebd3-d3d8-45c5-964c-2545cc339398
+:END:
+[[../pics/threadx/threadx在cubeide里移植stm32/添加C头文件路径.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** c 文件头文件路径添加完成之后如下图
+:PROPERTIES:
+:CUSTOM_ID: e103aed4-3db7-4b99-8e98-88057d40bac6
+:END:
+[[../pics/threadx/threadx在cubeide里移植stm32/添加C头文件路径后.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#+begin_example
+汇编和 C 头文件添加完毕之后将设置保存
+#+end_example
+** 将源码参与编译
+:PROPERTIES:
+:CUSTOM_ID: 26c5c990-fb8a-4e47-861d-11b3fe0f0273
+:END:
+[[../pics/threadx/threadx在cubeide里移植stm32/添加参与编译的C文件.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#+begin_example
+添加完成之后 threadx 文件夹会有一个 c 的标志，如下图所示
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/添加参与编译的C文件后.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 编译程序
+:PROPERTIES:
+:CUSTOM_ID: 27a49eb6-a30d-4a90-9009-996e42c9a8b8
+:END:
+#+begin_example
+将 threadx 源码加入工程参与编译后会报错，接下来就一个一个解决报错。
+中断服务函数重定义报错
+ multiple definition of `SysTick_Handler'
+ multiple definition of `PendSV_Handler'
+threadx 系统中会用到这两个中断服务函数，所以需要屏蔽掉 stm32l4xx_it.c 文件中工程自带的这两个中断服务函数。
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/不需要的两个中断函数.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#+begin_example
+另一种方法，也可以在cubeide里设置不自动生成这两个中断的isr函数
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/cubeide里不生成该两个函数.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 中断向量表未定义报错
+:PROPERTIES:
+:CUSTOM_ID: 092c4264-c15a-4ab7-b691-5ee712d4e6a7
+:END:
+#+begin_example
+threadx/ports/cortex_m4/gnu/example_build/tx_initialize_low_level.S:114: undefined reference to `_vectors'
+将 tx_initialize_low_level.S 文件中的 所有_vectors 换为自己的中断向量表，例如本例中 startup_stm32l475vetx.s 启动文件中定义了中断向量表为 g_pfnVectors，将其替换即可。
+设置时钟频率（80Mhz）和时钟节拍（1ms），该值用来初始化Systick定时器： 
+将 tx_initialize_low_level.S 文件中的如下图参数，根据板子实际频率设置
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/设置系统频率.png]]
+ 
+ 
+ 
+** 设置用户配置文件tx_user.h
+:PROPERTIES:
+:CUSTOM_ID: 06199d30-747b-400a-8464-021992700ad6
+:END:
+#+begin_example
+如下的文件名改为tx_user.h
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/设置tx_user.h头文件.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 默认里面参数都是屏蔽掉的，根据实际取消注释，设置对应的宏定义，配置threadx参数。 注意要添加一个宏定义才会使能该文件。如下图
+:PROPERTIES:
+:CUSTOM_ID: 9ec64773-5f09-47fe-98c7-dd07cc2e6cd0
+:END:
+[[../pics/threadx/threadx在cubeide里移植stm32/添加tx_user.h的使能宏.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** __RAM_segment_used_end__ 未定义报错
+:PROPERTIES:
+:CUSTOM_ID: f2791957-7119-448d-bc9f-ce3d7b4a248c
+:END:
+#+begin_example
+undefined reference to `__RAM_segment_used_end__'
+需要在链接脚本中（即后缀.ld的文件）指定未使用的 RAM 地址，所以在链接脚本栈中栈结束的地方指定为 RAM 未使用的地址
+._user_heap_stack :
+{
+    . = ALIGN(8);
+    PROVIDE ( end = . );
+    PROVIDE ( _end = . );
+    . = . + _Min_Heap_Size;
+    . = . + _Min_Stack_Size;
+    . = ALIGN(8);
+    __RAM_segment_used_end__ = .;
+} >RAM
+#+end_example
+[[../pics/threadx/threadx在cubeide里移植stm32/修改ld文件.png]]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+** 至此，编译报错已经全部解决
+:PROPERTIES:
+:CUSTOM_ID: f9ef1077-7a9b-46e0-9cda-c9b8ea859889
+:END:
+#+begin_src  c
+  启动操作系统内核
+  main.c 文件中包含 threadx 系统头文件 tx_api.h ，并在 while(1) 之前调用 tx_kernel_enter() 函数，此时会报错
+  undefined reference to `tx_application_define'
+
+  所以需要自己定义 tx_application_define 这个函数，并在这个函数中启动一个线程来进行 LED 的闪烁，void tx_application_define(void *first_unused_memory)是threadx的入口函数，示例代码如下：
+  TX_THREAD                               demo_thread;
+  #define DEMO_STACK_SIZE         1024
+  static uint8_t thread_stack[DEMO_STACK_SIZE];
+
+  void demo_thread_entry(ULONG thread_input)
+  {
+      /* This thread simply sits in while-forever-sleep loop.  */
+      while(1)
+      {
+                  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);
+                  tx_thread_sleep(1000);
+                  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
+                  tx_thread_sleep(1000);
+      }
+  }
+  void tx_application_define(void *first_unused_memory)
+  {
+      /* Create the main thread.  */
+      tx_thread_create(&demo_thread,
+                                           "demo thread",
+                                           demo_thread_entry,
+                                           0,
+                                           thread_stack,
+                                           DEMO_STACK_SIZE,
+                                           1,
+                                           1,
+                                           TX_NO_TIME_SLICE,
+                                           TX_AUTO_START);
+  }
+  编译下载，可以看到 LED 已经成功的闪烁，至此，threadx 已经移植成功
+#+end_src
+* 让log能显示high_water_mark
+:PROPERTIES:
+:CUSTOM_ID: dda745a5-9893-47da-b48e-1f2762b9eb8d
+:END:
+** 在tx_user.h文件里解除如下注释
+:PROPERTIES:
+:CUSTOM_ID: 8ca65e06-3182-4d6c-940b-29e76680e1d1
+:END:
+#+begin_src C
+#define TX_ENABLE_STACK_CHECKING
+#+end_src
+
+* event notify回调使用注意
+:PROPERTIES:
+:CUSTOM_ID: 0c4a52d9-90d4-4315-9ae4-19ada7d9d859
+:END:
+#+begin_example
+如果在中断里设置了event，回调函数不会执行，即回调只在线程里设置event时会执行。
+上面说的回调是用tx_event_flags_set_notify(&obj.evt_ov, ov_cb);设置的回调函数。
+#+end_example

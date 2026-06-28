@@ -1,0 +1,182 @@
+* misc
+#+begin_src sh
+  n  <Space>u    * : UndotreeToggle<CR>
+  n  <Space>t    * :TagbarToggle<CR>
+  n  <Space>o    * :call ToggleHeaderSource()<CR>
+  n  <Space>sl   * :call ToggleLocListWindow()<CR>
+  n  <Space>sk   * :call ToggleQuickfixWindow()<CR>
+  n  <Space>ss   * :call SearchCursorWordWithRg()<CR>
+  n  <Space>S    * :call SearchWithRg(input('Search: '))<CR>
+      <Space>zz     :call ToggleFold()<CR>
+  n  <Space>fm   * :Autoformat<CR>
+  n  H           * context#util#map_H()
+  n  zt          * context#util#map_zt()
+  s  <C-R>       * <C-G>"_c<C-R>
+  s  <C-H>       * <C-G>"_c
+  s  <Del>       * <C-G>"_c
+  s  <BS>        * <C-G>"_c
+      <M-n>       *@:call AutoPairsJump()<CR>
+      <M-p>       *@:call AutoPairsToggle()<CR>
+  n  <Esc>       * : nohlsearch<CR>
+#+end_src
+
+** vim注释位置跳转
+#+begin_src sh
+  v  ["          *@:<C-U>exe "normal! gv"|call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")<CR>
+  n  ["          *@:call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")<CR>
+  v  ]"          *@:<C-U>exe "normal! gv"|call search('\%(^\s*".*\n\)\@<!\%(^\s*"\)', "W")<CR>
+  n  ]"          *@:call search('\%(^\s*".*\n\)\@<!\%(^\s*"\)', "W")<CR>
+#+end_src
+
+** 块跳转
+#+begin_src sh
+  v  []          *@m':<C-U>exe "normal! gv"|call search('^\s*end\(f\%[unction]\|\(export\s\+\)\?def\)\>', "bW")<CR>
+  n  []          *@m':call search('^\s*end\(f\%[unction]\|\(export\s\+\)\?def\)\>', "bW")<CR>
+  v  [[          *@m':<C-U>exe "normal! gv"|call search('^\s*\(fu\%[nction]\|\(export\s\+\)\?def\)\>', "bW")<CR>
+  n  [[          *@m':call search('^\s*\(fu\%[nction]\|\(export\s\+\)\?def\)\>', "bW")<CR>
+  v  ][          *@m':<C-U>exe "normal! gv"|call search('^\s*end\(f\%[unction]\|\(export\s\+\)\?def\)\>', "W")<CR>
+  n  ][          *@m':call search('^\s*end\(f\%[unction]\|\(export\s\+\)\?def\)\>', "W")<CR>
+  v  ]]          *@m':<C-U>exe "normal! gv"|call search('^\s*\(fu\%[nction]\|\(export\s\+\)\?def\)\>', "W")<CR>
+  n  ]]          *@m':call search('^\s*\(fu\%[nction]\|\(export\s\+\)\?def\)\>', "W")<CR>
+#+end_src
+|---------+-------------------+----------------|
+| 按键组合 | 动作              | 起点/终点       |
+|---------+-------------------+----------------|
+| [[      | 跳到上一段的起始位置 | 段落或函数的开头 |
+|---------+-------------------+----------------|
+| ]]      | 跳到下一段的起始位置 | 段落或函数的开头 |
+|---------+-------------------+----------------|
+| []      | 跳到上一段的结束位置 | 段落或函数的结尾 |
+|---------+-------------------+----------------|
+| ][      | 跳到下一段的结束位置 | 段落或函数的结尾 |
+|---------+-------------------+----------------|
+
+* 打开常用的几个配置文件
+n  <Space>4    * : e ~/.emacs.d/init.el<CR>
+n  <Space>3    * : e ~/.config/i3/config<CR>
+n  <Space>2    * : e ~/.config/wezterm/font.lua<CR>
+n  <Space>1    * : e ~/.vimrc<CR>
+
+* nerdcommenter
+#+begin_src sh 
+  n  <Space>ca     <Plug>NERDCommenterAltDelims
+  x  <Space>cu     <Plug>NERDCommenterUncomment
+  n  <Space>cu     <Plug>NERDCommenterUncomment
+  x  <Space>cb     <Plug>NERDCommenterAlignBoth
+  n  <Space>cb     <Plug>NERDCommenterAlignBoth
+  x  <Space>cl     <Plug>NERDCommenterAlignLeft
+  n  <Space>cl     <Plug>NERDCommenterAlignLeft
+  n  <Space>cA     <Plug>NERDCommenterAppend
+  x  <Space>cy     <Plug>NERDCommenterYank
+  n  <Space>cy     <Plug>NERDCommenterYank
+  x  <Space>cs     <Plug>NERDCommenterSexy
+  n  <Space>cs     <Plug>NERDCommenterSexy
+  x  <Space>ci     <Plug>NERDCommenterInvert
+  n  <Space>ci     <Plug>NERDCommenterInvert
+  n  <Space>c$     <Plug>NERDCommenterToEOL
+  x  <Space>cn     <Plug>NERDCommenterNested
+  n  <Space>cn     <Plug>NERDCommenterNested
+  x  <Space>cm     <Plug>NERDCommenterMinimal
+  n  <Space>cm     <Plug>NERDCommenterMinimal
+  x  <Space>c<Space>   <Plug>NERDCommenterToggle
+  n  <Space>c<Space>   <Plug>NERDCommenterToggle
+  x  <Space>cc     <Plug>NERDCommenterComment
+  n  <Space>cc     <Plug>NERDCommenterComment
+#+end_src
+
+* bookmarks
+n  <Space>mg     <Plug>BookmarkMoveToLine
+n  <Space>mj     <Plug>BookmarkMoveDown
+n  <Space>mk     <Plug>BookmarkMoveUp
+n  <Space>mx     <Plug>BookmarkClearAll
+n  <Space>mc     <Plug>BookmarkClear
+n  <Space>mp     <Plug>BookmarkPrev
+n  <Space>mn     <Plug>BookmarkNext
+n  <Space>ma     <Plug>BookmarkShowAll
+n  <Space>mi     <Plug>BookmarkAnnotate
+n  <Space>mm     <Plug>BookmarkToggle
+
+* highlighter
+#+begin_src sh
+  x  f<Tab>      * :<C-U><C-R>=highlighter#Find("/x")<CR>
+  n  f<Tab>      * :<C-U><C-R>=highlighter#Find("/")<CR>
+  n  f<C-L>      * :<C-U>if highlighter#Command("clear") | noh | endif<CR>
+  x  f<BS>       * :<C-U>if highlighter#Command("-x") | noh | endif<CR>
+  n  f<BS>       * :<C-U>if highlighter#Command("-") | noh | endif<CR>
+  x  f<CR>       * :<C-U>if highlighter#Command("+x") | noh | endif<CR>
+  n  f<CR>       * :<C-U>if highlighter#Command("+") | noh | endif<CR>
+  x  t<CR>       * :<C-U>if highlighter#Command("+x%") | noh | endif<CR>
+  n  t<CR>       * :<C-U>if highlighter#Command("+%") | noh | endif<CR>
+#+end_src
+
+* ycm
+n  <Plug>(YCMFindSymbolInDocument) * :call youcompleteme#finder#FindSymbol( 'document' )<CR>
+n  <Plug>(YCMFindSymbolInWorkspace) * :call youcompleteme#finder#FindSymbol( 'workspace' )<CR>
+n  <Plug>(YCMCallHierarchy) * <Cmd>call youcompleteme#hierarchy#StartRequest( 'call' )<CR>
+n  <Plug>(YCMTypeHierarchy) * <Cmd>call youcompleteme#hierarchy#StartRequest( 'type' )<CR>
+n  <Plug>(YCMToggleInlayHints) * <Cmd>call <SNR>86_ToggleInlayHints()<CR>
+n  <Plug>(YCMHover) * :<C-U>call <SNR>86_ToggleHover()<CR>
+
+* netrw
+x  <Plug>NetrwBrowseXVis * :<C-U>call netrw#BrowseXVis()<CR>
+n  <Plug>NetrwBrowseX * :call netrw#BrowseX(netrw#GX(),netrw#CheckIfRemote(netrw#GX()))<CR>
+x  gx            <Plug>NetrwBrowseXVis
+n  gx            <Plug>NetrwBrowseX
+n  <Space>e    * : Lexplore<CR>
+
+* easymotion
+#+begin_src sh
+  n  <Space>j      <Plug>(easymotion-overwin-f2)
+  ov <Space>j      <Plug>(easymotion-bd-f)
+#+end_src
+
+* surround
+#+begin_src sh
+  v  <Plug>VgSurround * :<C-U>call <SNR>48_opfunc(visualmode(),visualmode() ==# 'V' ? 0 : 1)<CR>
+  v  <Plug>VSurround * :<C-U>call <SNR>48_opfunc(visualmode(),visualmode() ==# 'V' ? 1 : 0)<CR>
+  n  <Plug>YSurround * <SNR>48_opfunc2('setup')
+  n  <Plug>Ysurround * <SNR>48_opfunc('setup')
+  n  <Plug>YSsurround * <SNR>48_opfunc2('setup').'_'
+  n  <Plug>Yssurround * '^'.v:count1.<SNR>48_opfunc('setup').'g_'
+  n  <Plug>CSurround * :<C-U>call <SNR>48_changesurround(1)<CR>
+  n  <Plug>Csurround * :<C-U>call <SNR>48_changesurround()<CR>
+  n  <Plug>Dsurround * :<C-U>call <SNR>48_dosurround(<SNR>48_inputtarget())<CR>
+  n  <Plug>SurroundRepeat * .
+  x  gS            <Plug>VgSurround
+  n  ySS           <Plug>YSsurround
+  n  ySs           <Plug>YSsurround
+  n  yss           <Plug>Yssurround
+  n  yS            <Plug>YSurround
+  n  ys            <Plug>Ysurround
+  x  S             <Plug>VSurround
+  n  cS            <Plug>CSurround
+  n  cs            <Plug>Csurround
+  n  ds            <Plug>Dsurround
+#+end_src
+
+* linediff
+#+begin_src sh
+  n  <Plug>(linediff-last-operator) * :<C-U>set operatorfunc=<SNR>46_linediff_last_op<CR>g@
+  n  <Plug>(linediff-add-operator) * :<C-U>set operatorfunc=<SNR>46_linediff_add_op<CR>g@
+  n  <Plug>(linediff-operator) * :<C-U>set operatorfunc=<SNR>46_linediff_op<CR>g@
+  n  <Space>L    * : LinediffReset<CR>
+  v  <Space>l    * : Linediff<CR>
+#+end_src
+
+* fzf
+#+begin_src sh 
+  o  <Plug>(fzf-maps-o) * <C-C>:<C-U>call fzf#vim#maps('o', 0)<CR>
+  x  <Plug>(fzf-maps-x) * :<C-U>call fzf#vim#maps('x', 0)<CR>
+  n  <Plug>(fzf-maps-n) * :<C-U>call fzf#vim#maps('n', 0)<CR>
+  n  <Plug>(fzf-normal) * <Nop>
+  n  <Plug>(fzf-insert) * i
+  n  <Space>fb   * :Buffers<CR>
+  n  <Space>ff   * :Files<CR>
+  n  <Space>fo   * :History<CR>
+#+end_src
+* ultisnippet
+#+begin_src sh
+  s  <C-Tab>     * <Esc>:call UltiSnips#ListSnippets()<CR>
+  x  <Tab>       * :call UltiSnips#SaveLastVisualSelection()<CR>gvs
+  s  <Tab>       * <Esc>:call UltiSnips#ExpandSnippet()<CR>
+#+end_src

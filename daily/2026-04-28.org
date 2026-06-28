@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       73029e07-a8ba-4c08-af89-88390d15fb0d
+:END:
+#+title: 2026-04-28
+* 09:50
+* FINISHED 立创邮寄物料填写包裹快递单号
+CLOSED: [2026-05-02 Sat 18:49]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-05-02 Sat 18:49] \\
+  done
+:END:

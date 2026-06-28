@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       4142a444-2bab-4484-800a-d7715d2a2b46
+:END:
+#+title: 2026-05-25
+* <2026-05-25 17:50>
+:PROPERTIES:
+:CUSTOM_ID: f3a1da7c-5135-40c1-b507-eb095ac58c11
+:END:
+* FINISHED 冲泡器增加一个拆机命令，动作为，复位后，压饼稍微上抬一点，以便拆下来后能手动转动 :家用咖啡机:冲泡器模块:
+CLOSED: [2026-06-11 Thu 08:52]
+:PROPERTIES:
+:CUSTOM_ID: 5c627a17-a45a-4799-81d8-a0b3aad8df70
+:ARCHIVE_TIME: 2026-06-27 Sat 08:23
+:ARCHIVE_FILE: ~/Downloads/note/daily/2026-05-25.org
+:ARCHIVE_CATEGORY: 2026-05-25
+:ARCHIVE_TODO: FINISHED
+:END:
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-06-11 Thu 08:52] \\
+  done
+:END:
