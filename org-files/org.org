@@ -679,7 +679,6 @@ org-agenda-archive 的作用是：
 1. 归档文件是什么
 
 默认情况下：
-
 xxx.org          → 当前工作文件
 xxx.org_archive  → 归档文件
 
