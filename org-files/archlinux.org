@@ -1273,7 +1273,7 @@ sudo  firewall-cmd --list-service
   sudo firewall-cmd --reload    重载
 #+end_src
 
-** gentoo下配置日常使用
+** 配置日常使用
 :PROPERTIES:
 :CUSTOM_ID: 2b9c3c41-dd68-47be-a4af-228ce165ac54
 :END:
