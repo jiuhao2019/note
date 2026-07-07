@@ -252,14 +252,14 @@ sudo genfstab -U / | sudo tee -a /etc/fstab
 :PROPERTIES:
 :CUSTOM_ID: 1f77e253-2035-4e00-86c5-58d84999f898
 :END:
-#+begin_src 
+#+begin_src
 sudo ln /home/nerd/Downloads/deploy-linux/advcp /usr/local/bin/advcp
 sudo ln /home/nerd/Downloads/deploy-linux/advmv /usr/local/bin/advmv
 #+end_src
 #+begin_example
 然后在fish配置文件 ~/.config/fish/config.fish增加alias
 #+end_example
-#+begin_src 
+#+begin_src
 abbr cp "/usr/local/bin/advcp -g"
 abbr mv "/usr/local/bin/advmv -g"
 #+end_src
@@ -267,35 +267,35 @@ abbr mv "/usr/local/bin/advmv -g"
 :PROPERTIES:
 :CUSTOM_ID: ce0bdcea-9f6b-45bb-b691-7a1a0abc5345
 :END:
-#+begin_src 
+#+begin_src
 sudo emerge -aq ibus ibus-rime
 #+end_src
 #+begin_example
 把某个rime配置文件夹里第一层文件和文件夹都软连接到ibus-rime的文件夹里
 这样不会污染原始文件，方便切换各个rime配置
 #+end_example
-#+begin_src 
+#+begin_src
 bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/oh-my-rime/  ~/.config/ibus/rime/
 #+end_src
 #+begin_example
 切换rime配置
 #+end_example
 先unlink所有的旧配置
-#+begin_src 
+#+begin_src
 cd ~/.config/ibus/rime
 bash ~/Downloads/deploy-linux/shell-script/unlink_all_of_cur_folder.sh
 #+end_src
 #+begin_example
 再link新配置即可
 #+end_example
-#+begin_src 
+#+begin_src
 bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/rime-ice/ ~/.config/ibus/rime/
 #+end_src
 * 安装eza，平替ls
 :PROPERTIES:
 :CUSTOM_ID: 855fca6f-984f-4647-878c-2846a1359836
 :END:
-#+begin_src 
+#+begin_src
 sudo emerge -qa eza
 #+end_src
 * 权限问题解决
@@ -307,7 +307,7 @@ sudo emerge -qa eza
 parse_vt_settings cannot open /dev/tty0: permission denied
 大概率是因为你缺少以下用户组权限：
 sudo usermod -aG video,audio,input,tty your_username
-然后 重新启动 
+然后 重新启动
 #+end_example
 * 非 root 用户要运行 X11，需要加入以下用户组：
 :PROPERTIES:
@@ -385,7 +385,7 @@ rc-update add modules default
 :END:
 #+begin_example
 解决：安装如下软件
-open-vm-tools            
+open-vm-tools
 并且开机启动    vmtoolsd
 xf86-video-intel mesa vulkan
 #+end_example
@@ -406,7 +406,7 @@ ip link
 :PROPERTIES:
 :CUSTOM_ID: 99cb8bae-c25b-459b-9727-9709a354e3e2
 :END:
-#+begin_src 
+#+begin_src
 sudo nmcli dev reapply ens33
 #+end_src
 =======
@@ -757,7 +757,7 @@ $env:HTTPS_PROXY="socks5://127.0.0.1:10808"
 或者
 $env:HTTP_PROXY="http://127.0.0.1:10809"
 $env:HTTPS_PROXY="http://127.0.0.1:10809"
-点开代理设置一看就知道，任选一个就可 
+点开代理设置一看就知道，任选一个就可
 #+end_src
 #+attr_org: :width 90%
 [[../../pics/proxy/proxy1.png]]
@@ -833,7 +833,7 @@ set preview_images_method ueberzug
 :PROPERTIES:
 :CUSTOM_ID: a7903f18-37fa-49e7-8b8b-6c7a53ae4dc5
 :END:
-#+begin_src 
+#+begin_src
 直接运行：
 ranger
 #+end_src
@@ -977,7 +977,7 @@ sync
 :PROPERTIES:
 :CUSTOM_ID: 3d00e028-f5d8-40bc-ab63-19d9e72f43ff
 :END:
-#+begin_src 
+#+begin_src
 sudo pacman -S samba
 
 打开如下网址，复制默认配置
@@ -1031,7 +1031,7 @@ win+r
 :PROPERTIES:
 :CUSTOM_ID: 7c7a2a6f-ecc7-4c56-aa2b-0c0b7c3b816d
 :END:
-  #+begin_src 
+  #+begin_src
   sudo mount.cifs -v //192.168.0.112/Downloads /home/cz/share_from_win10_Downloads --verbose -o user=Administrator,password=1,domain=192.168.0.112,uid=$(id -u),gid=$(id -g),dir_mode=0777,file_mode=0777,vers=1.0
 - windows上Downloads文件夹或“下载”文件夹设置为共享属性，这里直接在ip后跟文件夹即可。（虽然Downloads文件夹在windows上路径为C:\Users\Administrator\Downloads）
 - uid：指定挂载点的文件所有者的用户 ID(id -u xxx_user可知)。
@@ -1043,7 +1043,7 @@ win+r
 :PROPERTIES:
 :CUSTOM_ID: e33c4d13-1c21-485a-b2ff-b82ff0d15888
 :END:
-#+begin_src 
+#+begin_src
 如果你不想在命令行中显式地写入用户名和密码，可以创建一个 credentials 文件，这样可以避免密码暴露。
 创建一个文件，存储 Windows 的用户名和密码。例如，创建 ~/.smbcredentials 文件：
   vim ~/.smbcredentials
@@ -1078,93 +1078,60 @@ CIFS: VFS: cifs_mount failed w/return code = -115
 输入密码后，将列出服务器上的所有共享，包括每个共享的名称和类型。
 如果是查看本地共享，IP可以用localhost替代
 * firewalld :firewalld:
-:PROPERTIES:
-:CUSTOM_ID: ef43c283-7bb6-488b-9d41-f196335897e4
-:END:
 ** 安装
-:PROPERTIES:
-:CUSTOM_ID: 155fed27-fefa-4f86-b44a-780a0111f4e5
-:END:
-#+BEGIN_SRC sh
+#+begin_src SH
   sudo pacman -S firewalld
   sudo systemctl enable firewalld.service
-#+END_SRC
+#+end_src
 ** gui模式配置
-:PROPERTIES:
-:CUSTOM_ID: e7884527-6191-48c6-b964-a32ad86a24e1
-:END:
-#+BEGIN_SRC sh
+#+begin_src sh
   firewall-config
-#+END_SRC
+#+end_src
 ** cmd模式配置
-:PROPERTIES:
-:CUSTOM_ID: f4292975-c260-442b-a0e6-62179c81b664
-:END:
 *** zone
-:PROPERTIES:
-:CUSTOM_ID: 0d91bb99-4092-4ec2-b2b7-7adfa647a1f0
-:END:
 预定义区的默认设置如下：
-|----------+------------------------------------------------------------------------------------------------------------------------|
+|----------+-------------------------------------------------------------------------------------------------------------------------|
 | block    | 任何传入的网络连接都会拒绝，并会拒绝IPv4的icmp-host-prohibited（用于IPv6）和 icmp6-adm-prohibited。只用从系统启动的网络连接才能进行。 |
-|----------+------------------------------------------------------------------------------------------------------------------------|
+|----------+-------------------------------------------------------------------------------------------------------------------------|
 | dmz      | 对于你的非企业化区里的计算机来说，这些计算机可以被公开访问，且有限访问你的内部网络。只接受所选的入站连接。                                |
-|----------+------------------------------------------------------------------------------------------------------------------------|
-| drop     | 所有传入的网络数据包都会丢失，没有任何通知。只有外发网络连接是可行的。                                                             |
-|----------+------------------------------------------------------------------------------------------------------------------------|
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| drop     | 所有传入的网络数据包都会丢失，没有任何通知。只有外发网络连接是可行的。                                                              |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
 | external | 适用于启用了伪装的外部网络，特别是路由器。再不信任网络中的其他计算机不会损害自身的计算机。只接受所选的入站连接。                           |
-|----------+------------------------------------------------------------------------------------------------------------------------|
-| home     | 用于家用，因为你可以信任其他计算机。只接受所选的入站连接。                                                                       |
-|----------+------------------------------------------------------------------------------------------------------------------------|
-| internal | 当你主要信任网络中的其他计算机时, 供内部网络使用。只接受所选的入站连接。                                                           |
-|----------+------------------------------------------------------------------------------------------------------------------------|
-| public   | 可用于你不信任网络中其他计算机的公共区域。只接受所选的入站连接。                                                                  |
-|----------+------------------------------------------------------------------------------------------------------------------------|
-| trusted  | 所有网络连接否被接受。                                                                                                     |
-|----------+------------------------------------------------------------------------------------------------------------------------|
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| home     | 用于家用，因为你可以信任其他计算机。只接受所选的入站连接。                                                                        |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| internal | 当你主要信任网络中的其他计算机时, 供内部网络使用。只接受所选的入站连接。                                                            |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| public   | 可用于你不信任网络中其他计算机的公共区域。只接受所选的入站连接。                                                                   |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| trusted  | 所有网络连接否被接受。                                                                                                      |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
 | work     | 可用于你主要信任网络中其他计算机的工作。只接受所选的入站连接。                                                                    |
-|----------+------------------------------------------------------------------------------------------------------------------------|
+|----------+-------------------------------------------------------------------------------------------------------------------------|
 这些区中的一个被设置为default区。当接口连接添加到NetworkManager时，它们会被分配给默认区。
 安装时，firewalld的默认区设置为public区。默认区可以被修改。
 *** 查找Firewalld支持的服务列表
-:PROPERTIES:
-:CUSTOM_ID: 384bf042-fd60-410e-9c3c-2653e9894b0f
-:END:
-#+begin_src sh 
-  sudo firewall-cmd --get-services 
+#+begin_src sh
+  sudo firewall-cmd --get-services
 #+end_src
 *** 查看存在哪些区
-:PROPERTIES:
-:CUSTOM_ID: 4399b68c-65f1-4fa7-8627-b603257b6b9e
-:END:
 **** 查看系统中有那些可用区：
-:PROPERTIES:
-:CUSTOM_ID: d5721198-3181-4f00-b61a-884f8480ab98
-:END:
 #+begin_src sh
   sudo firewall-cmd --get-zones
 #+end_src
 firewall-cmd --get-zones 命令显示系统中所有可用的区域，但不显示具体区的详情。
 **** 查看所有区的详细信息：
-:PROPERTIES:
-:CUSTOM_ID: 9c8d06d2-5d21-43dc-9da5-1743156287f5
-:END:
 #+begin_src sh
   sudo firewall-cmd --list-all-zones
 #+end_src
 
 **** 查看所有激活区的详细信息：
-:PROPERTIES:
-:CUSTOM_ID: 9fa71a22-efe7-4800-9dec-4d2cd8b28ccd
-:END:
 #+begin_src sh
   sudo firewall-cmd --list-all
 #+end_src
 
 **** 查看特定区的详细信息：
-:PROPERTIES:
-:CUSTOM_ID: 349935f4-2cac-4edd-b005-9f92de248339
-:END:
 #+begin_src sh
   sudo firewall-cmd --zone=zone-name --list-all
 #+end_src
@@ -1173,22 +1140,22 @@ firewall-cmd --get-zones 命令显示系统中所有可用的区域，但不显�
 :PROPERTIES:
 :CUSTOM_ID: 53d189cf-9c4d-43c9-8085-229d68043d01
 :END:
-#+begin_src sh 
-sudo  firewall-cmd --list-service 
+#+begin_src sh
+sudo  firewall-cmd --list-service
 #+end_src
 *** 将服务添加到区域
 :PROPERTIES:
 :CUSTOM_ID: 7c67a15d-061e-4042-9808-dc75d50be4c5
 :END:
-#+begin_src sh 
-  firewall-cmd --zone=public --add-service=samba --permanent 
+#+begin_src sh
+  firewall-cmd --zone=public --add-service=samba --permanent
 #+end_src
 *** 从区域中删除服务
 :PROPERTIES:
 :CUSTOM_ID: fcdffca3-1688-4959-8d19-0cf0912ba748
 :END:
-#+begin_src sh 
-  firewall-cmd --zone=public --remove-service=samba --permanent 
+#+begin_src sh
+  firewall-cmd --zone=public --remove-service=samba --permanent
 #+end_src
 *** 紧急禁用所有网络
 :PROPERTIES:
@@ -1220,41 +1187,23 @@ sudo  firewall-cmd --list-service
 #+end_src
 
 *** 更改默认区
-:PROPERTIES:
-:CUSTOM_ID: e499354b-1395-480a-960b-e97738a90530
-:END:
 **** 显示当前的默认区：
-:PROPERTIES:
-:CUSTOM_ID: 0c2af482-f240-41cf-b5cb-3b4753aa87cc
-:END:
 #+begin_src sh
   sudo firewall-cmd --get-default-zone
 #+end_src
 **** 设置新的默认区:
-:PROPERTIES:
-:CUSTOM_ID: 029902ad-a828-417f-9bd6-500af3cd1586
-:END:
 #+begin_src sh
   sudo firewall-cmd --set-default-zone new-zone-name
 #+end_src
 *** 这个软件是配置外来端口网络权限，某个ip连入权限等,
-:PROPERTIES:
-:CUSTOM_ID: 3f89887a-c94d-482e-97d4-d3a2988f947c
-:END:
 *** 但 *不能* 设置某个应用访问网络权限，比如禁止firefox访问网络。
-:PROPERTIES:
-:CUSTOM_ID: fca9a984-99d5-4f98-8d67-90d338d3aab9
-:END:
 *** Firewalld有规则两种状态
-:PROPERTIES:
-:CUSTOM_ID: 59b800a6-c8b6-440f-863c-37296c038dfa
-:END:
  1. 运行时（runtime)：修改规则马上生效,但是临时生效
  2. 持久配置（permanent）：修改后需要重载才会生效
- #+begin_src sh
+#+begin_src sh
    firewall-cmd --permanent [RULE]
    firewall-cmd --reload
- #+end_src
+#+end_src
  一旦使用了 --permanent 会将配置写入到/etc/firewalld/{services,zones}/*.xml对应的文件中，
  配置完成后一定要 reload，否则只能待防火墙重启后这些配置才能生效。
  Firewalld配置文件:
@@ -1262,9 +1211,6 @@ sudo  firewall-cmd --list-service
     /lib/firewalld/{services,zones}/*.xml 优先级要低些，是一些默认配置，可以当做模板使用
 
 ** 常见服务
-:PROPERTIES:
-:CUSTOM_ID: 03595946-15bf-4f35-bab7-82a041b72cf2
-:END:
 默认情况下，firewalld 中的 HTTPS 服务包含了 443 端口的 TLS 流量支持。
 如果运行的是非标准端口 TLS 服务，例如 8443，需使用 --add-port 明确指定。
 #+begin_src sh
@@ -1274,87 +1220,45 @@ sudo  firewall-cmd --list-service
 #+end_src
 
 ** 配置日常使用
-:PROPERTIES:
-:CUSTOM_ID: 2b9c3c41-dd68-47be-a4af-228ce165ac54
-:END:
 *** 安装
-:PROPERTIES:
-:CUSTOM_ID: 8020ae68-8f24-43c6-a77c-8bc26eb6924e
-:END:
     sudo emerge -aq net-firewall/firewalld
 *** 启动
-:PROPERTIES:
-:CUSTOM_ID: f3b9765b-7f2a-4e89-b89e-48976198f4f5
-:END:
     sudo rc-service firewalld start
     添加到默认运行级别：
     sudo rc-update add firewalld default
 *** 检查当前设置
-:PROPERTIES:
-:CUSTOM_ID: cfc752ce-3515-4bf1-b8ad-843fa0918934
-:END:
    查看活动区域和分配的接口：
    sudo firewall-cmd --get-active-zones
    如果没有分配接口，可以分配一个（假设你的接口是 enp0s3）：
    sudo firewall-cmd --zone=home --change-interface=enp0s3
 *** 设置默认区域
-:PROPERTIES:
-:CUSTOM_ID: 1c6f792f-a053-492c-9b2e-6f7b8e2af522
-:END:
    sudo firewall-cmd --set-default-zone=public
 *** 开启常用服务
-:PROPERTIES:
-:CUSTOM_ID: 8db8b148-6481-42fa-b71c-6a88e33a69c6
-:END:
 允许常用服务（如 SSH、HTTP、HTTPS）：
 sudo firewall-cmd --zone=public --add-service=ssh --permanent
 sudo firewall-cmd --zone=public --add-service=http --permanent
 sudo firewall-cmd --zone=public --add-service=https --permanent
 *** 重新加载规则：
-:PROPERTIES:
-:CUSTOM_ID: 62c6d0ec-30f5-424b-befa-8440ca047ff1
-:END:
  sudo firewall-cmd --reload
 *** 查看已添加的服务：
-:PROPERTIES:
-:CUSTOM_ID: 2c82c3e8-75bf-4272-94bc-cb4ec7c2deee
-:END:
  sudo firewall-cmd --zone=home --list-all
 *** 配置端口访问
-:PROPERTIES:
-:CUSTOM_ID: b3f04f07-e321-4920-8024-6c6c02dd2d20
-:END:
     如 8080：
     sudo firewall-cmd --zone=home --add-port=8080/tcp --permanent
     删除端口：
     sudo firewall-cmd --zone=home --remove-port=8080/tcp --permanent
 *** 设置网络共享（NAT）
-:PROPERTIES:
-:CUSTOM_ID: 56908448-2cad-4601-ad7a-d5af4ece33dc
-:END:
    如果需要共享网络连接，可以启用 IP 伪装：
    sudo firewall-cmd --zone=home --add-masquerade --permanent
    sudo firewall-cmd --reload
 *** 允许特定 IP 访问：
-:PROPERTIES:
-:CUSTOM_ID: 96dd7b83-fb18-4f80-bd76-02f07b9d81d4
-:END:
    sudo firewall-cmd --zone=home --add-rich-rule='rule family="ipv4" source address="192.168.1.100" accept' --permanent
 *** 拒绝特定 IP 访问：
-:PROPERTIES:
-:CUSTOM_ID: 6b91ebb6-31fc-4c4a-9348-e7e76b3cd408
-:END:
     sudo firewall-cmd --zone=home --add-rich-rule='rule family="ipv4" source address="192.168.1.200" drop' --permanent
 *** 允许某个应用程序的网络连接：
-:PROPERTIES:
-:CUSTOM_ID: 9cfc3f95-45a1-43ce-bb4d-1f11f6ba4ef8
-:END:
    sudo firewall-cmd --zone=home --add-service=samba --permanent
    sudo firewall-cmd --reload
 *** 查看防火墙规则是否生效：
-:PROPERTIES:
-:CUSTOM_ID: bfaa9a02-70bb-463f-aedc-b4935c449f82
-:END:
    sudo firewall-cmd --list-all
 * awesome-wm
 :PROPERTIES:
