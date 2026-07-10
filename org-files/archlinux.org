@@ -1399,9 +1399,6 @@ Smooth Scrolling
 Omnibookmarks saves pages to a bookmarks folder named "Omnibookmarks". This folder is placed in "Other Bookmarks" by default, but you can move it to a different location if you want to.
 #+end_example
 * pandoc-cli 是用 Haskell 编写的，安装 Pandoc 时会连带安装大量 Haskell 运行库。
-:PROPERTIES:
-:CUSTOM_ID: 4a9294ca-f81a-48f0-9c94-02aa93998e31
-:END:
 #+begin_example
 如果你只是为了 Org 导出 Markdown、PDF 等功能，并不关心系统集成，有几种办法：
 使用静态版 Pandoc
