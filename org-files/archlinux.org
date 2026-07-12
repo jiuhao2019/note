@@ -201,52 +201,12 @@ ncdu 可以交互式删除。
 比如rm -rf #note.org# 运行后失败。
 解决：rm -rf "#note.org#"  即可
 #+end_example
-
-* greetd+tuigreet
-:PROPERTIES:
-:CUSTOM_ID: 7d650497-500b-4040-af61-3c4f8748d6a1
-:END:
-sudo pacman -S greetd
-paru -S greetd-tuigreet
-
-stop other login service,like ly
-then:
-sudo systemctl enable greetd.service
-sudo systemctl start greetd.service
 * Nerd Font :font:
 :PROPERTIES:
 :CUSTOM_ID: b41dd56a-cf00-4074-82c7-74f072a56517
 :END:
 #+begin_example
 ln到这个/usr/share/fonts/
-#+end_example
-* gtk主题 :theme:
-:PROPERTIES:
-:CUSTOM_ID: 57e6aada-cac5-4c41-92c1-b2316288bbf4
-:END:
-#+begin_example
-ln -sT /home/nerd/Downloads/deploy-linux/.themes /home/nerd/.themes
-#+end_example
-* 鼠标主题 :theme:
-:PROPERTIES:
-:CUSTOM_ID: 7c52f245-8cc8-490d-bf59-5ba3aad93d64
-:END:
-#+begin_example
-ln -sT /home/nerd/Downloads/deploy-linux/Futrue-cursors  /usr/share/icons/Future-cursors
-#+end_example
-* fastfetch配置
-:PROPERTIES:
-:CUSTOM_ID: 373f9175-5a15-4e27-8af0-6208a8a11f1b
-:END:
-#+begin_example
-ln -sT /home/nerd/Downloads/deploy-linux/fastfetch /home/nerd/fastfetch
-#+end_example
-* 生成fstab信息
-:PROPERTIES:
-:CUSTOM_ID: d1b54306-37bf-44fb-9317-0d37377384ba
-:END:
-#+begin_example
-sudo genfstab -U / | sudo tee -a /etc/fstab
 #+end_example
 * 安装带进度条的mv cp命令
 :PROPERTIES:
@@ -264,9 +224,6 @@ abbr cp "/usr/local/bin/advcp -g"
 abbr mv "/usr/local/bin/advmv -g"
 #+end_src
 * 安装rime :rime:
-:PROPERTIES:
-:CUSTOM_ID: ce0bdcea-9f6b-45bb-b691-7a1a0abc5345
-:END:
 #+begin_src
   sudo pacman -S ibus ibus-rime
   不用ibus-libpinyin  因为其跟ibus-rime是同一类软件，用其一即可
@@ -308,94 +265,6 @@ xxx.schema.yaml
     ↓
 xxx.custom.yaml
 #+end_example
-* 安装eza，平替ls
-:PROPERTIES:
-:CUSTOM_ID: 855fca6f-984f-4647-878c-2846a1359836
-:END:
-#+begin_src
-sudo emerge -qa eza
-#+end_src
-* 权限问题解决
-:PROPERTIES:
-:CUSTOM_ID: 3cc00368-9ca5-46da-a5b7-e4ed9d2d7ad1
-:END:
-#+begin_example
-遇到的：
-parse_vt_settings cannot open /dev/tty0: permission denied
-大概率是因为你缺少以下用户组权限：
-sudo usermod -aG video,audio,input,tty your_username
-然后 重新启动
-#+end_example
-* 非 root 用户要运行 X11，需要加入以下用户组：
-:PROPERTIES:
-:CUSTOM_ID: 9bb127a8-1e10-45dd-ba22-2b985fc1d561
-:END:
-#+begin_src sh
-sudo usermod -aG video input tty audio users your_username
-最少需要加入：video（访问 GPU）、input（键鼠）、tty（访问 /dev/tty）
-加入后请务必 注销或重启登录，以便用户组生效。
-#+end_src
-* 安装 NVIDIA 驱动
-:PROPERTIES:
-:CUSTOM_ID: 9f2d39c2-797c-4f33-aeb6-150188fc183b
-:END:
-#+begin_example
-emerge --ask x11-drivers/nvidia-drivers
-添加：
-echo "blacklist nouveau" > /etc/modprobe.d/blacklist.conf
-配置 NVIDIA 模块加载
-编辑：
-/etc/conf.d/modules
-添加：
-modules="nvidia"
-重启加载：
-rc-update add modules default
-#+end_example
-** 验证 NVIDIA 驱动是否正常
-:PROPERTIES:
-:CUSTOM_ID: abf3899f-3b33-49ce-b4fe-c19b3e5aa9ba
-:END:
-#+begin_example
-glxinfo | grep "OpenGL renderer"
-应该显示 NVIDIA 的设备名
-nvidia-smi
-显示 GPU 信息
-#+end_example
-#+begin_example
-下面是详细说明和推荐配置文件：
-虽然 /usr/share/X11/xorg.conf.d/ 可以放配置，但更推荐放在 /etc/X11/xorg.conf.d/，因为：
-    /usr/share/... 是包管理器的写入目录（可能被覆盖）
-    /etc/X11/xorg.conf.d/ 是你的用户自定义配置，优先级更高
-所以我们使用：
-/etc/X11/xorg.conf.d/10-nvidia.conf
-#+end_example
-** 创建 NVIDIA 显卡配置文件
-:PROPERTIES:
-:CUSTOM_ID: d34cce1d-4410-4c81-95be-6f41ec9d0b19
-:END:
-#+begin_src  sh
-sudo mkdir -p /etc/X11/xorg.conf.d
-sudo nano /etc/X11/xorg.conf.d/10-nvidia.conf
-内容如下：
-
-Section "Device"
-Identifier "Nvidia Card"
-Driver "nvidia"
-VendorName "NVIDIA Corporation"
-Option "NoLogo" "1"
-Option "Coolbits" "4" # 可选，允许 nvidia-settings 控制风扇（需支持）
-EndSection
-#+end_src
-** 启动时自动加载 NVIDIA 模块
-:PROPERTIES:
-:CUSTOM_ID: c02e84fb-88f9-43e7-9ddf-fc0c1123e328
-:END:
-#+begin_example
-确认 /etc/conf.d/modules 中设置了：
-modules="nvidia"
-
-rc-update add modules default
-#+end_example
 * 在vmware里的archlinux不能全屏
 :PROPERTIES:
 :CUSTOM_ID: 035be5a3-f116-4a84-8370-ad82718c3d34
@@ -408,59 +277,9 @@ xf86-video-intel mesa vulkan
 #+end_example
 
 <<<<<<< Updated upstream
-* 虚拟机里的archlinux重新连接网络
-:PROPERTIES:
-:CUSTOM_ID: e996065e-5d3b-4bdc-9486-a5e49f24d942
-:END:
-** 先确认网络名称
-:PROPERTIES:
-:CUSTOM_ID: 73205c37-4a9a-45dc-920a-a9360b66f84d
-:END:
-#+begin_src sh
-ip link
-#+end_src
-** 如果networkmanager
-:PROPERTIES:
-:CUSTOM_ID: 99cb8bae-c25b-459b-9727-9709a354e3e2
-:END:
-#+begin_src
-sudo nmcli dev reapply ens33
-#+end_src
-=======
-* 安装paru :paru:
-:PROPERTIES:
-:CUSTOM_ID: 8ac08b8c-595f-460f-b4a5-3f14d734d7eb
-:END:
-** 先确保你有编译环境：
-:PROPERTIES:
-:CUSTOM_ID: b1d248b7-d241-4d9b-b9bc-31a47f42b571
-:END:
-#+begin_src  sh
-sudo pacman -S --needed base-devel git
-#+end_src
-** 然后从 AUR 获取 paru 源码：
-:PROPERTIES:
-:CUSTOM_ID: 6ca3854d-0953-4b12-887c-da85291ba2db
-:END:
-#+begin_src sh
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-#+end_src
-
->>>>>>> Stashed changes
 * archlinux使用软件
-:PROPERTIES:
-:CUSTOM_ID: 3143ed90-d67e-4d2b-9106-80afe5f9df75
-:END:
 ** 软件的仓库release里只有deb rpm还有source， 怎么archlinux用
-:PROPERTIES:
-:CUSTOM_ID: d8fb8bcb-0fe8-4315-9f5a-2fce6e84a0c0
-:END:
 *** 优先看看有没有 AUR 包，十有八九已经有人写好了 PKGBUILD。
-:PROPERTIES:
-:CUSTOM_ID: d6f858ff-67c5-495b-8b55-5754d4712f98
-:END:
 #+begin_src sh
 yay -Ss 软件名
 # 或
@@ -487,51 +306,6 @@ PKGBUILD 文件：
 
 构建并安装：
 修改好 PKGBUILD 后，你可以使用 makepkg -si 命令来构建并安装包。
-*** 方案二：只有 source → 自己 build（很常见）
-:PROPERTIES:
-:CUSTOM_ID: 4bc3eb10-a63f-4d9f-a416-8cc41c4290ce
-:END:
-#+begin_example
-release 里有 source.tar.gz / source.zip，那基本就是 官方态度：你自己编译。
-通用套路：
-sudo pacman -S base-devel
-tar xf source.tar.gz
-cd source
-然后看项目类型：
-#+end_example
-**** 1️⃣ autotools
-:PROPERTIES:
-:CUSTOM_ID: 98637c31-f000-4171-91fd-a8a24db044b4
-:END:
-#+begin_src  sh
-./configure
-make
-sudo make install
-#+end_src
-**** cmake
-:PROPERTIES:
-:CUSTOM_ID: c56dc9ec-d73e-475a-8185-d11170d7d875
-:END:
-#+begin_src  sh
-mkdir build && cd build
-cmake ..
-make
-sudo make install
-#+end_src
-**** meson
-:PROPERTIES:
-:CUSTOM_ID: 91ac20d7-2468-4101-bef8-4edc0feb3b53
-:END:
-#+begin_src  sh
-meson setup build
-ninja -C build
-sudo ninja -C build install
-#+end_src
-*** 👉 强烈建议：
-:PROPERTIES:
-:CUSTOM_ID: ad3382b1-07e6-4ebd-883e-1446175892e3
-:END:
-如果你打算长期用，最好写个 PKGBUILD，而不是 make install 直接污染系统。
 * install chromium plugin
 :PROPERTIES:
 :CUSTOM_ID: 1de08fd9-c60f-45fe-a126-4ed02c866df2
@@ -713,9 +487,6 @@ paru -S important-package  # 从网络获取最新
 This response is AI-generated, for reference only.
 #+end_example
 * 设置打开qt应用后为暗黑模式 :theme:
-:PROPERTIES:
-:CUSTOM_ID: cfbeb718-0585-4312-bb83-1e1560fd29fe
-:END:
 | [[../linux/S设置打开qt应用后为暗黑模式.org][设置打开qt应用后为暗黑模式]] |
 * 比如要让 file manager程序Double Commander 打开后使用 Qt 暗色主题，可以这样配置。 :theme:
 :PROPERTIES:
@@ -778,15 +549,6 @@ $env:HTTPS_PROXY="http://127.0.0.1:10809"
 #+end_src
 #+attr_org: :width 90%
 [[../../pics/proxy/proxy1.png]]
-* clash dashboard
-:PROPERTIES:
-:CUSTOM_ID: d3857b07-c1df-4bbe-93e4-78be2cc8dbe9
-:END:
-#+attr_org: :width 60%
-[[../../pics/proxy/clash-dashboard-1.png]]
-[[../../pics/proxy/clash-dashboard-2.png]]
-[[../../pics/proxy/clash-dashboard-3.png]]
-[[../../pics/proxy/clash-dashboard-4.png]]
 * 在 Ranger 中创建文件或目录主要使用 :touch 和 :mkdir 命令，方式与 Vim 命令模式类似。
 :PROPERTIES:
 :CUSTOM_ID: d47e026e-d7d2-4101-81e6-f90c3792ea80
@@ -1358,63 +1120,6 @@ root key	整个桌面	否	启动器 / tag / system control
 client key	当前窗口	是	窗口操作 / 应用控制
 
 如果你是在 hotkeys_popup.show_help() 里看到 “root / client” 分组，那只是对 awful.key 的 group 分类展示，不是额外机制。
-* chromium
-:PROPERTIES:
-:CUSTOM_ID: e4558755-b052-4e30-bc61-b76a106fca09
-:END:
-** 1,首先
-:PROPERTIES:
-:CUSTOM_ID: 8a7eb0f4-1984-4d35-b449-acef59e7c52f
-:END:
-#+begin_example
-在 Chrome 地址栏输入并访问：
-
-text
-chrome://flags/
-然后搜索并修改以下标志：
-
-Smooth Scrolling
-
-确保已启用。这是最基本的平滑滚动开关。
-#+end_example
-** 2,其次
-:PROPERTIES:
-:CUSTOM_ID: 79b68a34-cd6c-4adc-950c-ee699e82538c
-:END:
-#+begin_example
-安装smoothscroll插件
-#+end_example
-** omni-bookmark
-:PROPERTIES:
-:CUSTOM_ID: 07b36ed5-ab79-4282-8f6a-9dfbd536c857
-:END:
-*** First, activate Omnibookmarks by typing the letter "b" into the address bar, followed by a space:
-:PROPERTIES:
-:CUSTOM_ID: 61a98569-7edb-475a-922a-0641ae9e2e69
-:END:
-
-*** To add a bookmark for the current page, type "+" followed by the keyword you want to assign it, and press Enter:
-:PROPERTIES:
-:CUSTOM_ID: 7f5e19ee-2214-47f8-afa7-dc548351f000
-:END:
-
-*** To open a bookmark you previously added, type its keyword and press Enter:
-:PROPERTIES:
-:CUSTOM_ID: 68132da9-81af-4812-9207-718b139bd000
-:END:
-
-*** To remove a bookmark you previously added, type "-" followed by its keyword, and press Enter:
-:PROPERTIES:
-:CUSTOM_ID: 1180be4a-ed50-4c6b-b334-28b2a912f19b
-:END:
-
-*** Viewing all bookmarks
-:PROPERTIES:
-:CUSTOM_ID: 2555807f-db12-4dbb-83d8-45d3ebe74608
-:END:
-#+begin_example
-Omnibookmarks saves pages to a bookmarks folder named "Omnibookmarks". This folder is placed in "Other Bookmarks" by default, but you can move it to a different location if you want to.
-#+end_example
 * pandoc-cli 是用 Haskell 编写的，安装 Pandoc 时会连带安装大量 Haskell 运行库。
 #+begin_example
 如果你只是为了 Org 导出 Markdown、PDF 等功能，并不关心系统集成，有几种办法：
