@@ -213,7 +213,7 @@ stop other login service,like ly
 then:
 sudo systemctl enable greetd.service
 sudo systemctl start greetd.service
-* FiraCode Nerd Font :font:
+* Nerd Font :font:
 :PROPERTIES:
 :CUSTOM_ID: b41dd56a-cf00-4074-82c7-74f072a56517
 :END:
@@ -268,14 +268,21 @@ abbr mv "/usr/local/bin/advmv -g"
 :CUSTOM_ID: ce0bdcea-9f6b-45bb-b691-7a1a0abc5345
 :END:
 #+begin_src
-sudo emerge -aq ibus ibus-rime
+  sudo pacman -S ibus ibus-rime
+  不用ibus-libpinyin  因为其跟ibus-rime是同一类软件，用其一即可
+  git 拉取oh_my_rime
+  或者拉取其他配置
 #+end_src
 #+begin_example
+# 用法: ./link_first_level.sh SRC_DIR DST_DIR
+# 把 SRC_DIR 下的第一層文件/文件夾軟鏈接到 DST_DIR 中，不遞歸
+
 把某个rime配置文件夹里第一层文件和文件夹都软连接到ibus-rime的文件夹里
 这样不会污染原始文件，方便切换各个rime配置
 #+end_example
 #+begin_src
-bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/oh-my-rime/  ~/.config/ibus/rime/
+  bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/oh-my-rime  ~/.config/ibus/rime
+  注意：DST_DIR路径是固定的
 #+end_src
 #+begin_example
 切换rime配置
@@ -289,8 +296,18 @@ bash ~/Downloads/deploy-linux/shell-script/unlink_all_of_cur_folder.sh
 再link新配置即可
 #+end_example
 #+begin_src
-bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/deploy-linux/kinds_of_rime_config/rime-ice/ ~/.config/ibus/rime/
+bash ~/Downloads/deploy-linux/shell-script/link_first_lv.sh ~/Downloads/rime-ice   ~/.config/ibus/rime
 #+end_src
+#+begin_example
+在这个目录里~/.config/ibus/rime  有如下配置文件,其中default.yaml是rime全局的,其他是各个具体输入方式的配置，比如薄荷拼音，地球拼音等
+default.yaml
+    ↓
+default.custom.yaml
+    ↓
+xxx.schema.yaml
+    ↓
+xxx.custom.yaml
+#+end_example
 * 安装eza，平替ls
 :PROPERTIES:
 :CUSTOM_ID: 855fca6f-984f-4647-878c-2846a1359836
