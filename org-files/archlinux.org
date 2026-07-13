@@ -4,82 +4,46 @@
 #+title: archlinux
 #+date: [2026-05-02 Sat 14:57]
 * 清理 :清理:
-:PROPERTIES:
-:CUSTOM_ID: c7b5a80a-7b95-41cd-9358-0f2f809eb647
-:END:
 ** 清理 pacman 包缓存
-:PROPERTIES:
-:CUSTOM_ID: 5eb04e1d-b690-4c58-914e-6dd39ad1cde7
-:END:
 *** 安装 paccache（如果没有）：
-:PROPERTIES:
-:CUSTOM_ID: 2872e423-c667-4df2-b14d-db023666bea9
-:END:
 #+begin_example
 sudo pacman -S pacman-contrib
 - 查看缓存大小：
 du -sh /var/cache/pacman/pkg
 #+end_example
 *** 只保留最近 3 个版本（推荐）：
-:PROPERTIES:
-:CUSTOM_ID: b1ef2ef4-30d3-4b42-b134-c7d75c77e3e6
-:END:
 #+begin_example
 sudo paccache -r
 #+end_example
 *** 只保留 1 个版本：
-:PROPERTIES:
-:CUSTOM_ID: c284bfaa-2948-4839-bc53-94e20302528c
-:END:
 #+begin_example
 sudo paccache -rk1
 #+end_example
 *** 清空所有缓存：
-:PROPERTIES:
-:CUSTOM_ID: 9dc32abe-6632-4f14-a4e4-3b0c9de6b3f8
-:END:
 #+begin_example
 sudo pacman -Scc
 #+end_example
 *** 说明
-:PROPERTIES:
-:CUSTOM_ID: 478da4da-def0-44bc-aa08-859b683bc72a
-:END:
 #+begin_example
 pacman 默认会保留所有安装过的包版本，缓存位于 /var/cache/pacman/pkg。
 paccache 来自 pacman-contrib 包
 -Scc 是最彻底的清理
 #+end_example
 ** 清理孤立依赖（最重要）
-:PROPERTIES:
-:CUSTOM_ID: 5890f1f4-2404-4be4-b6a3-6812c115cb16
-:END:
 *** 先查看有哪些：
-:PROPERTIES:
-:CUSTOM_ID: a018318e-aa25-4a8d-ae90-44c2bffdeb7c
-:END:
 #+begin_example
 pacman -Qtdq
 #+end_example
 *** 删除已经不被任何包依赖的库：
-:PROPERTIES:
-:CUSTOM_ID: 08a5b988-c3d6-428b-949a-9c051b329079
-:END:
 #+begin_example
 sudo pacman -Rns $(pacman -Qtdq)
 #+end_example
 *** 含义：
-:PROPERTIES:
-:CUSTOM_ID: 5bf6d68d-c7b9-4cde-9a86-3ddd6ad8fcca
-:END:
 #+begin_example
 -Qdt 查找孤立依赖
 -Rns 删除包 + 配置文件 + 依赖
 #+end_example
 ** 清理旧日志
-:PROPERTIES:
-:CUSTOM_ID: 121e8d1b-b7f0-4888-b9b5-e591d3df1641
-:END:
 #+begin_example
 日志系统来自 systemd。
 查看日志占用：
@@ -90,9 +54,6 @@ sudo journalctl --vacuum-time=7d
 sudo journalctl --vacuum-size=100M
 #+end_example
 ** 清理用户缓存
-:PROPERTIES:
-:CUSTOM_ID: 09ffce29-2310-49a7-8d52-7556ddc9800e
-:END:
 #+begin_example
 很多软件会在 ~/.cache 产生缓存。
 查看：
@@ -101,17 +62,11 @@ du -sh ~/.cache
 rm -rf ~/.cache/*
 #+end_example
 ** 清理临时文件
-:PROPERTIES:
-:CUSTOM_ID: 3be2f941-a5ca-4d9f-b358-f99249b657e6
-:END:
 #+begin_example
 sudo rm -rf /tmp/*
 系统会自动清理，一般不需要手动做。
 #+end_example
 ** 查找占用空间最大的目录（推荐）
-:PROPERTIES:
-:CUSTOM_ID: 580cfc38-11f9-4f15-b525-55cb6c2ccbc8
-:END:
 #+begin_example
 sudo du -xh / | sort -rh | head -20
 或安装工具：
@@ -120,13 +75,7 @@ sudo ncdu /
 ncdu 可以交互式删除。
 #+end_example
 * administration
-:PROPERTIES:
-:CUSTOM_ID: 2ac51479-a177-4426-badb-703a27f440d7
-:END:
 ** 修改开机键功能
-:PROPERTIES:
-:CUSTOM_ID: e11e58ca-35f3-4ee1-abd8-9e283f0e7ab5
-:END:
 #+begin_src
     1. 打开 /etc/systemd/logind.conf 配置文件。
     2. 查找有 HandlePowerKey=poweroff 的行。
@@ -147,24 +96,12 @@ ncdu 可以交互式删除。
     4. 保存更改并关闭编辑器。
 #+end_src
 ** 回收站的路径：～/.local/share/Trash
-:PROPERTIES:
-:CUSTOM_ID: abf06417-99df-4d46-98a3-66254466b93f
-:END:
 ** 同名的bin文件
-:PROPERTIES:
-:CUSTOM_ID: 8116708b-82fe-4031-91b4-085280e6c155
-:END:
   比如 cp，
   在/usr/bin里有,而/usr/local/bin里也有，
   运行时谁被选择，跟PATH有关系， PATH环境变量里谁先出现就选择谁。
 ** 挂载卸载u盘
-:PROPERTIES:
-:CUSTOM_ID: 315555c6-22ec-49c9-a737-642e2a7ee6e4
-:END:
 *** 自动挂载u盘或移动硬盘
-:PROPERTIES:
-:CUSTOM_ID: 58018cb9-4bb0-4ec2-b761-787241cb30f4
-:END:
 #+begin_src
     sudo pacman -S udisks2
     paru -S udevil
@@ -172,9 +109,6 @@ ncdu 可以交互式删除。
     cz是用户名
 #+end_src
 *** 卸载移动硬盘
-:PROPERTIES:
-:CUSTOM_ID: 47531acf-86c5-4658-8cf6-f124a0eb0173
-:END:
 #+begin_src
     lsblk或者fdisk -l   查看设备文件名称
     sudo umount /dev/xxx
@@ -183,9 +117,6 @@ ncdu 可以交互式删除。
     sudo udisksctl power-off -b /dev/xxx
 #+end_src
 *** 修改磁盘卷标名称
-:PROPERTIES:
-:CUSTOM_ID: 5d74f181-88fc-4d29-84e5-f17dc4685288
-:END:
 #+begin_src
     1. 先umount 要改卷标的磁盘
     2. sudo e2label /dev/sdd1 hello
@@ -194,24 +125,15 @@ ncdu 可以交互式删除。
     注：e2label是系统自带的，直接用，不用安装，安装也提示找不到。
 #+end_src
 ** 删除文件失败
-:PROPERTIES:
-:CUSTOM_ID: ae26617e-5440-4d90-ae9d-abc887d88963
-:END:
 #+begin_example
 比如rm -rf #note.org# 运行后失败。
 解决：rm -rf "#note.org#"  即可
 #+end_example
 * Nerd Font :font:
-:PROPERTIES:
-:CUSTOM_ID: b41dd56a-cf00-4074-82c7-74f072a56517
-:END:
 #+begin_example
 ln到这个/usr/share/fonts/
 #+end_example
 * 安装带进度条的mv cp命令
-:PROPERTIES:
-:CUSTOM_ID: 1f77e253-2035-4e00-86c5-58d84999f898
-:END:
 #+begin_src
 sudo ln /home/nerd/Downloads/deploy-linux/advcp /usr/local/bin/advcp
 sudo ln /home/nerd/Downloads/deploy-linux/advmv /usr/local/bin/advmv
@@ -266,9 +188,6 @@ xxx.schema.yaml
 xxx.custom.yaml
 #+end_example
 * 在vmware里的archlinux不能全屏
-:PROPERTIES:
-:CUSTOM_ID: 035be5a3-f116-4a84-8370-ad82718c3d34
-:END:
 #+begin_example
 解决：安装如下软件
 open-vm-tools
@@ -307,20 +226,11 @@ PKGBUILD 文件：
 构建并安装：
 修改好 PKGBUILD 后，你可以使用 makepkg -si 命令来构建并安装包。
 * install chromium plugin
-:PROPERTIES:
-:CUSTOM_ID: 1de08fd9-c60f-45fe-a126-4ed02c866df2
-:END:
 ** www.ilovechrome.com/zh-cn/      可以搜索和下载crx，即可安装
-:PROPERTIES:
-:CUSTOM_ID: 254d2afa-3d06-4132-8b75-48252c061cb6
-:END:
 #+begin_example
 打开chromium-> extension -> manage-extension   界面，将crx拖到页面即自动安装了插件
 #+end_example
 ** 代理插件zeroomega
-:PROPERTIES:
-:CUSTOM_ID: f3a0033e-2c55-429f-ac8b-468f13288045
-:END:
 #+begin_example
 点击chromium的extension设置的 developer-mode才会出现load unpacked按钮
 在github搜到后下载crx文件，打开chromium-> extension -> manage-extension   界面，将crx拖到页面即自动安装了插件
@@ -328,9 +238,6 @@ PKGBUILD 文件：
 已经放到deploy-linux文件夹了
 #+end_example
 * paru缓存文件夹的 clone文件夹里的app文件夹，后面装机可以用？ :paru:
-:PROPERTIES:
-:CUSTOM_ID: 941e96d2-07a8-4795-8fd7-99cdb9b2877c
-:END:
 #+begin_example
 保存clone文件夹里的app文件夹，后面装机可以用？
 是的，保存 ~/.cache/paru/clones/ 里的应用文件夹，可以在后续装机时重复使用，但需要注意一些细节。
@@ -489,34 +396,19 @@ This response is AI-generated, for reference only.
 * 设置打开qt应用后为暗黑模式 :theme:
 | [[../linux/S设置打开qt应用后为暗黑模式.org][设置打开qt应用后为暗黑模式]] |
 * 比如要让 file manager程序Double Commander 打开后使用 Qt 暗色主题，可以这样配置。 :theme:
-:PROPERTIES:
-:CUSTOM_ID: b2c7f0c2-ba65-4f1b-a127-3fb7d6dc390a
-:END:
 ** fish配置环境变量
-:PROPERTIES:
-:CUSTOM_ID: a4e05c34-eb82-4ff2-89ff-6951640288cf
-:END:
 *** 第一种，仅当前终端启动时生效：
-:PROPERTIES:
-:CUSTOM_ID: 81eb6c14-4d60-4586-867e-a91547582cee
-:END:
 #+begin_example
 set -x QT_STYLE_OVERRIDE Fusion
 set -x QT_QPA_PLATFORMTHEME qt5ct
 doublecmd
 #+end_example
 *** 第二种，永久生效（推荐）：
-:PROPERTIES:
-:CUSTOM_ID: 96cc247d-75ec-4a57-ac68-50d8fb69cae0
-:END:
 #+begin_example
 set -Ux QT_STYLE_OVERRIDE Fusion
 set -Ux QT_QPA_PLATFORMTHEME qt5ct
 #+end_example
 ** 然后安装并运行
-:PROPERTIES:
-:CUSTOM_ID: 35aa15a7-4079-43eb-9b60-c10577c19801
-:END:
 #+begin_example
 qt5ct
 在里面设置：
@@ -529,16 +421,10 @@ sudo pacman -S qt5ct
 如果你是在 i3 环境下运行 Qt 程序，必须设置 QT_QPA_PLATFORMTHEME=qt5ct，否则 Qt 默认不会加载主题配置。
 #+end_example
 * 将那些不是emerge安装的程序放到rofi菜单里 :rofi:
-:PROPERTIES:
-:CUSTOM_ID: 778c61f8-a838-40f9-b728-3b33e8f8ae8a
-:END:
 #+begin_src sh
 ln -sT /home/nerd/Downloads/deploy-linux/applications ~/.local/share/applications
 #+end_src
 * powershell使用proxy
-:PROPERTIES:
-:CUSTOM_ID: 04a884b9-177a-42fe-a7a9-b217853beb4d
-:END:
 #+begin_src sh
 $env:HTTP_PROXY="socks5://127.0.0.1:10808"
 $env:HTTPS_PROXY="socks5://127.0.0.1:10808"
@@ -550,9 +436,6 @@ $env:HTTPS_PROXY="http://127.0.0.1:10809"
 #+attr_org: :width 90%
 [[../../pics/proxy/proxy1.png]]
 * 在 Ranger 中创建文件或目录主要使用 :touch 和 :mkdir 命令，方式与 Vim 命令模式类似。
-:PROPERTIES:
-:CUSTOM_ID: d47e026e-d7d2-4101-81e6-f90c3792ea80
-:END:
 
 创建文件：
 
@@ -588,20 +471,11 @@ $env:HTTPS_PROXY="http://127.0.0.1:10809"
 
 会一次创建多个文件。
 * ranger预览图片 :ranger:
-:PROPERTIES:
-:CUSTOM_ID: ec10e33a-288a-4c35-a3e8-c5af2aa82f70
-:END:
 ** 1. 安装依赖：
-:PROPERTIES:
-:CUSTOM_ID: 7fec97e7-7e41-45d6-93cf-9fb181713556
-:END:
 #+begin_src sh
 ranger ueberzug
 #+end_src
 ** 2. 编辑 ranger 配置文件：
-:PROPERTIES:
-:CUSTOM_ID: 772344cb-fc7a-477f-8fea-b92445f249d1
-:END:
 #+begin_src sh
 ranger --copy-config=all
 然后编辑 ~/.config/ranger/rc.conf，加入：
@@ -609,18 +483,12 @@ set preview_images true
 set preview_images_method ueberzug
 #+end_src
 ** 3. 使用 ranger 启动图片预览：
-:PROPERTIES:
-:CUSTOM_ID: a7903f18-37fa-49e7-8b8b-6c7a53ae4dc5
-:END:
 #+begin_src
 直接运行：
 ranger
 #+end_src
 
 * ln: failed to create symbolic link '/home/nerdng/Downloads/tmp_mnt/work-project/multi-param/src/FM33A0-Drivers/Include': Operation not supported :link:
-:PROPERTIES:
-:CUSTOM_ID: e203cbfc-108d-46c5-8363-9e47d021c5d4
-:END:
 #+begin_example
 ChatGPT said:
 
@@ -695,9 +563,6 @@ cp -r /path/to/FM33A0-Drivers/Include /home/nerdng/Downloads/tmp_mnt/.../
 #+end_example
 
 * sudo dd制作upan
-:PROPERTIES:
-:CUSTOM_ID: 50c68f88-5e9a-4ad5-9b78-1690595ac09d
-:END:
 
 使用 dd 命令制作 U 盘启动盘（或写入镜像）时，请务必小心，因为一旦指定了错误的设备，将会导致数据丢失。下面是详细步骤：
 🔧 使用 dd 命令制作 U 盘启动盘
@@ -749,13 +614,7 @@ sync
 
 
 * samba :samba:
-:PROPERTIES:
-:CUSTOM_ID: 876e9ca8-3911-4e05-b736-54d0f04716a0
-:END:
 ** linux端配置samba服务
-:PROPERTIES:
-:CUSTOM_ID: 3d00e028-f5d8-40bc-ab63-19d9e72f43ff
-:END:
 #+begin_src
 sudo pacman -S samba
 
@@ -790,26 +649,14 @@ sudo systemctl enable nmb.service
 重启电脑
 #+end_src
 ** windows端配置samba服务
-:PROPERTIES:
-:CUSTOM_ID: 2abe0664-9685-44d9-925f-88f887abee80
-:END:
 控制面板 -> 启用/关闭windows功能
 [[./reference_note/windows/启用windows-samba.png]]
 再将文件夹设置为共享
 ** windows作为client
-:PROPERTIES:
-:CUSTOM_ID: 3a6dce2d-3381-4ca2-b767-16b72594a784
-:END:
 win+r
 \\192.168.x.x   输入用户和密码即可打开共享文件夹
 ** linux作为client
-:PROPERTIES:
-:CUSTOM_ID: 9bfa06f8-2f07-4ccb-b04a-84f9d796cc64
-:END:
 *** 全部输入指令参数
-:PROPERTIES:
-:CUSTOM_ID: 7c7a2a6f-ecc7-4c56-aa2b-0c0b7c3b816d
-:END:
   #+begin_src
   sudo mount.cifs -v //192.168.0.112/Downloads /home/cz/share_from_win10_Downloads --verbose -o user=Administrator,password=1,domain=192.168.0.112,uid=$(id -u),gid=$(id -g),dir_mode=0777,file_mode=0777,vers=1.0
 - windows上Downloads文件夹或“下载”文件夹设置为共享属性，这里直接在ip后跟文件夹即可。（虽然Downloads文件夹在windows上路径为C:\Users\Administrator\Downloads）
@@ -819,9 +666,6 @@ win+r
 - dir_mode=0777：目录的权限设置为 rwxrwxrwx。
   #+end_src
 *** 隐藏用户密码
-:PROPERTIES:
-:CUSTOM_ID: e33c4d13-1c21-485a-b2ff-b82ff0d15888
-:END:
 #+begin_src
 如果你不想在命令行中显式地写入用户名和密码，可以创建一个 credentials 文件，这样可以避免密码暴露。
 创建一个文件，存储 Windows 的用户名和密码。例如，创建 ~/.smbcredentials 文件：
@@ -837,18 +681,12 @@ password=your_password
     sudo mount.cifs //192.168.1.10/sharefolder /mnt/win_share -o credentials=/home/your_user/.smbcredentials,uid=user,gid=users,file_mode=0777,dir_mode=0777,vers=1.0
 #+end_src
 ** 连接出错
-:PROPERTIES:
-:CUSTOM_ID: 1344b677-45fb-4226-9f4b-1bfb3d67c772
-:END:
 VFS: Error connecting to socket. Aborting operation.
 CIFS: VFS: cifs_mount failed w/return code = -115
 解决：
 1. 同时都检查client和server的防火墙有开启smb，或者有阻止smb
 2. windows 一端防火墙允许exporler.exe联网
 ** 查看本机或远程服务器的共享列表：
-:PROPERTIES:
-:CUSTOM_ID: 6854cee0-f19f-44b4-a0ff-f581f9a19e4b
-:END:
 #+begin_src sh
   debian12先安装sudo apt install smbclient -y
   smbclient -L   //IP   -U  用户名 -m SMB3   (使用sm3协议）
@@ -916,51 +754,30 @@ firewall-cmd --get-zones 命令显示系统中所有可用的区域，但不显�
 #+end_src
 
 *** 查看当前区域允许哪些服务
-:PROPERTIES:
-:CUSTOM_ID: 53d189cf-9c4d-43c9-8085-229d68043d01
-:END:
 #+begin_src sh
 sudo  firewall-cmd --list-service
 #+end_src
 *** 将服务添加到区域
-:PROPERTIES:
-:CUSTOM_ID: 7c67a15d-061e-4042-9808-dc75d50be4c5
-:END:
 #+begin_src sh
   firewall-cmd --zone=public --add-service=samba --permanent
 #+end_src
 *** 从区域中删除服务
-:PROPERTIES:
-:CUSTOM_ID: fcdffca3-1688-4959-8d19-0cf0912ba748
-:END:
 #+begin_src sh
   firewall-cmd --zone=public --remove-service=samba --permanent
 #+end_src
 *** 紧急禁用所有网络
-:PROPERTIES:
-:CUSTOM_ID: cc48f3fb-6961-4496-b658-bdf37c950203
-:END:
 **** 在紧急情况下，要立即禁用网络流量，
-:PROPERTIES:
-:CUSTOM_ID: 30e030e2-703c-4381-bfd6-1ff53aef35cf
-:END:
 #+begin_src sh
   sudo firewall-cmd  --panic-on
 #+end_src
 注意：启用 panic 模式可停止所有网络流量。因此，他应只在对服务器有web控制终端时才使用
 
 **** 防火墙恢复到其永久设置。
-:PROPERTIES:
-:CUSTOM_ID: e7758e9e-ec38-49e1-a231-7bb4738df972
-:END:
 #+begin_src sh
     sudo firewall-cmd --panic-off
 #+end_src
 
 **** 查看是否打开或关闭panic模式：
-:PROPERTIES:
-:CUSTOM_ID: 97a1e64c-9afe-49a4-97b9-402ad9a0a118
-:END:
 #+begin_src sh
   sudo firewall-cmd --query-panic
 #+end_src
@@ -1040,22 +857,10 @@ sudo firewall-cmd --zone=public --add-service=https --permanent
 *** 查看防火墙规则是否生效：
    sudo firewall-cmd --list-all
 * awesome-wm
-:PROPERTIES:
-:CUSTOM_ID: cccc4685-e7c4-4ce2-98c4-ef555c2e9211
-:END:
 ** root key和client key
-:PROPERTIES:
-:CUSTOM_ID: 2a5b6f16-cf2b-4b70-8130-bdd3890e5086
-:END:
 *** 在 AwesomeWM 里，“root key”和“client key”不是加密概念，而是键绑定作用域（hotkey scope）的分类。
-:PROPERTIES:
-:CUSTOM_ID: 7fb8afa5-289a-4faf-a8af-ef18de88833b
-:END:
 
 *** 一、Root key（全局按键 / root window key）
-:PROPERTIES:
-:CUSTOM_ID: c23ab82b-5e8e-4291-a128-4d895f021df4
-:END:
 指绑定在 root window（桌面本身）上的快捷键。
 
 特点：
@@ -1074,9 +879,6 @@ Mod4 + p → launcher
 Mod4 + j/k → 切换窗口
 
 *** 二、Client key（客户端按键）
-:PROPERTIES:
-:CUSTOM_ID: e6557c3e-cc6a-4424-a4b1-42c4f09efc54
-:END:
 指绑定在“窗口（client）”上的快捷键。
 
 特点：
@@ -1097,9 +899,6 @@ Mod4 + f → 全屏当前窗口
 Mod4 + m → 最大化窗口
 
 *** 三、在 hotkeys_popup 里的含义
-:PROPERTIES:
-:CUSTOM_ID: a62c5645-eaf9-4ae7-97a6-39d9ded3f9e7
-:END:
 
 awful.hotkeys_popup 会把 key 分组展示：
 
@@ -1111,9 +910,6 @@ layout
 custom group（你自己定义的 group）
 
 *** 四、关键区别总结
-:PROPERTIES:
-:CUSTOM_ID: 957fd63f-90b3-4a2d-a6b6-99eecccd760d
-:END:
 
 类型	作用范围	依赖窗口	常见用途
 root key	整个桌面	否	启动器 / tag / system control
