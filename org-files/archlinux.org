@@ -1160,3 +1160,7 @@ pacman -Qq | grep -E '^(ghc|cabal|stack|haskell-|hslua)'
 pacman -Q | grep '^haskell-' | wc -l
 理想结果： 0 或接近 0
 #+end_example
+* work-computer-github-token
+#+begin_example
+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
+#+end_example
