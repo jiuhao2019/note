@@ -524,3 +524,34 @@ undefined reference to `__RAM_segment_used_end__'
 如果在中断里设置了event，回调函数不会执行，即回调只在线程里设置event时会执行。
 上面说的回调是用tx_event_flags_set_notify(&obj.evt_ov, ov_cb);设置的回调函数。
 #+end_example
+
+* 开关中断
+
+** 宏形式
+#+begin_src  C
+TX_INTERRUPT_SAVE_AREA
+TX_DISABLE
+...
+TX_RESTORE
+#+end_src
+** 函数形式
+#+begin_src  C
+UINT old;
+old = tx_interrupt_control(TX_INT_DISABLE);
+...
+tx_interrupt_control(old);
+#+end_src
+#+begin_example
+应用层代码：
+一个函数一个临界区 → 用宏
+一个函数多个临界区 → tx_interrupt_control()
+#+end_example
+用宏形式，注意一个隐藏问题
+不要这样：
+#+begin_src  C
+TX_DISABLE;
+TX_DISABLE;
+...
+TX_RESTORE;
+TX_RESTORE;
+#+end_src
