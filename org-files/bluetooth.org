@@ -4,22 +4,13 @@
 #+title: bluetooth
 #+date: [2026-05-10 Sun 15:44]
 * HID
-:PROPERTIES:
-:CUSTOM_ID: c0ef4c1d-ef08-4cdd-9b1b-431eae08a91b
-:END:
 ** HID（Human Interface Device）通用上报
-:PROPERTIES:
-:CUSTOM_ID: 424b017a-54d0-4cbb-b837-70782a3dd80d
-:END:
 #+begin_example
 指的是通过 HID 协议传输设备状态或数据的过程。
 在 USB 或蓝牙 HID 设备中，数据上报通常包括按键、鼠标、游戏控制器等设备的输入数据。
 HID 协议提供了灵活的方式来传输这些数据，使用不同类型的“上报”（Report）来表示各种输入事件。
 #+end_example
 ** HID 设备分类：
-:PROPERTIES:
-:CUSTOM_ID: 59b57947-1a6b-4dd7-8419-795b46a62ccb
-:END:
 #+begin_example
 键盘：发送按键按下和松开的报告。
 鼠标：发送移动和点击事件。
@@ -28,9 +19,6 @@ HID 协议提供了灵活的方式来传输这些数据，使用不同类型的�
 HID 协议使得设备之间的交互变得非常标准化和简化。对于开发者来说，可以通过理解设备的报告描述符来解析或生成数据，从而实现与设备的通信。
 #+end_example
 ** HID 键盘设备输入报告结构是这样：
-:PROPERTIES:
-:CUSTOM_ID: 02e601ad-84dc-4457-9beb-f1abd434bc84
-:END:
 #+begin_example
 1 字节：修饰符键状态（如 Shift、Ctrl 等）
 6 字节：普通按键的状态（每个字节表示一个按键）
@@ -43,21 +31,12 @@ typedef struct {
 } KeyboardReport;
 #+end_src
 ** ASCII 可显示字符的范围,按键可以按出来
-:PROPERTIES:
-:CUSTOM_ID: e7dcaca0-e393-407b-ae45-f8f996407d16
-:END:
 *** 可显示字符通常指的是：
-:PROPERTIES:
-:CUSTOM_ID: 351eea90-7471-4006-8b39-deb73d2b38ce
-:END:
 - 大小写字母 :: A-Z、a-z（共 52 个字符）
 - 数字 :: 0-9（共 10 个字符）
 - 标点符号 :: 例如 !"#$%&'()*+,-./:;<=>?@[\\]^_{|}~`（共 32 个字符）
 - 格符 :: 1 个字符（空格）
 *** 可显示 ASCII 字符的总数
-:PROPERTIES:
-:CUSTOM_ID: 1427e02f-349d-4f6e-a287-76c29dd0f62d
-:END:
 计算总数时，考虑上述各类字符，数量如下：
 - 字母 :: 26（大写） + 26（小写） = 52
 - 数字 :: 10
@@ -66,15 +45,9 @@ typedef struct {
 因此，可显示的 ASCII 字符总数是：
 52（字母）+ 10（数字）+ 32（标点符号）+ 1（空格）= 95
 * 烧录用usb口，usb线得是有数据线的，不能只有电源线 :沁恒:
-:PROPERTIES:
-:CUSTOM_ID: b66396ce-2edb-4134-ba71-95cc5ec65cb9
-:END:
 #+begin_example
 烧录软件是WCH_ISP_Studio
 烧录前不要上电，勾选上电即自动下载，选择好hex文件，先按着boot key，
 即boot接地，再上电，即会自动下载（可能要先选好com口）
 #+end_example
 * 串口调试是uart1   [ txd1和rxd1 ] 不要用[ txd1_ 和rxd1_ ] :沁恒:
-:PROPERTIES:
-:CUSTOM_ID: 4ab31442-3195-4c9a-aa77-f7692aa618ff
-:END:
