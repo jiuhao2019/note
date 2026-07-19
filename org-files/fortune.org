@@ -4,18 +4,12 @@
 #+title: fortune
 #+date: [2026-06-07 Sun 09:12]
 * linux Hurd
-:PROPERTIES:
-:CUSTOM_ID: 27426b41-8c93-4a5c-8be1-076e043fd44f
-:END:
 #+begin_example
 Audience: What will become of Linux when the Hurd is ready?
 Eric Youngdale: Err... is Richard Stallman here?
 -- From the Linux conference in spring '95, Berlin
 #+end_example
 * 岳飞
-:PROPERTIES:
-:CUSTOM_ID: 9eb5959d-7bf1-49b3-8fdb-54108749d4ad
-:END:
 #+begin_example
 昨夜寒蛩不住鸣，惊回千里梦，已三更。起来独自绕阶行，人悄悄，帘外月胧明。
 白首为功名。旧山松竹老，阻归程。欲将心事付瑶琴。知音少，弦断有谁听？

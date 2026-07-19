@@ -297,37 +297,7 @@ $ gpg --armor --export-secret-keys jxq > jxq.asc
 #+end_src
 
 * 源码编译安装emacs
-:PROPERTIES:
-:CUSTOM_ID: b6d9f46c-1a64-495b-ba96-7c70e166913c
-:END:
-#+begin_src  sh
-   Arch Linux：
-   安装依赖：
-           sudo pacman -S \
-           base-devel \
-           gtk3 \
-           imagemagick \
-           libgccjit \
-           jansson \
-           tree-sitter \
-           gnutls \
-           libxml2
-   编译：
-       ./autogen.sh
-       
-       ./configure \
-       --with-imagemagick \
-       --with-native-compilation \
-       --with-tree-sitter \
-       --with-json \
-       --with-mailutils
-
-    make -j$(nproc)
-    sudo make install
-
-  验证imagemagick支持否：
-  M-:                                      <-  alt+冒号后再输入以下语句 回车
-   (image-type-available-p 'imagemagick)
-  返回：
-   t
-#+end_src
+#+begin_example
+不必源码安装，直接系统安装即可，编译的总是有各种编译问题。
+编译无非为了使能imagemagick，进而支持能inline图片，但是如今没必要，直接安装的emacs也直接支持jpg png能图片。
+#+end_example
