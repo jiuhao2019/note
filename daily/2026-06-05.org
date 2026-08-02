@@ -1,8 +1,0 @@
-:PROPERTIES:
-:ID:       a503c69c-e6b2-478d-a3b2-45e0f9b7a71f
-:END:
-#+title: 2026-06-05
-* <2026-06-05 17:04>
-:PROPERTIES:
-:CUSTOM_ID: 4bbc13a8-97a6-4d44-98fd-7098946bcafd
-:END:

@@ -1,4 +1,0 @@
-PROPERTIES:
-:ID:       e2505a90-2e10-444a-89ae-4d86b4550e70
-:END:
-#+title: 2026-06-19
