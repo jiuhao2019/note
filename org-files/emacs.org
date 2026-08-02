@@ -298,6 +298,6 @@ $ gpg --armor --export-secret-keys jxq > jxq.asc
 
 * 源码编译安装emacs
 #+begin_example
-不必源码安装，直接系统安装即可，编译的总是有各种编译问题。
+不必源码安装，直接系统安装即可，因为源码编译的总是有各种编译问题。
 编译无非为了使能imagemagick，进而支持能inline图片，但是如今没必要，直接安装的emacs也直接支持jpg png能图片。
 #+end_example
