@@ -916,39 +916,26 @@ root key	整个桌面	否	启动器 / tag / system control
 client key	当前窗口	是	窗口操作 / 应用控制
 
 如果你是在 hotkeys_popup.show_help() 里看到 “root / client” 分组，那只是对 awful.key 的 group 分类展示，不是额外机制。
-* pandoc-cli 是用 Haskell 编写的，安装 Pandoc 时会连带安装大量 Haskell 运行库。
+* pandoc-cli 是用 Haskell 编写的，安装 Pandoc 时,提示安装1或2，如果误选了pandoc-cli,而不是pandoc-bin,会连带安装大量 Haskell 运行库,如下是卸载清理步骤。
 #+begin_example
-如果你只是为了 Org 导出 Markdown、PDF 等功能，并不关心系统集成，有几种办法：
-使用静态版 Pandoc
-直接从官方发布的二进制安装：
-sudo pacman -S pandoc
-选择pandoc-bin
-
 查看当前安装的是哪个pancdoc
 sudo pacman -Qo $(which pandoc)
 可能显示    /usr/bin/pandoc is owned by pandoc-cli 3.6-73
 
-如果你只是为了 Org Mode 导出文档，并不关心 Arch 的包管理集成，可以考虑卸载 sudo pacman -R pandoc-cli
-然后安装官方发布的静态二进制版本。
-sudo pacman -Syu
-就不会再因为 Pandoc 牵扯出几十个 haskell-* 包更新。
-不过需要注意一点：如果你系统里还有其他 Haskell 软件（例如通过 pacman 安装的 Haskell 工具），即使卸载 Pandoc，也可能仍然看到大量 haskell-* 更新。
-
-可以统计一下：
+卸载 sudo pacman -R pandoc-cli
+统计一下：
 sudo pacman -Q | grep '^haskell-' | wc -l
 
 再看看有哪些 Haskell 包：
 sudo pacman -Q | grep '^haskell-'
 
-建议先清理所有孤立包：
+先清理所有孤立包：
 sudo pacman -Rns $(pacman -Qdtq)
 然后再次统计： sudo pacman -Q | grep '^haskell-' | wc -l
 
-很多时候这一步会连锁删除大量 Haskell 库。
-更快的方法是查看系统里还有哪些顶层 Haskell 软件：
+查看系统里还有哪些顶层 Haskell 软件：
 pacman -Qq | grep -E '^(ghc|cabal|stack|haskell-|hslua)'
 
-路线 A：彻底清掉 Haskell（推荐如果你不开发 Haskell）
 执行： sudo pacman -Rns ghc-libs hslua-cli
 然后再： sudo pacman -Rns $(pacman -Qdtq)
 
