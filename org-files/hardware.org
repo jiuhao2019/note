@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       f1653d19-bd88-4491-a193-e397844e9416
 :END:
-#+title: 电子电路
+#+title: hardware
 #+date: [2026-05-03 Sun 21:51]
 
 * 直流电机的反向冲击 算浪涌？
@@ -396,3 +396,69 @@ IPP ≥ 预期浪涌电流
 若需具体型号推荐（如 24V/12V 电源输入、10A 电流、50kHz 开关频率），可提供详细工况，进一步缩小选型范围。
 #+end_example
 * 施密特触发器
+* stm32的adc的regular模式和inject模式差异
+** STM32 的 ADC 里，Regular（规则组）和 Injected（注入组）本质上都是 ADC 转换，只是“优先级、触发方式、结果寄存器”不同。
+** 以你之前提到的 STM32F103 为例，可以这样理解：
+
+| 特性            | Regular 规则组           | Injected 注入组               |
+|-----------------+-------------------------+------------------------------|
+| 主要用途         | 普通、连续采样            | 高优先级、关键时刻采样          |
+| 通道数量         | F1 最多 16 个            | 最多 4 个                     |
+| 转换优先级       | 普通                    | 高                           |
+| 能否打断 Regular | —                       | 可以                         |
+| 结果寄存器       | 共用 ADC_DR             | 每个 Injected 通道有独立 JDR   |
+| DMA             | 支持                    | F1 上通常不走普通 DMA          |
+| 外部触发         | 支持                    | 支持                         |
+| 常见用途         | 电压、电流、温度、多路 ADC | PWM 同步采样、电机电流、保护信号 |
+
+** STM32F1 的 Injected 组最多 4 个通道，而 Regular 组最多 16 个；Regular 多通道扫描时结果共用一个 ADC_DR，通常配合 DMA 保存。Injected 则有独立的 JDRx 结果寄存器。
+
+** 最关键的区别是“抢占”。
+#+begin_example
+例如：
+
+Regular:
+CH0 → CH1 → CH2 → CH3 → ...
+
+ADC 正在转换 CH1 的时候，如果来了 Injected 触发：
+
+CH0 → CH1
+       ↓
+       Injected CH5
+       Injected CH6
+       ↓
+       CH2 → CH3
+
+Injected 转换完成后，再继续 Regular 转换。因此特别适合需要“准确时间点采样”的场景。
+#+end_example
+
+** 对于你这种 STM32 + 电机/PWM 的应用，通常可以这样分：
+#+begin_example
+Regular
+├── 电源电压
+├── 温度
+├── 电池电压
+└── 其他慢速模拟量
+       ↓
+      DMA
+
+而：
+
+Injected
+├── 电机相电流
+├── 母线电流
+└── 需要与 PWM 同步的电流/电压
+       ↑
+     TIM触发
+
+例如 PWM 周期是 100 µs，可以让定时器某个 TRGO/CC 事件触发 Injected ADC：
+
+PWM:       ─────┐      ─────┐
+                │            │
+ADC Inject:     ↑            ↑
+              采样         采样
+
+这样 ADC 的采样点可以固定在 PWM 周期中的某个位置，而不是依赖 CPU 什么时候执行 ADC。对于电机控制，这通常比单纯 Regular + 软件启动更合适。
+#+end_example
+
+**  还有一个容易混淆的地方：Injected 并不是“采样速度更快”。它本身的 ADC 转换速度并没有因为叫 Injected 而变快；优势主要是高优先级 + 独立结果寄存器 + 更适合定时器触发/同步采样。
