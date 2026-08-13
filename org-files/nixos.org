@@ -1,0 +1,4 @@
+* flake升级
+cd ~/Downloads/nixos
+sudo nix flake update
+sudo nixos-rebuild switch
