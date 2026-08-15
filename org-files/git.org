@@ -5,11 +5,7 @@
 #+date: [2026-05-03 Sun 09:10]
 
 * git status 提示 ahead by 1 commit，但是git push 提示 冲突
-:PROPERTIES:
-:CUSTOM_ID: 13434214-e2f6-4440-80e8-8b8bff3f3112
-:END:
 #+begin_example
-
 这种情况本质是：本地分支“领先”，但远端也发生了变化 → 分叉（diverged）了。
 也就是说不是单纯的 “ahead”，而是：
 
@@ -38,46 +34,25 @@ git pull --rebase 本质就是：
 把你的提交“挪到别人提交后面”，而不是“合并在一起”。
 #+end_example
 * git branch
-:PROPERTIES:
-:CUSTOM_ID: 160db643-7513-44f3-b6ac-29e32fd02545
-:END:
 ** 查询
-:PROPERTIES:
-:CUSTOM_ID: 881910de-e305-4f58-b64d-de6b2f60b09d
-:END:
 *** 查询 本地分支：
-:PROPERTIES:
-:CUSTOM_ID: fb166a27-9162-4635-a778-c78b8ff6d4b7
-:END:
 #+begin_src sh
 git branch
 输出会列出当前仓库中所有本地分支，当前所在分支前面有 \*。
 #+end_src
 *** 查询 远程分支：
-:PROPERTIES:
-:CUSTOM_ID: 50be036e-6dae-40f6-a566-68592b685e66
-:END:
 #+begin_example
 git branch -r
 #+end_example
 *** 查询 本地 + 远程 所有分支：
-:PROPERTIES:
-:CUSTOM_ID: e6d4953a-a10d-453b-9964-fe7490f96667
-:END:
 #+begin_src sh
 git branch -a
 #+end_src
 ** 切换
-:PROPERTIES:
-:CUSTOM_ID: cdf1536c-8cad-4c21-b6c4-cc55d662763a
-:END:
 #+begin_src  sh
 git switch xxx
 #+end_src
 ** 新增
-:PROPERTIES:
-:CUSTOM_ID: 36164457-e775-4787-869e-392476cd4995
-:END:
 #+begin_example
 git switch -c xxx
 #+end_example
@@ -161,45 +136,6 @@ git show --stat <commit>
 只看 diff：git diff <commit>^ <commit>
 按历史逐个看变化：git log -p
 如果你是在做代码 review 或 bisect，也可以说下场景，我可以给你一套更顺手的命令组合
-#+end_example
-* 回退到指定commit
-:PROPERTIES:
-:CUSTOM_ID: 86576664-3d75-48b2-af14-a4f1ca6588af
-:END:
-** 简单粗暴方式（直接回退 ffa69df，重写历史）
-:PROPERTIES:
-:CUSTOM_ID: 7bffc4d5-4a16-47f2-ba74-9a99879a7ed0
-:END:
-#+begin_example
-
-如果你 确认当前分支没人用，且可以强制推送：
-git reset --hard ffa69df
-git push -f
-直接把 HEAD 移动到 ffa69df
-
-工作区、暂存区都回到 ffa69df 的内容
-
-强制 push 覆盖远端
-
-⚠️ 风险：重写远端历史，别人基于这个分支的提交会冲突。
-#+end_example
-** 安全 revert 多个 commit（保留远端历史）
-:PROPERTIES:
-:CUSTOM_ID: f1149f53-0bf9-405c-aa06-27572164c369
-:END:
-#+begin_example
-先查看git log --oneline -5
-git revert HEAD          # revert 95338e3
-git revert HEAD~1        # revert d65a15a
-git revert HEAD~2        # revert d65a15a
-git revert HEAD~3        # revert d65a15a
-
-依次 revert 本地多余 commit（从最新到最旧）：
-完成后push
-如果不依次，直接revert到指定commit，会提示冲突，需解决冲突，
-所以一般距离当前HEAD不远还是一个一个revert即可
-
-revert与reset的区别是 revert会将想到的旧commit重新原样commit的一次，所以不改变历史。
 #+end_example
 * clone with submodule
 :PROPERTIES:
@@ -746,85 +682,3 @@ git push origin branchB
 
 --orphan 让每个分支没有共同历史，完全独立，相当于一个仓库里存两个项目
 #+end_src
-*  在archlinux上 gitea使用,在 Arch Linux 上部署 Gitea 非常简单，因为官方仓库已经提供了软件包。
-** 1. 安装
-#+begin_example
-sudo pacman -S gitea
-
-安装后会创建：
-
-用户：git
-配置目录：/etc/gitea
-数据目录：/var/lib/gitea
-systemd 服务：gitea.service
-
-查看版本：
-
-gitea --version
-#+end_example
-** 2. 启动服务
-#+begin_example
-sudo systemctl enable --now gitea
-
-查看状态：
-
-systemctl status gitea
-
-查看日志：
-
-journalctl -u gitea -f
-#+end_example
-** 3. 首次访问
-#+begin_example
-浏览器打开： http://localhost:3000
-如果是局域网： http://服务器IP:3000
-第一次进入会看到安装向导。
-#+end_example
-** 4. 推荐配置
-#+begin_example
-对于个人使用，推荐直接使用 SQLite。
-数据库： SQLite3
-数据库路径： /var/lib/gitea/data/gitea.db
-仓库目录： /var/lib/gitea/data/git/repositories
-#+end_example
-** 5. SSH
-#+begin_example
-查看 SSH 是否开启： sudo systemctl status sshd
-没有的话： sudo systemctl enable --now sshd
-之后可以在 Gitea 中添加自己的公钥：
-Settings
-    SSH / GPG Keys
-        Add Key
-以后即可： git clone git@服务器IP:用户名/仓库.git
-#+end_example
-** 6. HTTP Clone
-#+begin_example
-无需 SSH，也可以： git clone http://服务器IP:3000/用户名/仓库.git
-#+end_example
-** 7. 默认配置文件
-#+begin_example
-配置文件位置： /etc/gitea/app.ini
-如果安装向导生成的是其他位置，也可以查看： sudo find /etc -name app.ini
-修改配置后重启： sudo systemctl restart gitea
-#+end_example
-** 8. 数据备份
-#+begin_example
-主要备份：
-
-/var/lib/gitea/
-
-其中包括：
-
-Git 仓库
-SQLite 数据库
-附件
-LFS（如果启用）
-
-恢复时只需恢复该目录并保留 app.ini。
-#+end_example
-** 9. 更新
-#+begin_example
-sudo pacman -Syu
-Gitea 会随系统一起更新，无需额外步骤。
-对于 Arch Linux，pacman 安装 + systemd 管理是最省心的方式。如果只是个人或小团队使用，SQLite 即可，无需额外安装 MySQL 或 PostgreSQL。
-#+end_example
