@@ -41,7 +41,6 @@ sudo nix-env --profile /nix/var/nix/profiles/system --switch-generation 2
 *** 如果新配置导致系统无法正常工作，可以在 GRUB/systemd-boot 的 NixOS generations 菜单里直接选择旧 generation。
 
 * 清理旧系统
-
 ** 查看垃圾,但不会清理
 #+begin_example
 nix-store --gc --print-dead
@@ -54,14 +53,14 @@ sudo nix-collect-garbage
 #+begin_example
 sudo nix-collect-garbage -d
 #+end_example
-** 只保留最近 30 天
+** 只保留最近 1 天
 #+begin_example
-sudo nix-collect-garbage --delete-older-than 30d
+sudo nix-collect-garbage --delete-older-than 1d
 #+end_example
 * NixOS 配置检查
 #+begin_example
 sudo nixos-rebuild dry-build
-这个很有用：只构建，不实际切换系统。
+只构建，不实际切换系统。
 #+end_example
 * channel
 #+begin_example

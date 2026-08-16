@@ -4,9 +4,6 @@
 #+title: windows
 #+date: [2026-05-26 Tue 02:00]
 * 禁用win10自动更新
-:PROPERTIES:
-:CUSTOM_ID: 294c688c-f616-438d-ba3e-13971bdc2cb0
-:END:
 #+begin_example
 - gpedit.msc
 - 计算机配置 -> 管理模板 -> windows组件 -> windows更新
@@ -17,9 +14,6 @@
   - 删除使用所有windwos更新功能的访问权限
 #+end_example
 * powershell使用
-:PROPERTIES:
-:CUSTOM_ID: d0ccaffe-559c-4dfd-98a7-26efab0de7cb
-:END:
 ** 无法将 识别为cmdlet
 :PROPERTIES:
 :CUSTOM_ID: 0c0611cc-8200-4d93-a774-6d86ef0ae495
@@ -40,7 +34,7 @@
 :PROPERTIES:
 :CUSTOM_ID: e835cbf7-7138-4849-85c6-baf0d9896a5a
 :END:
-#+begin_src 
+#+begin_src
 - Set-ExecutionPolicy AllSigned
 - Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 #+end_src
@@ -54,7 +48,7 @@
 :END:
 #+begin_example
 1. 像文件系统那样操作Windows Registry——cd hkcu:
-2. 在文件里递回地搜索某个字符串——dir –r | select string "searchforthis" 
+2. 在文件里递回地搜索某个字符串——dir –r | select string "searchforthis"
 3. 使用内存找到五个进程——ps | sort –p ws | select –last 5
 4. 循环（停止，然后重启）一个服务，如DHCP——Restart-Service DHCP
 5. 在文件夹里列出所有条目——Get-ChildItem – Force
@@ -116,7 +110,7 @@ Get-Content -Path C:\New\testfile2.txt
 :PROPERTIES:
 :CUSTOM_ID: 6545a1e7-9743-43ee-93e4-89bb97b92355
 :END:
-#+begin_src 
+#+begin_src
 ni -Path "C:\New\" -Name "testfile3.txt" -ItemType File
 #+end_src
 *** 使用 fsutil 通过 Windows PowerShell 创建新的文本文件
@@ -132,7 +126,7 @@ fsutil file createnew testfile4.txt 10000
 :PROPERTIES:
 :CUSTOM_ID: 4db0fea4-1b74-4ca1-a9b8-be825df4d7d1
 :END:
-#+begin_src 
+#+begin_src
 echo "PowerShell Tutorial" > testfile5.txt
 #+end_src
 *** 使用文本编辑器通过 Windows PowerShell 创建新的文本文件
@@ -143,12 +137,9 @@ echo "PowerShell Tutorial" > testfile5.txt
 例如 nano、notepad、vim、emacs 等。
 notepad testfile6.txt
 #+end_example
-* 关闭System Guard 
-:PROPERTIES:
-:CUSTOM_ID: 086b7e75-0758-4346-83db-0946925c1394
-:END:
+* 关闭System Guard
 #+begin_example
-1. Win+r    regedit.exe 
+1. Win+r    regedit.exe
 2. 进注册表HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SgrmBroker路径把delayedAutoStart参数改成“3“变成手动模式，start参数也改成3，重启电脑进服务看就是手动模式，不再是自动延迟模式了。
 3. 网上基本都是这种说法，有部分人好使有部分人就不好使，我改成3之后，重启system guard运行时监视器服务依然在运行；
 4. 注册表参数意思：2-->自动；3-->手动；4--禁用；
