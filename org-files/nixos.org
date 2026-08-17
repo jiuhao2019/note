@@ -66,4 +66,6 @@ sudo nixos-rebuild dry-build
 #+begin_example
 sudo nix-channel --list
 sudo nix-channel --update
+sudo nix-channel --remove nixos
+sudo nix-channel --remove nixpkgs
 #+end_example
