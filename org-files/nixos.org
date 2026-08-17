@@ -69,3 +69,200 @@ sudo nix-channel --update
 sudo nix-channel --remove nixos
 sudo nix-channel --remove nixpkgs
 #+end_example
+* nh使用
+如果你是问“nh 怎么使用”，你现在是 NixOS + flake，最常用的就是下面几个。
+
+先安装：
+
+environment.systemPackages = with pkgs; [
+  nh
+];
+
+然后重建一次：
+
+sudo nixos-rebuild switch --flake .
+
+之后就可以用 nh。
+
+** 最常用：重建 NixOS
+
+在你的 ~/nixos-config 目录：
+
+nh os switch
+
+它会自动找到当前目录的 flake.nix。
+
+如果想明确指定：
+
+nh os switch ~/nixos-config
+
+相当于：
+
+sudo nixos-rebuild switch --flake ~/nixos-config
+
+但 nh 的输出会更好看，并且可以配合 nix-output-monitor 显示构建进度。
+
+** 只构建，不切换
+nh os build
+
+类似：
+
+sudo nixos-rebuild build --flake .
+
+不会修改当前正在运行的系统。
+
+** 测试配置
+nh os test
+
+相当于：
+
+sudo nixos-rebuild test --flake .
+
+会切换到新配置，但重启后不会自动保留。
+
+更新 flake 后重建
+
+你现在是 flake：
+
+nix flake update
+
+然后：
+
+nh os switch
+
+也就是：
+
+nix flake update
+nh os switch
+
+注意：nh os switch 本身不会自动更新 flake.lock。
+
+** 查看历史配置
+nh os info
+
+可以查看 NixOS generations。
+
+然后例如：
+
+sudo nixos-rebuild switch --rollback
+
+回滚仍然可以使用 NixOS 原生命令。
+
+** GC
+
+nh 还有垃圾回收：
+
+nh clean all
+
+可以清理旧 generations。
+
+例如只保留最近 7 天：
+
+nh clean all --keep-since 7d
+
+如果想连旧的系统 generations 一起清理，可以：
+
+nh clean all --keep-since 7d
+** 你这个配置最推荐这样用
+以后基本就是：
+cd ~/nixos-config
+
+nix flake update
+nh os switch
+
+平时没有更新依赖，只修改了配置：
+
+nh os switch
+
+查看构建：
+
+nh os build
+
+我建议你直接把 nh 加进 NixOS：
+
+environment.systemPackages = with pkgs; [
+  nh
+];
+
+另外可以设置：
+
+programs.nh = {
+  enable = true;
+  clean.enable = true;
+  clean.extraArgs = "--keep-since 4d --keep 3";
+};
+
+这样 nh 就比较完整了。
+
+对于你现在的使用习惯，最终可以简化成：
+
+# 更新 nixpkgs
+nix flake update
+
+# 重建并切换
+nh os switch
+
+# 清理旧 generations
+nh clean all
+
+这套比每次手写 sudo nixos-rebuild switch --flake . 更方便。
+* lf文件管理器使用
+
+lf 常用快捷键，按“日常使用”来记就够了：
+
+** 方向 / 移动
+j / ↓        下移
+k / ↑        上移
+h / ←        返回上级目录
+l / →        进入目录 / 打开文件
+gg           跳到顶部
+G            跳到底部
+Ctrl-d       向下半页
+Ctrl-u       向上半页
+** 文件操作
+Enter        打开文件
+y            复制
+d            删除
+r            重命名
+p            粘贴
+
+注意：lf 默认的复制/粘贴是“内部剪贴板”，不是系统剪贴板。
+
+** 选择
+Space        选择/取消当前文件
+v            反选
+uv           取消所有选择
+** 搜索 / 跳转
+/            搜索文件名
+n            下一个匹配
+N            上一个匹配
+f            快速查找
+zh           显示/隐藏隐藏文件
+
+不同版本/配置里隐藏文件常见的是 zh，而不是我上一条说的 .。如果你的 lf 是默认配置，可以直接按 zh。
+
+** 目录跳转
+gh           回到 home
+g/           根目录
+** 排序
+os           按大小排序
+on           按文件名排序
+ot           按修改时间排序
+oe           按扩展名排序
+** 其他
+:            输入 lf 命令
+!            执行 shell 命令
+$            执行 shell 命令并等待
+%            执行 shell 命令并保持 lf
+q            退出
+
+** 最值得记的其实就是：
+
+j k        上下
+h l        返回/进入
+gg G       顶部/底部
+Space      选择
+y d p r    复制/删除/粘贴/重命名
+zh         隐藏文件
+/ n N      搜索
+q          退出
