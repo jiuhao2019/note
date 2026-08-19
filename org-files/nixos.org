@@ -71,17 +71,12 @@ sudo nix-channel --remove nixpkgs
 #+end_example
 * nh使用
 如果你是问“nh 怎么使用”，你现在是 NixOS + flake，最常用的就是下面几个。
-
 先安装：
-
 environment.systemPackages = with pkgs; [
   nh
 ];
-
 然后重建一次：
-
 sudo nixos-rebuild switch --flake .
-
 之后就可以用 nh。
 
 ** 最常用：重建 NixOS
@@ -148,21 +143,12 @@ sudo nixos-rebuild switch --rollback
 
 回滚仍然可以使用 NixOS 原生命令。
 
-** GC
+** 清理旧 generations
+保留最近 3 个系统版本，并删除 7 天以前的
+nh clean all --keep 3 --keep-since 7d
 
-nh 还有垃圾回收：
-
+删除所有旧版本
 nh clean all
-
-可以清理旧 generations。
-
-例如只保留最近 7 天：
-
-nh clean all --keep-since 7d
-
-如果想连旧的系统 generations 一起清理，可以：
-
-nh clean all --keep-since 7d
 ** 你这个配置最推荐这样用
 以后基本就是：
 cd ~/nixos-config
@@ -184,16 +170,6 @@ environment.systemPackages = with pkgs; [
   nh
 ];
 
-另外可以设置：
-
-programs.nh = {
-  enable = true;
-  clean.enable = true;
-  clean.extraArgs = "--keep-since 4d --keep 3";
-};
-
-这样 nh 就比较完整了。
-
 对于你现在的使用习惯，最终可以简化成：
 
 # 更新 nixpkgs
@@ -202,7 +178,7 @@ nix flake update
 # 重建并切换
 nh os switch
 
-# 清理旧 generations
+# 清理所有旧 generations，只留一个
 nh clean all
 
 这套比每次手写 sudo nixos-rebuild switch --flake . 更方便。

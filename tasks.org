@@ -1,2 +1,7 @@
 * TODO mos用原来的大的，以便兼容
   [2026-08-15 Sat 08:46]
+* TODO rime主题应用
+  [2026-08-20 Thu 05:50]
+* TODO advmv advcp
+* TODO gruvbox nvim配色
+* TODO emacs autosave 错误
