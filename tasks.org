@@ -1,7 +1,27 @@
-* TODO mos用原来的大的，以便兼容
+* FINISHED mos用原来的大的，以便兼容
+CLOSED: [2026-08-20 Thu 20:06]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-20 Thu 20:06] \\
+  改用足够的电流参数mos，vdss更大的，原30V改为60V
+:END:
   [2026-08-15 Sat 08:46]
 * TODO rime主题应用
   [2026-08-20 Thu 05:50]
-* TODO advmv advcp
+* FINISHED advmv advcp
+CLOSED: [2026-08-20 Thu 21:18]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-20 Thu 21:18]
+:END:
 * TODO gruvbox nvim配色
-* TODO emacs autosave 错误
+* FINISHED emacs autosave 错误
+CLOSED: [2026-08-20 Thu 20:55]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-20 Thu 20:55]
+:END:
+* FINISHED grub和systemboot
+CLOSED: [2026-08-20 Thu 21:06]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-20 Thu 21:06] \\
+  systemboot更简单更快
+:END:
+* TODO lf预览图
