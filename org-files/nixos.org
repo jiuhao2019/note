@@ -70,7 +70,6 @@ sudo nix-channel --remove nixos
 sudo nix-channel --remove nixpkgs
 #+end_example
 * nh使用
-如果你是问“nh 怎么使用”，你现在是 NixOS + flake，最常用的就是下面几个。
 先安装：
 environment.systemPackages = with pkgs; [
   nh
@@ -147,8 +146,6 @@ sudo nixos-rebuild switch --rollback
 保留最近 3 个系统版本，并删除 7 天以前的
 nh clean all --keep 3 --keep-since 7d
 
-删除所有旧版本
-nh clean all
 ** 你这个配置最推荐这样用
 以后基本就是：
 cd ~/nixos-config
