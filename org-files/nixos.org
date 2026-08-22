@@ -80,105 +80,23 @@ sudo nixos-rebuild switch --flake .
 
 ** 最常用：重建 NixOS
 
-在你的 ~/nixos-config 目录：
-
+在 nixos配置目录：
 nh os switch
-
-它会自动找到当前目录的 flake.nix。
-
-如果想明确指定：
-
-nh os switch ~/nixos-config
-
-相当于：
-
-sudo nixos-rebuild switch --flake ~/nixos-config
-
-但 nh 的输出会更好看，并且可以配合 nix-output-monitor 显示构建进度。
 
 ** 只构建，不切换
 nh os build
-
-类似：
-
-sudo nixos-rebuild build --flake .
-
 不会修改当前正在运行的系统。
 
 ** 测试配置
 nh os test
 
-相当于：
-
-sudo nixos-rebuild test --flake .
-
-会切换到新配置，但重启后不会自动保留。
-
-更新 flake 后重建
-
-你现在是 flake：
-
-nix flake update
-
-然后：
-
-nh os switch
-
-也就是：
-
-nix flake update
-nh os switch
-
-注意：nh os switch 本身不会自动更新 flake.lock。
-
 ** 查看历史配置
 nh os info
-
-可以查看 NixOS generations。
-
-然后例如：
-
-sudo nixos-rebuild switch --rollback
-
-回滚仍然可以使用 NixOS 原生命令。
 
 ** 清理旧 generations
 保留最近 3 个系统版本，并删除 7 天以前的
 nh clean all --keep 3 --keep-since 7d
 
-** 你这个配置最推荐这样用
-以后基本就是：
-cd ~/nixos-config
-
-nix flake update
-nh os switch
-
-平时没有更新依赖，只修改了配置：
-
-nh os switch
-
-查看构建：
-
-nh os build
-
-我建议你直接把 nh 加进 NixOS：
-
-environment.systemPackages = with pkgs; [
-  nh
-];
-
-对于你现在的使用习惯，最终可以简化成：
-
-# 更新 nixpkgs
-nix flake update
-
-# 重建并切换
-nh os switch
-
-# 清理所有旧 generations，只留一个
-nh clean all
-
-这套比每次手写 sudo nixos-rebuild switch --flake . 更方便。
 * lf文件管理器使用
 
 lf 常用快捷键，按“日常使用”来记就够了：
