@@ -36,3 +36,8 @@ CLOSED: [2026-08-20 Thu 21:06]
 :LOGBOOK:
 - State "PENDING"    from "TODO"       [2026-08-21 Fri 09:09]
 :END:
+* TODO github.io个人网站
+  [2026-08-23 Sun 00:30]
+* TODO md emacs
+* TODO emacs project
+* TODO 记录怎么发布githubio步骤，看gpt回答
