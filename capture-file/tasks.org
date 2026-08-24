@@ -41,3 +41,5 @@ CLOSED: [2026-08-20 Thu 21:06]
 * TODO md emacs
 * TODO emacs project
 * TODO 记录怎么发布githubio步骤，看gpt回答
+* TODO sm32 clion
+  [2026-08-24 Mon 09:17]
