@@ -32,7 +32,11 @@ CLOSED: [2026-08-20 Thu 21:06]
 - State "FINISHED"   from "TODO"       [2026-08-20 Thu 21:06] \\
   systemboot更简单更快
 :END:
-* TODO emacs project
+* FINISHED emacs project
+CLOSED: [2026-08-25 Tue 06:49]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-25 Tue 06:49]
+:END:
 * FINISHED sm32 clion
 CLOSED: [2026-08-24 Mon 22:03]
 :LOGBOOK:
@@ -56,5 +60,9 @@ CLOSED: [2026-08-25 Tue 01:28]
 - State "FINISHED"   from "TODO"       [2026-08-25 Tue 01:28]
 :END:
 
-* TODO awesome 一键打开常用，terminal chromium clash-verge emacs
+* FINISHED awesome 一键打开常用，terminal chromium clash-verge emacs
+CLOSED: [2026-08-25 Tue 06:49]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-25 Tue 06:49]
+:END:
 * TODO fish快捷键 zi c-o 路径跳转
