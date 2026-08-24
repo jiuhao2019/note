@@ -41,7 +41,17 @@ CLOSED: [2026-08-24 Mon 22:03]
 :END:
 [2026-08-24 Mon 09:17]
 
-* TODO zoxide使用
+* FINISHED zoxide使用
+CLOSED: [2026-08-25 Tue 01:28]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-25 Tue 01:28]
+:END:
   [2026-08-24 Mon 23:06]
 
-* TODO emacs find file recusive
+* FINISHED emacs find file recusive
+CLOSED: [2026-08-25 Tue 01:28]
+:LOGBOOK:
+- State "FINISHED"   from "FINISHED"   [2026-08-25 Tue 01:28] \\
+  用projectile即可
+- State "FINISHED"   from "TODO"       [2026-08-25 Tue 01:28]
+:END:
