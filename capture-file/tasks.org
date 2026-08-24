@@ -16,12 +16,12 @@ CLOSED: [2026-08-20 Thu 21:18]
 :LOGBOOK:
 - State "FINISHED"   from "TODO"       [2026-08-20 Thu 21:18]
 :END:
-* FINISHED gruvbox nvim配色
+* FINISHED gruvbox nvim配色 :nvim:
 CLOSED: [2026-08-21 Fri 09:09]
 :LOGBOOK:
 - State "FINISHED"   from "TODO"       [2026-08-21 Fri 09:09]
 :END:
-* FINISHED emacs autosave 错误
+* FINISHED emacs autosave 错误 :emacs:
 CLOSED: [2026-08-20 Thu 20:55]
 :LOGBOOK:
 - State "FINISHED"   from "TODO"       [2026-08-20 Thu 20:55]
@@ -32,14 +32,16 @@ CLOSED: [2026-08-20 Thu 21:06]
 - State "FINISHED"   from "TODO"       [2026-08-20 Thu 21:06] \\
   systemboot更简单更快
 :END:
-* PENDING lf预览图
-:LOGBOOK:
-- State "PENDING"    from "TODO"       [2026-08-21 Fri 09:09]
-:END:
-* TODO github.io个人网站
-  [2026-08-23 Sun 00:30]
-* TODO md emacs
 * TODO emacs project
-* TODO 记录怎么发布githubio步骤，看gpt回答
-* TODO sm32 clion
-  [2026-08-24 Mon 09:17]
+* FINISHED sm32 clion
+CLOSED: [2026-08-24 Mon 22:03]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-24 Mon 22:03] \\
+  不如cubeide，因为其只是个ide，而且免费版强制开启数据上传。
+:END:
+[2026-08-24 Mon 09:17]
+
+* TODO zoxide使用
+  [2026-08-24 Mon 23:06]
+
+* TODO emacs find file recusive
