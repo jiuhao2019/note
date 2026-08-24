@@ -55,3 +55,6 @@ CLOSED: [2026-08-25 Tue 01:28]
   用projectile即可
 - State "FINISHED"   from "TODO"       [2026-08-25 Tue 01:28]
 :END:
+
+* TODO awesome 一键打开常用，terminal chromium clash-verge emacs
+* TODO fish快捷键 zi c-o 路径跳转
