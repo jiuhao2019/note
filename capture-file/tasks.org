@@ -65,4 +65,8 @@ CLOSED: [2026-08-25 Tue 06:49]
 :LOGBOOK:
 - State "FINISHED"   from "TODO"       [2026-08-25 Tue 06:49]
 :END:
-* TODO fish快捷键 zi c-o 路径跳转
+* FINISHED fish快捷键 zi c-o 路径跳转
+CLOSED: [2026-08-25 Tue 23:54]
+:LOGBOOK:
+- State "FINISHED"   from "TODO"       [2026-08-25 Tue 23:54]
+:END:
