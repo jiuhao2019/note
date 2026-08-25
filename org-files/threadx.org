@@ -710,3 +710,5 @@ TX_RESTORE;
 
 #endif
 #+end_src
+* log打印的stk size比传进去的少4个byte是threadx创建函数自己处理的原因
+
