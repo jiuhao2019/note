@@ -151,3 +151,163 @@ ADC Inject:     ↑            ↑
 #+end_example
 
 **  还有一个容易混淆的地方：Injected 并不是“采样速度更快”。它本身的 ADC 转换速度并没有因为叫 Injected 而变快；优势主要是高优先级 + 独立结果寄存器 + 更适合定时器触发/同步采样。
+* [2026-08-15 Sat 10:34] 光耦
+** 光耦主要参数：
+*** CTR
+#+begin_example
+电流传输比
+表示输出电流能力
+CTR = Ic / If × 100%
+#+end_example
+**** 规格书里 [ 最小-典型-最大 ] 的CTR
+#+begin_example
+光耦 CTR（Current Transfer Ratio，电流传输比）如果规格书只给：
+
+CTR min（最小）
+CTR typ（典型）
+CTR max（最大）
+
+但是 typ 没有给数值，设计时不要自己猜典型值，应该按 最小 CTR 设计。
+
+原因：
+
+CTR 离散性很大，而且会随：
+
+LED 电流 IF
+温度
+老化
+VCE 电压
+批次
+
+变化。
+
+如果是驱动 MOS 管、继电器、逻辑输入：
+
+一般还要留裕量，比如：
+
+实际需要光耦输出 1mA：
+
+不要设计：
+1mA = CTR × IF
+
+而应设计：
+2mA = CTR × IF
+
+这样温度、老化后还能工作。
+
+所以结论：
+
+CTR典型没有值 → 按 CTR最小值设计
+CTR最大值只用于判断LED电流是否过大
+不建议用典型CTR做量产设计
+#+end_example
+*** IF
+#+begin_example
+输入LED正向电流
+常用 5mA、10mA
+#+end_example
+*** VF
+#+begin_example
+输入LED正向压降
+一般 1.1V~1.3V
+#+end_example
+*** VCEO
+#+begin_example
+输出三极管集电极-发射极耐压
+决定能接多少电压
+例如 35V、80V
+#+end_example
+*** IC
+#+begin_example
+输出最大集电极电流
+决定能拉多少电流
+#+end_example
+*** VCE(sat)
+#+begin_example
+输出导通压降
+越低越好
+#+end_example
+**** 光耦输出三极管进入饱和状态的条件是：
+#+begin_example
+基极驱动能力（由 LED 电流和 CTR 决定）足够大，使集电极电流不再受 CTR 限制，而是由外部负载决定。
+也就是： Ic(负载) ≤ If × CTR
+满足这个条件时，光耦可以进入饱和，VCE 会降到较低值（通常几十到几百 mV）。
+#+end_example
+***** 例如：
+#+begin_example
+If = 5mA
+CTR(min)=50%
+光耦保证输出：
+Ic = 5mA × 50% = 2.5mA
+#+end_example
+
+****** 情况1：
+#+begin_example
+上拉电阻 10k，12V：
+Ic负载 = 12V / 10k = 1.2mA
+1.2mA < 2.5mA
+满足，进入饱和：
+VCE ≈ 0.1~0.3V
+#+end_example
+
+****** 情况2：
+#+begin_example
+上拉电阻 1k：
+Ic负载 = 12mA
+12mA > 2.5mA
+不满足，不饱和：
+VCE 会升高。
+#+end_example
+
+****** 工程设计一般留裕量，不按刚好：
+#+begin_example
+例如：
+计算 CTR 输出能力 2.5mA
+实际负载设计 ≤ 1mA 左右
+这样温度、老化、CTR离散后仍可靠。通常用 CTR(min) 而不是典型值。
+#+end_example
+
+*** Isolation Voltage
+#+begin_example
+隔离耐压
+例如 2500Vrms、3750Vrms
+#+end_example
+*** Speed
+#+begin_example
+响应速度
+看：
+上升时间 Tr
+下降时间 Tf
+传输延迟
+#+end_example
+*** Temperature
+#+begin_example
+工作温度范围
+温度影响CTR
+#+end_example
+
+** 实际选型重点：
+
+*** 普通开关：
+#+begin_example
+CTR
+VCEO
+IC
+#+end_example
+
+*** 高速信号：
+#+begin_example
+速度
+CTR
+#+end_example
+
+*** 驱动MOS：
+#+begin_example
+CTR
+IC
+VCE(sat)
+响应速度
+#+end_example
+* [2026-08-15 Sat 13:27] 二极管续流
+瞬时冲击看Ifsm,比如启动，停止堵转
+pwm形式驱动看If

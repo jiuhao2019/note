@@ -1,12 +1,6 @@
-:PROPERTIES:
-:ID:       b89adc19-a35d-44a0-83a1-bf896697e4fb
-:END:
 #+title: c_language
 #+date: [2026-05-02 Sat 14:29]
 * 给你一个最终简化模型（建议记这个）
-:PROPERTIES:
-:CUSTOM_ID: 70062ba7-693b-49b6-880c-67bb038dbf51
-:END:
 #+begin_src  C
 你只记这三种就够了：
 const char *p;        // 常用（字符串、Flash）
@@ -18,20 +12,11 @@ const 在结构体里的用法（非常实战，嵌入式常见）
 这两个才是真正拉开水平的地方。
 #+end_src
 * 不用死记，给你一个工程上可执行的记忆法，核心是两条规则 + 一个读法。
-:PROPERTIES:
-:CUSTOM_ID: 6bc6b43a-f4b5-4c1a-b13a-61ac3be2243d
-:END:
 ** 一、唯一规则（最重要）
-:PROPERTIES:
-:CUSTOM_ID: a4d41a56-ed63-406d-b3c5-c809e74c643c
-:END:
 #+begin_example
 const 修饰它左边的东西；如果左边没有，就修饰右边
 #+end_example
 ** 二、用这个规则逐个拆
-:PROPERTIES:
-:CUSTOM_ID: d107ee2c-e953-43c8-a963-9cac4df017a8
-:END:
 1️⃣
 const char *p;
 读： const 左边没有 → 修饰右边 char      ⇒ char 是 const
@@ -52,9 +37,6 @@ const char * const p;
 结论：
 都不能改
 ** 三、更强记忆法（推荐你用这个）
-:PROPERTIES:
-:CUSTOM_ID: 8e6f8d0e-1748-42a3-94ac-a5185b9d1a55
-:END:
 #+begin_src C
   把声明从变量名开始读（非常关键，很多老工程师都这么用）：
   示例1
@@ -72,15 +54,9 @@ const char * const p;
   p 是一个 → const 指针 → 指向 const char
 #+end_src
 ** 四、快速判断口诀（你可以直接用）
-:PROPERTIES:
-:CUSTOM_ID: 09a75231-bab2-42ba-9a3b-61fa6e1cb44a
-:END:
  左边有 const → 指针不能改
  右边有 const → 数据不能改
 ** 五、你现在这个场景对应哪种？
-:PROPERTIES:
-:CUSTOM_ID: 5cc4e80b-1a77-41a3-8897-47d977504ffd
-:END:
 const char *str;
 属于：
 数据只读（通常在 Flash）
@@ -90,9 +66,6 @@ str = "abc";    // ✔
 str = "xyz";    // ✔
 str[0] = 'A';   // ❌（嵌入式可能直接炸）
 ** 六、为什么要这么设计（给你工程理解）
-:PROPERTIES:
-:CUSTOM_ID: cc0e9d23-ced3-4748-9a99-d784a03e6fcd
-:END:
 这是为了区分两件完全不同的东西：
 地址能不能变
 地址里的内容能不能改
@@ -100,13 +73,7 @@ str[0] = 'A';   // ❌（嵌入式可能直接炸）
 Flash → 只能读 → const char *
 RAM buffer → 可写 → char *
 * *(uint16_t *)0x200046c1在keil里使用是否可行
-:PROPERTIES:
-:CUSTOM_ID: 3286ff7b-07e9-4699-8143-32cae447de04
-:END:
 ** 字节对齐规则
-:PROPERTIES:
-:CUSTOM_ID: 18e6f451-c300-4f45-b078-7ff6bd4bf2f0
-:END:
 #+begin_example
       对于 uint16_t 类型（2 字节），地址必须是 2 的倍数。否则在 ARM Cortex-M 系列中，会引发硬件异常。
       地址 0x200046c1 的最后一位是 c1，转换为二进制为 11000001。其最低一位是 1，因此是奇数地址，不满足 2 字节对齐要求。
@@ -116,9 +83,6 @@ RAM buffer → 可写 → char *
               - 程序崩溃
 #+end_example
 ** 临时解决方法
-:PROPERTIES:
-:CUSTOM_ID: 23ab446a-0962-433f-a2d9-ebb809b657e6
-:END:
 #+begin_src C
       方法1：
       通过逐字节访问来：
@@ -130,16 +94,10 @@ RAM buffer → 可写 → char *
         memcpy(value, (uint8*)0x200046c1, sizeof(uint16_t));
 #+end_src
 ** cortexM 字节对齐规则
-:PROPERTIES:
-:CUSTOM_ID: 809e1f07-7da0-44b9-8eff-438cd35ebed2
-:END:
 #+begin_example
     Cortex-M 系列的字节对齐规则基于 ARM 架构的内存访问机制，对齐要求旨在提高内存访问效率，并避免因未对齐访问而引发硬件故障
 #+end_example
 *** 字节对齐的基本原则
-:PROPERTIES:
-:CUSTOM_ID: 12603aa8-bff0-4c9d-82e1-6c69f5f3eb67
-:END:
 #+begin_src c
     对齐要求：
         数据类型的地址必须是其大小的倍数：
@@ -151,9 +109,6 @@ RAM buffer → 可写 → char *
     未对齐访问定义： 数据的地址不满足上述对齐要求（例如，uint16_t 存储在奇数地址），则称未对齐访问（Unaligned Access）。
 #+end_src
 *** Cortex-M 未对齐访问的处理
-:PROPERTIES:
-:CUSTOM_ID: 48a85921-e9e8-4801-ae6f-843d679d1fa6
-:END:
 #+begin_example
       默认行为：
           Cortex-M0 和 Cortex-M1：不支持未对齐访问，尝试未对齐访问会触发 HardFault
@@ -169,9 +124,6 @@ RAM buffer → 可写 → char *
               设置为 0（默认）：允许未对齐访问
 #+end_example
 *** 字节对齐的实际应用
-:PROPERTIES:
-:CUSTOM_ID: 89d2a978-fa09-4f46-a207-508b17d5a079
-:END:
 #+begin_example
       变量对齐： 编译器通常会自动对变量进行对齐，例如
       struct example {
@@ -192,9 +144,6 @@ RAM buffer → 可写 → char *
 
 
 * 访问结构体成员， 可能该成员地址非对齐访问？
-:PROPERTIES:
-:CUSTOM_ID: e50cb0a0-9e76-47d6-9265-41a3849532b9
-:END:
 #+begin_example
 这是一个非常关键且实际的问题。答案是：是的，访问结构体成员确实可能导致非对齐访问，但这取决于多个因素。
 
@@ -468,9 +417,6 @@ struct PACKED Dangerous {
 记住：在嵌入式系统中，非对齐访问通常是性能损失，有时是致命错误。保持数据自然对齐是最佳选择。
 #+end_example
 * 在32bit单片机里用32bit及其以下变量 是原子性？
-:PROPERTIES:
-:CUSTOM_ID: 946d87f6-3ccd-40d8-a47f-501910d36a19
-:END:
 #+begin_example
 这是一个非常好的问题，答案并不是简单的“是”或“否”。它取决于多个关键因素。
 
@@ -585,9 +531,6 @@ if (data_ready) {
 这样可以写出健壮、可移植且安全的嵌入式代码。
 #+end_example
 * inline函数
-:PROPERTIES:
-:CUSTOM_ID: 6606789c-66e4-4a7d-92af-ef696649e251
-:END:
 #+begin_src  C
   ✅ 头文件 float_bytes.h  
   ```
@@ -815,9 +758,6 @@ if (data_ready) {
 #+end_src
 
 * uint8_t 变量一直++ 值变化，溢出后变化
-:PROPERTIES:
-:CUSTOM_ID: 3fd434a8-1bff-4bbd-aa59-cdbaf3178791
-:END:
 #+begin_src  C
 ChatGPT said:
 
@@ -866,9 +806,6 @@ if (val < 255) {
 #+end_src
 <<<<<<< HEAD
 * void类型指针转换整形
-:PROPERTIES:
-:CUSTOM_ID: 080eee2d-92ef-4378-aa0d-073cdb3be405
-:END:
 #+begin_example
     void类型指针可以转换为intptr_t或uintptr_t类型整形,反之亦可，值不变。
 #+end_example
@@ -884,20 +821,11 @@ if (val < 255) {
       ptr = (void *)(uintptr_t)var;
 #+end_src
 * const修饰,不用死记，给你一个工程上可执行的记忆法，核心是两条规则 + 一个读法。
-:PROPERTIES:
-:CUSTOM_ID: d99b649f-2e32-4e61-9d52-c1d5860615dc
-:END:
 ** 一、唯一规则（最重要）
-:PROPERTIES:
-:CUSTOM_ID: a69f5806-bb2a-4842-8ab5-81946a387314
-:END:
 #+begin_example
 const 修饰它左边的东西；如果左边没有，就修饰右边
 #+end_example
 ** 二、用这个规则逐个拆
-:PROPERTIES:
-:CUSTOM_ID: 032e0147-b368-487d-82ee-fa63eb9240a3
-:END:
 #+begin_example
 1️⃣
 const char *p;
@@ -924,9 +852,6 @@ const char * const p;
 都不能改
 #+end_example
 ** 三、更强记忆法（推荐你用这个）
-:PROPERTIES:
-:CUSTOM_ID: 6c0dec09-8a77-41d5-94d0-740eaa78820d
-:END:
 #+begin_example
 把声明从变量名开始读（非常关键，很多老工程师都这么用）：
 示例1
@@ -942,17 +867,11 @@ const char * const p;
 p 是一个 → const 指针 → 指向 const char
 #+end_example
 ** 四、快速判断口诀（你可以直接用）
-:PROPERTIES:
-:CUSTOM_ID: bf704cd1-aacd-46af-99e2-866951f262f7
-:END:
 #+begin_example
  左边有 const → 指针不能改
  右边有 const → 数据不能改
 #+end_example
 ** 五、你现在这个场景对应哪种？
-:PROPERTIES:
-:CUSTOM_ID: 54e47989-3019-4c97-9848-0e321fc57bb1
-:END:
 #+begin_example
 const char *str;
 属于：
@@ -964,9 +883,6 @@ str = "xyz";    // ✔
 str[0] = 'A';   // ❌（嵌入式可能直接炸）
 #+end_example
 ** 六、为什么要这么设计（给你工程理解）
-:PROPERTIES:
-:CUSTOM_ID: f0c8aee7-c3a8-4580-8970-57319491d7da
-:END:
 #+begin_example
 这是为了区分两件完全不同的东西：
 地址能不能变
@@ -976,9 +892,6 @@ Flash → 只能读 → const char *
 RAM buffer → 可写 → char *
 #+end_example
 * 二维数组内存
-:PROPERTIES:
-:CUSTOM_ID: 5e14433f-505d-42fb-b0c0-4b77e46a95f2
-:END:
 #+begin_src c
 int a[3][4]; // 3行4列的二维数组
 
@@ -1003,9 +916,6 @@ a[i][j] 的地址可以通过以下方式计算：
 & a[i][j] == &a[0][0] + sizeof(int) * (i * 4 + j)
 #+end_src
 * 利用union float to byte 和byte to float
-:PROPERTIES:
-:CUSTOM_ID: 76f3dbe9-def0-4dfc-98bc-3e3621fc2077
-:END:
 #+begin_example
 在 C 语言中，你可以使用 union 联合体在 float 和 byte（通常是 uint8_t）之间高效地进行类型转换。这种方式不会改变底层的二进制表示，非常适合嵌入式系统中处理串口通信、EEPROM 存储等场景。
 
@@ -1071,9 +981,6 @@ uint8_t buffer[4];
 如你有更复杂的数据结构或想处理多个浮点数，我也可以帮你扩展结构。是否需要加上 CRC、Flash 存储等内容？
 #+end_example
 * 优先级反转
-:PROPERTIES:
-:CUSTOM_ID: 19e11b20-8317-4b16-a0de-534f983c1348
-:END:
 #+begin_example
 设三任务优先级：A（高）> B（中）> C（低）。有一个互斥锁 mutex。假设抢占式调度、没有优先级继承。
 初始（t0）
@@ -1089,33 +996,21 @@ A 仍然阻塞在 mutex 上不能运行。
 这时的事实是：A（最高）被阻塞等待 C（最低）释放 mutex，而 C 正被中优先级 B 抢占不能执行。因此高优先级任务被“间接”阻塞在中优先级任务上，发生了优先级翻转。
 #+end_example
 ** 翻转发生的“点”（关键瞬间）
-:PROPERTIES:
-:CUSTOM_ID: 37f52681-b6b4-42e8-befa-ba739c12db5d
-:END:
 #+begin_example
 翻转点 = 当中优先级任务 B 开始运行并抢占住了持有资源的低优先级任务 C，且有高优先级任务 A 正在等待该资源时。
 #+end_example
 ** 解决思路（简短）
-:PROPERTIES:
-:CUSTOM_ID: c84056da-1b44-4bcd-9cca-9cbbcfd2a26c
-:END:
 #+begin_example
 - 优先级继承（Priority Inheritance）：当 A 阻塞在 mutex 上，系统临时把持有 mutex 的 C 提升到 A 的优先级，使 C 抢到 CPU、尽快释放 mutex，从而避免 B 抢占导致翻转。
 - 优先级上限（Priority Ceiling）：在获取资源时把任务优先级直接提升到资源上限，避免中间插队。
 - 以及尽量减少临界区长度、避免嵌套锁等设计手段。
 #+end_example
 * 定义bit常规写法
-:PROPERTIES:
-:CUSTOM_ID: 5fcc2036-e853-4a41-8e2d-ed1b7cbc088d
-:END:
 #+begin_example
 常规、规范一点的写法是把位移表达式用括号包起来，并且给常量加上无符号后缀，避免类型和优先级坑：
 #define BIT_USER_EVT1   (1U << 0)
 #+end_example
 ** 再稍微解释一下为什么这样写更“正统”：
-:PROPERTIES:
-:CUSTOM_ID: f7edec56-4b72-49bf-b9ba-f347ce1e9d77
-:END:
 #+begin_example
 << 的优先级虽然比 |、& 高，但宏本身最好总是加括号，防止以后被放进复杂表达式里出问题
 1U 明确是无符号，避免和 int / signed 混用时触发编译器告警
@@ -1127,16 +1022,10 @@ A 仍然阻塞在 mutex 上不能运行。
 #+end_example
 
 * 给函数指针赋值 举例
-:PROPERTIES:
-:CUSTOM_ID: 0097cacb-f061-43fa-95ea-3b39bc4f2c81
-:END:
 #+begin_example
 给函数指针赋值其实就是“让一个指针指向一个函数”，也可以理解为“让指针知道调用哪个函数”。下面是一些典型的例子，帮助你理解和掌握这个过程。
 #+end_example
 ** 基础用法示例
-:PROPERTIES:
-:CUSTOM_ID: 41913dc6-761c-4135-9e66-3520f5ede75c
-:END:
 
 #+begin_src  c
 #include <stdio.h>
@@ -1164,9 +1053,6 @@ int (*func_ptr)(int, int);
 #+end_src
 
 ** 数组中使用函数指针（函数跳转表）
-:PROPERTIES:
-:CUSTOM_ID: 8a62d1f4-1a48-4818-a744-8da36a0b11fa
-:END:
 #+begin_src c
 
 #include <stdio.h>
@@ -1192,9 +1078,6 @@ int (\*func_table[2])(int, int);
 #+end_src
 
 ** 结构体中使用函数指针（策略模式/虚函数模拟）
-:PROPERTIES:
-:CUSTOM_ID: 02e5912b-95ff-4879-b43d-c670d175c477
-:END:
 #+begin_src c
 
 #include <stdio.h>
@@ -1218,9 +1101,6 @@ op.operate = mul; // 给结构体中的函数指针赋值
 }
 #+end_src
 ** 小技巧：直接赋值 vs 使用地址符号
-:PROPERTIES:
-:CUSTOM_ID: 476d5366-2d00-4f00-a03a-f662b456fcb9
-:END:
 
 #+begin_src c
 func_ptr = add; // ✅ 推荐写法
@@ -1231,9 +1111,6 @@ func_ptr = &add; // ✅ 也可以，因为函数名本身就是地址
 需要我举出某种特定风格或项目中你遇到的实际场景，也可以告诉我，我可以按你的代码风格或项目需求来举例。
 #+end_src
 * C计算里判断浮点数 Nan
-:PROPERTIES:
-:CUSTOM_ID: 0154fd1b-0046-4a8a-8e6a-d235b543cfc6
-:END:
 #+begin_src c
 在 C 语言中判断一个浮点数是否是 NaN（Not a Number），不能使用 == 来比较，而应该使用标准库函数。
 
@@ -1293,17 +1170,8 @@ float a = 0.0f / 0.0f; // 会生成 NaN
 如有更多上下文，比如你是想判断一个数组里是否含有 NaN，我可以提供相应代码示例。
 #+end_src
 * 没有if while等关键字加大括号的情况
-:PROPERTIES:
-:CUSTOM_ID: 985a6750-de4e-4ac7-b761-f2373432ae4c
-:END:
 ** 如果代码中没有显式的关键字（如 if、while、for 等），但你希望将一段代码单独用大括号 {} 包裹起来，可以简单地直接在代码的前后加上 {}。
-:PROPERTIES:
-:CUSTOM_ID: 25a5c4a4-aa75-4a7d-9fdb-4d4376cdefb6
-:END:
 *** 示例：原始代码
-:PROPERTIES:
-:CUSTOM_ID: c3af4177-3b47-4c30-a483-3cd825bde0b7
-:END:
 #+begin_src c
       int x = 10;
       printf("Hello, World!\n");
@@ -1319,9 +1187,6 @@ float a = 0.0f / 0.0f; // 会生成 NaN
 #+end_src
 
 ** 规则和注意事项
-:PROPERTIES:
-:CUSTOM_ID: 8ef65e63-ef83-4e97-868d-d36f397e00f9
-:END:
 #+begin_src c
         任意代码块都可以用大括号括起来
         大括号本身不依赖于任何关键字，可以直接用于分隔代码逻辑或组织局部变量作用域。
@@ -1353,9 +1218,6 @@ float a = 0.0f / 0.0f; // 会生成 NaN
           }
 #+end_src
 * 可变参数
-:PROPERTIES:
-:CUSTOM_ID: b0f93be3-63ad-40a9-8bcf-1673363ed3b2
-:END:
 #+begin_src C
     #include <stdio.h>
     #include <stdarg.h>
@@ -1398,9 +1260,6 @@ float a = 0.0f / 0.0f; // 会生成 NaN
     这个示例中，sum 函数接受一个整数参数 count，表示随后的可变参数的数量，然后计算这些参数的和。
 #+end_src
 * 多项式拟合
-:PROPERTIES:
-:CUSTOM_ID: a0798d62-23eb-4cb2-8322-49a1e9bdebe5
-:END:
 #+begin_src c
   /*Functtion :多项式拟合polyfit*/
   #include <stdio.h>
@@ -1639,9 +1498,6 @@ int main() {
 #+end_src
 #+end_src
 * "#define"特殊字符
-:PROPERTIES:
-:CUSTOM_ID: 7f15beab-0890-4e7a-b551-616223708371
-:END:
 #+begin_src C
       #define Conn(x,y) x##y
       #define ToChar(x) #@x
@@ -1655,13 +1511,7 @@ int main() {
     可以看出 ## 是简单的连接符，#@用来给参数加单引号，#用来给参数加双引号即转成字符串。
 #+end_comment
 * 嵌套循环一个难觉察的错误
-:PROPERTIES:
-:CUSTOM_ID: 07a0b9de-6bea-412c-b507-2f4466722cf9
-:END:
 ** 一个嵌套循环的例子
-:PROPERTIES:
-:CUSTOM_ID: 27539279-d2b4-4dd1-93b3-509ec6d8cebc
-:END:
 #+begin_src C
       while (/* 外层循环条件 */) {
           // 外层循环的其他操作
@@ -1678,7 +1528,6 @@ int main() {
       }
 #+end_src
 ** 内层循环的变量定义放到内层(如上所示)可以防止出现这样的错误：
-:PROPERTIES:
 :CUSTOM_ID: dd0be4e8-5630-426c-a770-4cff1e7d5b53
 :END:
 #+begin_example
@@ -1687,17 +1536,11 @@ int main() {
     触发wdt而复位。
 #+end_example
 * 整形数据强制转换为枚举
-:PROPERTIES:
-:CUSTOM_ID: 19688b2f-10a6-4194-93cb-7b15b055d6f2
-:END:
 #+begin_example
     在 C 语言中，可以直接将整数（int 或 uint16_t 等）强制转换为枚举类型。
     C 语言的枚举本质上是 int 类型，因此可以安全地进行类型转换。
 #+end_example
 ** 示例 1：基本的整数转枚举
-:PROPERTIES:
-:CUSTOM_ID: c2051321-512d-427f-84bd-face27b46172
-:END:
 #+begin_src c
     #include <stdio.h>
     
@@ -1722,9 +1565,6 @@ int main() {
         输出 1，说明 state 现在是 STATE_RUNNING。
 #+end_example
 ** 示例 2：带 switch 语句的枚举转换
-:PROPERTIES:
-:CUSTOM_ID: 809deebf-dc1b-4dc5-ae6e-b9097bdf4fdc
-:END:
 #+begin_example
     当从外部数据（例如 Modbus 或传感器数据）获取整数值并转换为枚举时，建议使用 switch 语句或检查是否合法，以避免无效值。
 #+end_example
@@ -1769,9 +1609,6 @@ int main() {
         switch 语句用于处理不同的模式，并提供默认情况，防止非法值导致意外行为。
 #+end_example
 ** 示例 3：使用 uint16_t 转换
-:PROPERTIES:
-:CUSTOM_ID: c6a2fcd0-3283-4f07-a8fc-2a9490ceefba
-:END:
 #+begin_example
     在嵌入式系统（如 Cortex-M0）中，我们通常使用 uint16_t 处理 Modbus 或寄存器数据：
 #+end_example
@@ -1804,17 +1641,11 @@ int main() {
     }
 #+end_src
 * 有符号数和无符号数强制类型转换
-:PROPERTIES:
-:CUSTOM_ID: bc06150d-efa8-4d15-b4eb-9b76dfac144d
-:END:
 #+begin_src 
     bit数相同，改变解释方式。
     bit数不同，情况更复杂。
 #+end_src
 * float（4 字节）最多能表示约 6～7 位有效数字，小数部分通常可精确表示约 6 位小数
-:PROPERTIES:
-:CUSTOM_ID: 1c5cf4f1-7db7-4c2e-86d0-6f1bdeef31ac
-:END:
 
 #+begin_example
 是的，你理解得基本正确，我来帮你明确这个说法的本质，避免混淆。
@@ -1879,9 +1710,6 @@ printf("%.10f\n", b);  // 输出：0.12345670（很精确）
 如你在做温度采集、压力传感、金额计算或科学计算，我可以针对具体精度需求帮你判断 float 是否够用。需要吗？
 #+end_example
 * 给浮点数赋值0
-:PROPERTIES:
-:CUSTOM_ID: f8f30526-4e38-434e-a8c1-3293f1a733d0
-:END:
 #+begin_example
 在 C 语言中，给浮点数赋值 0 有几种常见方式，以下是示例：
 
@@ -1909,9 +1737,6 @@ float arr[10] = {0};  // 所有元素都初始化为 0.0f
 如有具体场景（比如内存对齐、嵌入式寄存器映射等），可以详细说明以便给出更合适的建议。
 #+end_example
 * 优先级
-:PROPERTIES:
-:CUSTOM_ID: 96a72ad4-4f70-4a25-a4e7-205bc9f478e9
-:END:
 |-------+--------+---------------+-----------------------+---------+--------------|
 | 优先级 | 运算符  | 名称或含义      | 使用形式               | 结合方向 | 说明          |
 |-------+--------+---------------+-----------------------+---------+--------------|
@@ -1975,13 +1800,7 @@ float arr[10] = {0};  // 所有元素都初始化为 0.0f
 |    15 | ,      | 逗号运算符      | 表达式,表达式,…         | 左到右   | 从左向右顺序运 |
 |-------+--------+---------------+-----------------------+---------+--------------|
 * opaque pointer
-:PROPERTIES:
-:CUSTOM_ID: 18a79f37-a902-4e1c-9dd6-35df537331c1
-:END:
 ** opaque pointer（不透明指针）是一种 C 语言封装手法。 核心思想：
-:PROPERTIES:
-:CUSTOM_ID: 0acf6c3d-ceba-4281-94a4-3f59c09226a3
-:END:
 
 .h 里只暴露 “指针类型”
 结构体内容隐藏在 .c
@@ -1996,13 +1815,7 @@ float arr[10] = {0};  // 所有元素都初始化为 0.0f
 面向对象风格 C 代码
 
 ** 示例：
-:PROPERTIES:
-:CUSTOM_ID: eba6ac5c-f08f-4a21-aa08-077b26cdf1c8
-:END:
 *** 头文件
-:PROPERTIES:
-:CUSTOM_ID: df04d1b4-e769-46a0-8f98-53b4f929a77d
-:END:
 #+begin_src c
 /* motor.h */
 
@@ -2024,9 +1837,6 @@ void motor_destroy(motor_t *m);
 typedef struct motor motor_t; 只是声明了： struct motor; 外部不知道成员。
 #+end_example
 *** 真正定义在 .c：
-:PROPERTIES:
-:CUSTOM_ID: 511f621e-3ca9-470a-aea3-464206b9bf10
-:END:
 
 #+begin_src c
 /* motor.c */
@@ -2072,9 +1882,6 @@ void motor_destroy(motor_t *m)
 #+end_src
 
 *** 外部代码：
-:PROPERTIES:
-:CUSTOM_ID: 5b34517a-3848-4773-b548-8bc5ae96d7b2
-:END:
 
 #+begin_src  c
 #include "motor.h"
@@ -2092,9 +1899,6 @@ int main(void)
 #+end_src
 
 *** 下面这种会直接编译失败：
-:PROPERTIES:
-:CUSTOM_ID: db8eb727-01f3-4317-87f8-26a41d8fc6d8
-:END:
 #+begin_src c
 
 m->speed = 100;
@@ -2103,9 +1907,6 @@ m->speed = 100;
 #+end_src
 
 *** 优点：
-:PROPERTIES:
-:CUSTOM_ID: 1f728df8-de4c-4372-beca-ee0e6a6d1643
-:END:
 
 - 真正的数据保护,比： extern struct xxx g_xxx; 强很多。 降低耦合
 
@@ -2121,9 +1922,6 @@ struct motor
 - 类似“私有成员” 接近 C++ private。 防止误操作
 
 *** 尤其适合：
-:PROPERTIES:
-:CUSTOM_ID: 6f518d65-15f7-4a7c-9c69-01fa401ff99d
-:END:
 - RTOS共享数据
 - 驱动状态
 - 通信协议栈
@@ -2131,9 +1929,6 @@ struct motor
 - 状态机
 
 *** 嵌入式常见缺点：
-:PROPERTIES:
-:CUSTOM_ID: 3eab7b1f-0992-449e-baa1-23bb563a82dd
-:END:
 - 通常需要动态内存
  - 但也可以静态化：
 #+begin_src c
@@ -2147,17 +1942,11 @@ struct motor
 - 不能直接访问成员。
 
 *** Linux 内核也大量使用类似思想：
-:PROPERTIES:
-:CUSTOM_ID: 339841e6-8c02-4b4e-8051-9afabf4ff001
-:END:
 - struct file;
 - struct device;
 - struct inode;
 - 很多时候头文件只给前向声明。
 * 打印功能在优化等级过优化时会失效
-:PROPERTIES:
-:CUSTOM_ID: 5be29e3d-355d-4e90-bfe3-bd07d8ec6268
-:END:
 * 计算uint32_t类型的整数里1的个数
 #+begin_src C
           #define BITCOUNT(x)  (((BX_(x)+(BX_(x)>>4)) & 0x0F0F0F0F) % 255)
