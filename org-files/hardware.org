@@ -266,7 +266,7 @@ VCE 会升高。
 实际负载设计 ≤ 1mA 左右
 这样温度、老化、CTR离散后仍可靠。通常用 CTR(min) 而不是典型值。
 #+end_example
-
+***** 简记oc供电流能力过剩，进入饱和,饱和vce最低
 *** Isolation Voltage
 #+begin_example
 隔离耐压

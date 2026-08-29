@@ -29,3 +29,20 @@ uint8_t type;
 比如往type = 1, 写入某个属性
 可读取 type = 1的数据
 写入buffer及其size可以自定义，但size限制, 默认 #define LFS_ATTR_MAX 1022
+* lfs_stat() 函数用于获取这个结构体
+#+begin_src  C
+struct lfs_info {
+    // Type of the file, either LFS_TYPE_REG or LFS_TYPE_DIR
+    uint8_t type;
+
+    // Size of the file, only valid for REG files. Limited to 32-bits.
+    lfs_size_t size;
+
+    // Name of the file stored as a null-terminated string. Limited to
+    // LFS_NAME_MAX+1, which can be changed by redefining LFS_NAME_MAX to
+    // reduce RAM. LFS_NAME_MAX is stored in superblock and must be
+    // respected by other littlefs drivers.
+    char name[LFS_NAME_MAX+1];
+};
+#+end_src
+
