@@ -1,2 +1,0 @@
-* TODO nixos的log，自带或常用的  是不是可用于stm32
-* TODO at 指令系统比较通用，可以考虑替换自己的cli调试
