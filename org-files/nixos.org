@@ -2,7 +2,6 @@
 #+begin_example
 nix search nixpkgs firefox
 #+end_example
-* 清理
 * NixOS 配置检查
 #+begin_example
 sudo nixos-rebuild dry-build
@@ -646,12 +645,15 @@ USERNAME.github.io/
                       │
                 自定义域名
 这个方案比一开始直接上 Hugo/Hexo/复杂主题更适合你：技术栈少，Markdown 是核心，Nix 可以锁住本地开发环境，GitHub Actions 负责部署，之后换主题甚至从 Jekyll 换到 Hugo 也不会影响文章本身。
-* TODO 希望开机只3个generation可选
-  [2026-09-01 Tue 00:30]
-** sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
+* 清理
+#+begin_src  SH
+sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
+#+end_src
 作用是：删除 NixOS system profile 中的旧 generation 引用,开机显示
 这里的关键是：删除 generation 记录/引用，不等于马上删除 /nix/store 里的文件。
 所以执行完后，旧 generation 所依赖的 store path 可能仍然存在。
 
-** sudo nh clean all
+#+begin_src sh
+sudo nh clean all
+#+end_src
 作用是：执行 Nix garbage collection，清理已经没有任何有效引用的 /nix/store 内容
