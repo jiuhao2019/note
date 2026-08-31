@@ -1,0 +1,144 @@
+* 依赖方向严格保持：
+App
+ ↓
+Service
+ ↓
+Driver
+ ↓
+BSP / MCU
+
+* 可以把四层用一句话记住
+BSP    = 板子有什么
+Driver = 硬件怎么用
+Service = 系统提供什么能力
+App    = 产品要做什么
+
+* 例如：
+“用户修改电机最大电流”
+        ↓
+Control App
+        ↓
+Parameter Service
+        ↓
+Storage Service
+        ↓
+LittleFS
+        ↓
+Flash Driver
+
+* 不是所有 Task 都属于 App
+* App 最核心的东西：状态机
+** 对于 MCU，App 很多时候不是传统 Linux 那种“启动一个 main 然后执行到底”，而是：
+
+INIT
+  ↓
+IDLE
+  ↓
+READY
+  ↓
+RUNNING
+  ↓
+STOPPING
+  ↓
+FAULT
+
+** 例如：
+#+begin_src C
+typedef enum {
+    APP_INIT,
+    APP_IDLE,
+    APP_RUN,
+    APP_FAULT,
+} app_state_t;
+#+end_src
+
+** 然后：
+#+begin_src C
+void control_app_task(void *arg)
+{
+    app_state_t state = APP_INIT;
+
+    for (;;) {
+
+        switch (state) {
+
+        case APP_INIT:
+            parameter_service_load();
+            state = APP_IDLE;
+            break;
+
+        case APP_IDLE:
+            if (start_request)
+                state = APP_RUN;
+            break;
+
+        case APP_RUN:
+            motor_service_run();
+            if (fault)
+                state = APP_FAULT;
+            break;
+
+        case APP_FAULT:
+            motor_service_stop();
+            break;
+        }
+
+        tx_thread_sleep(10);
+    }
+}
+#+end_src
+这就是一个非常典型的 MCU Application 层。
+
+* 对于 ThreadX，我更推荐把 App 看成一个业务状态机 + 若干业务 Task。
+** 例如：
+
+App
+│
+├── System App
+│     └── system_task
+│
+├── Control App
+│     └── control_task
+│
+├── Communication App
+│     └── communication_task
+│
+└── UI App
+      └── ui_task
+
+** 然后 Service 是这些 App 共用的能力：
+
+                 ┌── Control App
+                 │
+                 ├── Communication App
+                 │
+                 └── UI App
+                         │
+                         ▼
+                  ┌─────────────┐
+                  │  Services   │
+                  ├─────────────┤
+                  │ Motor       │
+                  │ Parameter   │
+                  │ Storage     │
+                  │ Logger      │
+                  │ Protocol    │
+                  └─────────────┘
+
+** 例如：
+
+Control App
+     │
+     ├── motor_service
+     ├── parameter_service
+     └── alarm_service
+
+Communication App
+     │
+     ├── protocol_service
+     ├── parameter_service
+     └── logger_service
+
+这样 Service 才真正有复用价值。
+
+* App 层最好理解成“产品功能编排层”,建议 App 采用比较薄的结构

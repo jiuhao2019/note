@@ -1,62 +1,8 @@
-* flake
-** 只更新 flake.lock 里的依赖版本，不生成新generation
-#+begin_src  sh
-cd ~/Downloads/nixos
-sudo nix flake update
-#+end_src
 * 搜索软件
 #+begin_example
 nix search nixpkgs firefox
 #+end_example
-* generation
-** 列举 generations
-#+begin_example
-sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
-
-会看到类似：
-
-1   2026-08-10  ...
-2   2026-08-12  ...
-3   2026-08-14  ...
-#+end_example
-** 当前 generation：
-#+begin_example
-readlink /nix/var/nix/profiles/system
-会显示
-system-49-link
-#+end_example
-** 切换generation
-*** 立即回到上一代：
-#+begin_src  sh
-sudo nixos-rebuild switch --rollback
-#+end_src
-
-*** 也可以指定 generation：
-
-#+begin_src  sh
-sudo nix-env --profile /nix/var/nix/profiles/system --switch-generation 2
- 然后： sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
-#+end_src
-
-*** 如果新配置导致系统无法正常工作，可以在 GRUB/systemd-boot 的 NixOS generations 菜单里直接选择旧 generation。
-
-* 清理旧系统
-** 查看垃圾,但不会清理
-#+begin_example
-nix-store --gc --print-dead
-#+end_example
-** 删除旧 /nix/store 内容，从而释放磁盘空间
-#+begin_example
-sudo nix-collect-garbage
-#+end_example
-** 会删除所有旧的 NixOS system generations，通常只保留当前正在使用的 generation
-#+begin_example
-sudo nix-collect-garbage -d
-#+end_example
-** 只保留最近 1 天
-#+begin_example
-sudo nix-collect-garbage --delete-older-than 1d
-#+end_example
+* 清理
 * NixOS 配置检查
 #+begin_example
 sudo nixos-rebuild dry-build
@@ -69,28 +15,6 @@ sudo nix-channel --update
 sudo nix-channel --remove nixos
 sudo nix-channel --remove nixpkgs
 #+end_example
-* nh使用
-先安装：
-environment.systemPackages = with pkgs; [
-  nh
-];
-然后重建一次：
-sudo nixos-rebuild switch --flake .
-之后就可以用 nh。
-** 最常用：重建 NixOS
-
-在 nixos配置目录：
-nh os switch
-** 只构建，不切换
-nh os build
-不会修改当前正在运行的系统。
-** 测试配置
-nh os test
-** 查看历史配置
-nh os info
-** 清理旧 generations
-保留最近 3 个系统版本，并删除 7 天以前的
-nh clean all --keep 3 --keep-since 7d
 * lf文件管理器使用
 lf 常用快捷键，按“日常使用”来记就够了：
 ** 方向 / 移动
@@ -722,3 +646,12 @@ USERNAME.github.io/
                       │
                 自定义域名
 这个方案比一开始直接上 Hugo/Hexo/复杂主题更适合你：技术栈少，Markdown 是核心，Nix 可以锁住本地开发环境，GitHub Actions 负责部署，之后换主题甚至从 Jekyll 换到 Hugo 也不会影响文章本身。
+* TODO 希望开机只3个generation可选
+  [2026-09-01 Tue 00:30]
+** sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
+作用是：删除 NixOS system profile 中的旧 generation 引用,开机显示
+这里的关键是：删除 generation 记录/引用，不等于马上删除 /nix/store 里的文件。
+所以执行完后，旧 generation 所依赖的 store path 可能仍然存在。
+
+** sudo nh clean all
+作用是：执行 Nix garbage collection，清理已经没有任何有效引用的 /nix/store 内容
