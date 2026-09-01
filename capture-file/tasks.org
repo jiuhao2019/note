@@ -1,2 +1,4 @@
 * TODO 单独升级nixos的某个app
   [2026-09-01 Tue 00:29]
+* TODO bsp里都去掉，改为放在app的状态机的init里
+  [2026-09-01 Tue 14:08]
