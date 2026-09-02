@@ -702,3 +702,17 @@ ParameterService
 当回答的是“这个芯片/外设怎么操作”，放 Driver。
 
 这三个边界一旦稳定，App 的划分通常会自然出现。
+* 如下都是hardware-indenpendent函数,区别
+#+begin_example
+common/
+    项目公共基础代码
+utils/
+    零散的小工具函数
+lib/
+    独立的库/第三方库
+这里甚至可以把的边界定得非常明确：
+
+common/       自己项目的通用基础代码
+third_party/  外部引入的库
+utils/            外部引入工具函数
+#+end_example
