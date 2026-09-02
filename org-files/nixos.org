@@ -2,11 +2,6 @@
 #+begin_example
 nix search nixpkgs firefox
 #+end_example
-* NixOS 配置检查
-#+begin_example
-sudo nixos-rebuild dry-build
-只构建，不实际切换系统。
-#+end_example
 * channel
 #+begin_example
 sudo nix-channel --list
@@ -16,15 +11,6 @@ sudo nix-channel --remove nixpkgs
 #+end_example
 * lf文件管理器使用
 lf 常用快捷键，按“日常使用”来记就够了：
-** 方向 / 移动
-j / ↓        下移
-k / ↑        上移
-h / ←        返回上级目录
-l / →        进入目录 / 打开文件
-gg           跳到顶部
-G            跳到底部
-Ctrl-d       向下半页
-Ctrl-u       向上半页
 ** 文件操作
 Enter        打开文件
 y            复制
@@ -59,16 +45,6 @@ oe           按扩展名排序
 $            执行 shell 命令并等待
 %            执行 shell 命令并保持 lf
 q            退出
-** 最值得记的其实就是：
-
-j k        上下
-h l        返回/进入
-gg G       顶部/底部
-Space      选择
-y d p r    复制/删除/粘贴/重命名
-zh         隐藏文件
-/ n N      搜索
-q          退出
 * 个人网站github.io,使用步骤
 ** 1. GitHub 仓库
 假设你的 GitHub 用户名是：
