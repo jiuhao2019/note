@@ -716,3 +716,293 @@ common/       自己项目的通用基础代码
 third_party/  外部引入的库
 utils/            外部引入工具函数
 #+end_example
+* cubemx生成cmake项目
+** NixOS Flake 提供开发工具
+
+*** 建议在项目里建立新建flake.nix：
+
+#+begin_example
+MyProject/
+├── flake.nix
+├── flake.lock
+├── CMakeLists.txt
+├── CMakePresets.json
+├── Core/
+├── Drivers/
+└── ...
+#+end_example
+
+*** flake.nix 可以先做成最简单的：
+
+#+begin_src
+{
+  description = "STM32 development environment";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  };
+
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          cmake
+          ninja
+          gcc-arm-embedded
+        ];
+
+        shellHook = ''
+          echo "STM32 development shell"
+          arm-none-eabi-gcc --version
+          cmake --version
+        '';
+      };
+    };
+}
+#+end_src
+*** 然后：
+
+#+begin_src sh
+cd MyProject
+nix develop
+#+end_src
+
+*** 检查：
+
+#+begin_src sh
+which arm-none-eabi-gcc
+arm-none-eabi-gcc --version
+cmake --version
+ninja --version
+#+end_src
+
+*** 如果都正常，说明 Nix 环境已经准备好了。
+**  CMake 配置
+*** 进入开发环境：
+#+begin_example
+nix develop
+#+end_example
+*** 然后：
+#+begin_example
+cmake -S . -B build \
+  -DCMAKE_TOOLCHAIN_FILE=cmake/gcc-arm-none-eabi.cmake
+
+如果 CubeMX 已经提供了 CMakePresets，则优先使用：
+
+cmake --preset Debug
+
+或者：
+
+cmake --preset Release
+#+end_example
+
+*** 然后：
+#+begin_src sh
+cmake --build --preset Release
+#+end_src
+** 生成 .elf
+
+正常情况下：
+
+build/
+└── vending_machine_app.elf
+
+然后从 ELF 生成 BIN / HEX：
+
+把这两个动作放进 CMakeLists.txt。
+例如：
+
+#+begin_src
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+
+    COMMAND ${CMAKE_OBJCOPY}
+            -O binary
+            $<TARGET_FILE:${PROJECT_NAME}>
+            ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin
+
+    COMMAND ${CMAKE_OBJCOPY}
+            -O ihex
+            $<TARGET_FILE:${PROJECT_NAME}>
+            ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex
+
+    COMMENT "Generating binary and hex files"
+)
+#+end_src
+
+这样：
+
+cmake --build --preset Release
+
+以后自动得到：
+
+build/
+├── vending_machine_app.elf
+├── vending_machine_app.bin
+└── vending_machine_app.hex
+** 添加原文件，宏定义，头文件路径
+[[../pics/mcu/CMakeLists.txt][demo CMakeLists.txt]]
+*** 例添加源文件
+#+begin_src  C
+# Add ThreadX sources
+file(GLOB THREADX_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/threadx/common/src/*.c
+)
+
+file(GLOB THREADX_ASM_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/threadx/ports/cortex_m3/gnu/example_build/*.S
+    ${CMAKE_CURRENT_SOURCE_DIR}/threadx/ports/cortex_m3/gnu/src/*.S
+)
+
+file(GLOB USER_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/app/src/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/service/src/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/driver/src/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/common/src/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/littlefs/src/*.c
+)
+# Add sources to executable
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    ${THREADX_SOURCES}
+    ${USER_SOURCES}
+    ${THREADX_ASM_SOURCES}
+    # Add user sources here
+)
+#+end_src
+*** 添加头文件路径
+#+begin_example
+# Add include paths
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/threadx/common/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/threadx/ports/cortex_m3/gnu/inc
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/app/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/service/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/driver/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/user/common/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/littlefs/inc
+    # Add user defined include paths
+)
+#+end_example
+*** 添加宏
+#+begin_example
+# Add project symbols (macros)
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+    TX_INCLUDE_USER_DEFINE_FILE
+    # Add user defined symbols
+)
+#+end_example
+
+** 最终日常工作流
+
+*** 以后基本就是：
+
+#+begin_src sh
+cd ~/project/vending_machine
+nix develop
+cmake --preset Release
+cmake --build --preset Release
+#+end_src
+
+*** 然后：
+#+begin_src x
+ls build/
+#+end_src
+*** 得到：
+
+vending_machine_app.elf
+vending_machine_app.bin
+vending_machine_app.hex
+* jlink套装
+** 下载 Linux 64-bit TGZ，例如：
+JLink_Linux_Vxxx_x86_64.tgz
+** 解压：
+#+begin_src sh
+tar xf JLink_Linux_V*.tgz
+cd JLink_Linux_V*
+#+end_src
+** 里面可以看到类似：
+#+begin_example
+JLinkExe
+JLinkGDBServer
+JLinkGDBServerCLExe
+JLinkRTTClient
+JLinkRTTLogger
+JLinkExe
+libjlinkarm.so
+#+end_example
+** NixOS 最关键的是 USB 权限
+*** 配置 udev。
+
+*** 先插入 J-Link，然后：
+
+lsusb
+
+*** 通常能看到 SEGGER，例如：
+
+SEGGER J-Link
+
+*** 然后在 NixOS 中配置：
+#+begin_example
+services.udev.extraRules = ''
+  ATTRS{idVendor}=="1366", MODE="0666"
+'';
+#+end_example
+SEGGER 的 USB Vendor ID 是： 1366
+*** 然后更新flake配置：
+nh os switch
+*** 重新插拔 J-Link。
+检查：
+lsusb
+然后：
+JLinkExe
+正常情况下不需要 sudo。
+** 第一次连接测试
+*** 插好 J-Link 和 STM32，确认： JLinkExe
+*** 然后在 J-Link Commander 中：
+connect
+*** 选择：
+Device> STM32F103C8
+*** 接口：
+SWD
+速度可以：
+4000
+*** 如果连接成功，会看到类似：
+Cortex-M3 identified.
+Cortex-M3 r2p1 detected.
+然后：
+r
+复位。
+h
+halt。
+g
+运行。
+退出：
+q
+*** 调试
+在另一个终端：
+#+begin_example
+JLinkGDBServerCLExe \
+  -device STM32F103C8 \
+  -if SWD \
+  -speed 4000 \
+  -port 2331
+#+end_example
+*** 然后：
+#+begin_example
+arm-none-eabi-gdb build/xxx.elf
+#+end_example
+*** 手动输入如下：
+#+begin_example
+target remote :2331
+monitor reset
+monitor halt
+load
+break main
+continue
+#+end_example
