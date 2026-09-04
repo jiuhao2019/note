@@ -991,7 +991,7 @@ JLinkGDBServerCLExe \
   -port 2331
 #+end_example
 
-* gdb
+* GDB
 ** (gdb) help
 #+begin_example
 List of classes of commands:
@@ -1017,7 +1017,7 @@ Type "apropos word" to search for commands related to "word".
 Type "apropos -v word" for full documentation of commands related to "word".
 Command name abbreviations are allowed if unambiguous.
 #+end_example
-** gdb调试stm32
+** GDB调试stm32
 *** 1.输入调试文件并打开gdb程序
 #+begin_example
  arm-none-eabe-gdb build/xxx.elf
@@ -1062,7 +1062,7 @@ d break 1 ，删除序号为1的断点
 **** bt，查看函数调用链
 **** x，查看内存区域的值，语法是x /FMT 地址。FMT处要填三个东西：个数、输出格式、长度:输出格式可以有二进制、八进制、十进制等等，长度有单字节、双字节、四字节等等。比方说：x /1xw 0x40023830，表示查看0x40023830处一个四字节整数，以十六进制输出。
 **** q/Ctrl+d，使用q即quit指令或快捷键Ctrl+d来正常退出GDB
-*** gdb的gui调试
+*** GDB的gui调试
 **** gdb指令窗口输入 -
 对就是一个 减号，然后回车我们来见证奇迹的时刻,会打开一个c代码显示窗口看当前运行行
 **** layout split
@@ -1073,9 +1073,9 @@ d break 1 ，删除序号为1的断点
 | tui disable  | 完全关闭 TUI |
 | tui enable   | 重新打开     |
 | Ctrl-x a     | 开/关 TUI    |
-*** gdb打断点
-| b *0x08001234 | 在指定地址下断点                           |
-| b 16          | 在当前源文件第 16 行下断点                  |
+*** GDB打断点
+| b *0x08001234 | 在指定地址下断点                              |
+| b 16          | 在当前源文件第 16 行下断点                    |
 | b .           | 在当前执行位置（当前 PC 对应的代码行）下断点 |
 | break *$pc    | 直接在当前 PC 指向的指令地址设置断点。       |
-| b main.c:42   | 例如当前停在 main.c:42：                   |
+| b main.c:42   | 例如当前停在 main.c:42：                      |
