@@ -992,7 +992,7 @@ JLinkGDBServerCLExe \
 #+end_example
 
 * GDB
-** (gdb) help
+** GDB help 命令分类
 #+begin_example
 List of classes of commands:
 
@@ -1017,12 +1017,12 @@ Type "apropos word" to search for commands related to "word".
 Type "apropos -v word" for full documentation of commands related to "word".
 Command name abbreviations are allowed if unambiguous.
 #+end_example
-** GDB调试stm32
+** GDB调试stm32初始化步骤
 *** 1.输入调试文件并打开gdb程序
 #+begin_example
  arm-none-eabe-gdb build/xxx.elf
 #+end_example
-*** 2.连接本地的端口,且连接后会显示连接信息
+*** 2.连接本地的端口
 **** 对于jlink
 #+begin_example
 target remote localhost:2331
@@ -1031,18 +1031,25 @@ target remote localhost:2331
 #+begin_example
 target remote localhost:3333
 #+end_example
-*** 复位,停止,加载elf文件
+*** 3.复位,停止,加载elf文件
 #+begin_example
 monitor reset
 monitor halt
 load
 #+end_example
-*** 到这里所有gdb连接和初始操作都完成
-*** 可以进行gdb调试操作了,输入指令后，重复按回车等效于再次输入上次的指令
-*** GDB调试的基本指令：
-**** l，list指令的缩写，意为列出当前执行的源代码。
-**** c ，continue的缩写，在嵌入式GDB中我们不能使用RUN指令来运行代码，相应的我们需要continue指令来运行
-**** b ，break缩写，用于在程序中打断点，使用方式有很多种
+*** 4.到这里所有gdb连接和初始操作都完成
+*** 5.以进行gdb调试操作了,输入指令后，重复按回车等效于再次输入上次的指令
+*** 6.修改了源码后，执行如下以更新
+#+begin_example
+(gdb) file build/xxx.elf
+(gdb) load
+(gdb) monitor reset
+(gdb) continue
+#+end_example
+** GDB调试的基本指令举例
+*** l，list指令的缩写，意为列出当前执行的源代码。
+*** c ，continue的缩写，在嵌入式GDB中我们不能使用RUN指令来运行代码，相应的我们需要continue指令来运行
+*** b ，break缩写，用于在程序中打断点，使用方式有很多种
 #+begin_example
 b 16，在当前低16行代码出加断点。
 b i=1，当i等于1时停止，类似于这种条件式断点的方式也是GDB独有的一种强大功能。
@@ -1051,21 +1058,19 @@ i b ，info break缩写，显示当前设置的断点信息。如下面这个查
 d break ，delet break 缩写，删除所有断点
 d break 1 ，删除序号为1的断点
 #+end_example
-**** s，step缩写，会进入子函数的单步运行
-**** n，next缩写，即会跳过子函数的单步运行
-**** si，单指令执行，碰到子程序调用指令则进入子程序。
-**** ni，单行汇编执行，碰到子程序调用指令就执行完子程序。汇编指令级别的单步调试不仅用来调汇编，而且可以用来观察哪一步触发了fault，甚至可以发现编译器深层次的bug。
-**** finish，子程序执行到返回。
-**** u，until缩写使用时后方加行号如： u 16 即运行到第16行 finish，完成并跳出当前的子函数
-**** p，print缩写，使用时后面加变量名称如：p tmp ，用来显示变量数值
-**** display ，使用时后面加变量名称如：display tmp ，用于跟踪变量数值，在每次执行停下时会自动显示变量数值。
-**** bt，查看函数调用链
-**** x，查看内存区域的值，语法是x /FMT 地址。FMT处要填三个东西：个数、输出格式、长度:输出格式可以有二进制、八进制、十进制等等，长度有单字节、双字节、四字节等等。比方说：x /1xw 0x40023830，表示查看0x40023830处一个四字节整数，以十六进制输出。
-**** q/Ctrl+d，使用q即quit指令或快捷键Ctrl+d来正常退出GDB
-*** GDB的gui调试
-**** gdb指令窗口输入 -
-对就是一个 减号，然后回车我们来见证奇迹的时刻,会打开一个c代码显示窗口看当前运行行
-**** layout split
+*** s，step缩写，会进入子函数的单步运行
+*** n，next缩写，即会跳过子函数的单步运行
+*** si，单指令执行，碰到子程序调用指令则进入子程序。
+*** ni，单行汇编执行，碰到子程序调用指令就执行完子程序。汇编指令级别的单步调试不仅用来调汇编，而且可以用来观察哪一步触发了fault，甚至可以发现编译器深层次的bug。
+*** finish，子程序执行到返回。
+*** u，until缩写使用时后方加行号如： u 16 即运行到第16行 finish，完成并跳出当前的子函数
+*** p，print缩写，使用时后面加变量名称如：p tmp ，用来显示变量数值
+*** display ，使用时后面加变量名称如：display tmp ，用于跟踪变量数值，在每次执行停下时会自动显示变量数值。
+*** bt，查看函数调用链
+*** x，查看内存区域的值，语法是x /FMT 地址。FMT处要填三个东西：个数、输出格式、长度:输出格式可以有二进制、八进制、十进制等等，长度有单字节、双字节、四字节等等。比方说：x /1xw 0x40023830，表示查看0x40023830处一个四字节整数，以十六进制输出。
+*** q/Ctrl+d，使用q即quit指令或快捷键Ctrl+d来正常退出GDB
+** GDB的GUI调试
+*** layout split
 | layout src   | 只看源码     |
 | layout asm   | 只看汇编     |
 | layout split | 源码 + 汇编  |
@@ -1073,9 +1078,75 @@ d break 1 ，删除序号为1的断点
 | tui disable  | 完全关闭 TUI |
 | tui enable   | 重新打开     |
 | Ctrl-x a     | 开/关 TUI    |
-*** GDB打断点
-| b *0x08001234 | 在指定地址下断点                              |
-| b 16          | 在当前源文件第 16 行下断点                    |
+*** gdb指令窗口输入 -
+对就是一个 减号，然后回车我们来见证奇迹的时刻,会打开一个c代码显示窗口看当前运行行
+** GDB断点
+*** 加断点
+| b *0x08001234 | 在指定地址下断点                           |
+| b 16          | 在当前源文件第 16 行下断点                  |
 | b .           | 在当前执行位置（当前 PC 对应的代码行）下断点 |
 | break *$pc    | 直接在当前 PC 指向的指令地址设置断点。       |
-| b main.c:42   | 例如当前停在 main.c:42：                      |
+| b main.c:42   | 例如当前停在 main.c:42：                   |
+| tb main.c:42  | 在main.c:42加断点，到达后删除该断点(临时断点)   |
+*** 删除 GDB 断点：
+**** 删除编号为 1 的断点。
+#+begin_example
+delete 1
+#+end_example
+**** 查看断点编号：
+#+begin_example
+info break
+#+end_example
+**** 删除所有断点：
+#+begin_example
+delete
+#+end_example
+**** 删除指定源码位置的断点。
+#+begin_example
+clear main.c:100
+#+end_example
+** GDB运行
+*** until用法
+**** 快速跑出循环：
+#+begin_example
+(gdb) until
+如果当前停在一个循环体内部，它通常会继续运行，直到到达当前循环之后的下一行。因此它经常被用来：
+单步调试 → 发现循环 → 不想一圈一圈 next → until 跳出循环
+#+end_example
+**** 函数里运行到指定行
+#+begin_example
+例如：
+10  void foo(void)
+11  {
+12      int a = 1;
+13      int b = 1;
+14      a++;
+15      b++;
+16  }   // 函数结束
+#+end_example
+如果当前停在 14 行：
+(gdb) until 15
+GDB 会继续执行，直到： 找到第 15 行的代码（如果存在且仍在当前执行范围）
+如果超过函数范围,比如
+(gdb) until 19
+最终会在 foo() 返回时结束 until，
+** GDB变量显示
+*** display用法
+**** 每次断点、中断、单步停下来自动打印 counter
+#+begin_example
+(gdb) display counter
+(gdb) continue
+#+end_example
+**** 查看当前自动显示项：
+#+begin_example
+(gdb) info display
+#+end_example
+**** 取消：
+#+begin_example
+(gdb) undisplay 1
+这里的 1 是 display 的编号。
+#+end_example
+**** 如果想每次停下来自动显示十六进制：
+#+begin_example
+display/x var
+#+end_example
