@@ -848,7 +848,7 @@ build/
 ├── vending_machine_app.elf
 ├── vending_machine_app.bin
 └── vending_machine_app.hex
-** 添加原文件，宏定义，头文件路径
+** 添加原文件，宏定义，头文件路径,用户在根目录里的CMakeLists.txt修改，不要在其他CMakeLists.txt,否则会被cubemx覆盖,比如自动生成的非根目录cmake/stm32cubemx/CMakeLists.txt
 [[../pics/mcu/CMakeLists.txt][demo CMakeLists.txt]]
 *** 例添加源文件
 #+begin_src  C
@@ -856,12 +856,10 @@ build/
 file(GLOB THREADX_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/threadx/common/src/*.c
 )
-
 file(GLOB THREADX_ASM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/threadx/ports/cortex_m3/gnu/example_build/*.S
     ${CMAKE_CURRENT_SOURCE_DIR}/threadx/ports/cortex_m3/gnu/src/*.S
 )
-
 file(GLOB USER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/user/app/src/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/user/service/src/*.c
@@ -896,6 +894,8 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 #+begin_example
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+    USE_HAL_DRIVER
+    STM32F103xE
     TX_INCLUDE_USER_DEFINE_FILE
     # Add user defined symbols
 )
@@ -1089,13 +1089,13 @@ d break 1 ，删除序号为1的断点
 | b main.c:42   | 例如当前停在 main.c:42：                   |
 | tb main.c:42  | 在main.c:42加断点，到达后删除该断点(临时断点)   |
 *** 删除 GDB 断点：
-**** 删除编号为 1 的断点。
-#+begin_example
-delete 1
-#+end_example
 **** 查看断点编号：
 #+begin_example
 info break
+#+end_example
+**** 删除编号为 1 的断点。
+#+begin_example
+delete 1
 #+end_example
 **** 删除所有断点：
 #+begin_example
