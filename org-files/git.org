@@ -1,9 +1,3 @@
-:PROPERTIES:
-:ID:       be86ef25-29cd-418e-a612-e599be3c13c3
-:END:
-#+title: git
-#+date: [2026-05-03 Sun 09:10]
-
 * git status 提示 ahead by 1 commit，但是git push 提示 冲突
 #+begin_example
 这种情况本质是：本地分支“领先”，但远端也发生了变化 → 分叉（diverged）了。
@@ -682,7 +676,5 @@ git push origin branchB
 
 --orphan 让每个分支没有共同历史，完全独立，相当于一个仓库里存两个项目
 #+end_src
-* token
-#+begin_example
-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
-#+end_example
+* github token
+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

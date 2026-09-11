@@ -633,3 +633,35 @@ sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
 sudo nh clean all
 #+end_src
 作用是：执行 Nix garbage collection，清理已经没有任何有效引用的 /nix/store 内容
+* 安裝中文輸入法fcitx5
+在~/.xinitx里添加
+#+begin_example
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+
+fcitx5 -d
+#+end_example
+在configuration.nix里添加
+#+begin_example
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "zh_CN.UTF-8/UTF-8"
+    ];
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+
+      fcitx5.addons = with pkgs; [
+        rime-data
+        fcitx5-gtk
+        fcitx5-nord
+        fcitx5-rime
+      ];
+    };
+  };
+#+end_example
+即可以，重啓後，輸入法配置里增加rime即可
