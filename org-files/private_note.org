@@ -80,13 +80,6 @@
 
   - 用户名: +8613047616365
   - 密码: wn870728
-** github token
-:PROPERTIES:
-:CUSTOM_ID: dfc1f66e-0266-415e-8d72-5594b67e2be6
-:END:
-  - 用户名: jiuhao2019
-  - token: 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
-  - code:wn870728
 ** siliconlabs
 :PROPERTIES:
 :CUSTOM_ID: 4c8089f7-3acf-481e-b054-c0c3aa644f87
