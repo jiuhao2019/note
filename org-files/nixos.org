@@ -664,4 +664,7 @@ fcitx5 -d
     };
   };
 #+end_example
+另外重要一点，不能在
+environment.systemPackages = with pkgs; [  ]
+里添加fcitx5
 即可以，重啓後，輸入法配置里增加rime即可
