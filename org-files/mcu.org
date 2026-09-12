@@ -907,7 +907,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 
 #+begin_src sh
 cd ~/project/vending_machine
-nix develop
+nix develop --command fish
 cmake --preset Release
 cmake --build --preset Release
 #+end_src
