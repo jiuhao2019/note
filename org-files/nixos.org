@@ -1,6 +1,11 @@
 * 搜索软件
-** nix search nixpkgs firefox
-** 或者,网页里搜索 https://search.nixos.org/packages
+#+begin_src c
+ nix search nixpkgs firefox
+#+end_src
+ 或者,在网页里搜索
+#+begin_src c
+ https://search.nixos.org/packages
+#+end_src
 * channel
 #+begin_src c
 sudo nix-channel --list
