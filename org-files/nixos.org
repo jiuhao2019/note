@@ -2,7 +2,7 @@
 ** nix search nixpkgs firefox
 ** 或者,网页里搜索 https://search.nixos.org/packages
 * channel
-#+begin_src shel
+#+begin_src c
 sudo nix-channel --list
 sudo nix-channel --update
 sudo nix-channel --remove nixos
