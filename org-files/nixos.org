@@ -46,11 +46,9 @@ $            执行 shell 命令并等待
 q            退出
 * 清理
 ** sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
-#+begin_example
-作用是：删除 NixOS system profile 中的旧 generation 引用,开机显示
-这里的关键是：删除 generation 记录/引用，不等于马上删除 /nix/store 里的文件。
-所以执行完后，旧 generation 所依赖的 store path 可能仍然存在。
-#+end_example
+- 作用是：删除 NixOS system profile 中的旧 generation 引用,开机显示
+- 这里的关键是：删除 generation 记录/引用，不等于马上删除 /nix/store 里的文件。
+- 所以执行完后，旧 generation 所依赖的 store path 可能仍然存在。
 ** sudo nh clean all
 作用是：清理已经没有任何有效引用的 /nix/store 内容
 * 安裝中文輸入法fcitx5
