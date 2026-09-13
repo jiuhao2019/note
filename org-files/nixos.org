@@ -3,7 +3,7 @@
  nix search nixpkgs firefox
 #+end_src
  或者,在网页里搜索
-#+begin_src
+#+begin_src c
  https://search.nixos.org/packages
 #+end_src
 * channel

@@ -1,8 +1,3 @@
-:PROPERTIES:
-:ID:       d5996e61-9381-49ef-996b-1b816dba5c1a
-:END:
-#+title: emacs
-#+date: [2026-05-02 Sat 12:38]
 * 在 GNU Emacs 的 Dired 模式中，修改文件名有几种常用方式：
 :PROPERTIES:
 :CUSTOM_ID: d1fe962f-3851-4e8b-a647-57c1d6f0f345
@@ -296,7 +291,7 @@ $ gpg --armor --export-secret-keys jxq > jxq.asc
   (setq epg-gpg-program "gpg2")
 #+end_src
 
-* 源码编译安装emacs
+* 不必源码编译安装emacs
 #+begin_example
 不必源码安装，直接系统安装即可，因为源码编译的总是有各种编译问题。
 编译无非为了使能imagemagick，进而支持能inline图片，但是如今没必要，直接安装的emacs也直接支持jpg png能图片。
