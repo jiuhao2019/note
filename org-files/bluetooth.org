@@ -1,1 +1,1 @@
-[[file:~/Downloads/note/org-category/bluetooth/HID_介绍.org][HID_介绍]]
+[[file:../org-category/bluetooth/HID_介绍.org][HID_介绍]]
