@@ -2,12 +2,12 @@
 ** nix search nixpkgs firefox
 ** 或者,网页里搜索 https://search.nixos.org/packages
 * channel
-#+begin_example
+#+begin_src shel
 sudo nix-channel --list
 sudo nix-channel --update
 sudo nix-channel --remove nixos
 sudo nix-channel --remove nixpkgs
-#+end_example
+#+end_src
 * lf文件管理器使用
 lf 常用快捷键，按“日常使用”来记就够了：
 ** 文件操作
