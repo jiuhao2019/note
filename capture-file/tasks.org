@@ -1,0 +1,2 @@
+* 测试fish里对于ls的keybind效果
+* 整理org知识归档
