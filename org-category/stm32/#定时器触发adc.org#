@@ -1,0 +1,36 @@
+* 定时器触发adc
+*** 触发启动adc的源可选这几类，soft_trig，〚定时器( capture compare x )事件〛，〚( 定时器 x ) trigger out事件〛,exti
+**** 路径 A：Capture Compare Event（CC 事件）
+#+begin_example
+这是直接从比较逻辑引出的信号，不经过 TRGO 机制。
+信号来源：CNT = CCRx 匹配的那一刻，硬件产生一个 CC 事件
+触发方式：OCxREF 信号在匹配点产生边沿（STM32F1 只响应上升沿,新STM32G0等可设置边沿）
+ADC 侧配置：EXTSEL = TIMx_CC1 / TIMx_CC2 等
+定时器侧配置：通道配置为 OC 模式或 PWM 模式，设置 CCRx 值
+特点：触发时刻精确到 CNT 的某个具体值，适合相位精确控制
+#+end_example
+**** 路径 B：Trigger Out Event（TRGO）
+这是定时器的"主模式输出"，通过 TIMx_CR2 寄存器的 MMS[2:0] 位选择输出什么事件。
+MMS 位可以选择的输出内容包括：
+表格
+| MMS | TRGO 输出内容 | 含义                   |
+|-----+---------------+------------------------|
+| 000 | Reset         | 定时器复位事件          |
+| 001 | Enable        | 定时器使能信号          |
+| 010 | Update        | 计数器溢出/更新事件     |
+| 011 | Compare Pulse | CC 匹配时产生一个正脉冲 |
+| 100 | OC1REF        | 通道1的 OCxREF 信号    |
+| 101 | OC2REF        | 通道2的 OCxREF 信号    |
+| 110 | OC3REF        | 通道3的 OCxREF 信号    |
+| 111 | OC4REF        | 通道4的 OCxREF 信号    |
+ADC 侧配置：EXTSEL = TIMx_TRGO
+关键点：TRGO 是一个复用器，它把定时器内部多种事件"打包"成一条统一的输出线。你通过 MMS 位选择"打包"哪个事件。
+#+begin_example
+容易混淆的点：TRGO 选了 OCxREF，和路径 A 有什么区别？
+这是最容易绕的地方。当 MMS = 100/101/110/111 时，TRGO 输出的是 OCxREF 信号。看起来和路径 A 的 CC 事件触发很像，但触发机制不同：
+路径 A（CC Event）：ADC 检测的是 CC 匹配事件产生的边沿（CNT=CCRx 那一刻的跳变）
+路径 B（TRGO = OCxREF）：ADC 检测的是 OCxREF 信号本身的电平变化，具体哪个边沿触发取决于 ADC 的 EXTEN 配置（较新系列可选上升沿/下降沿/双沿）
+也就是说，如果 OCxREF 是一个 PWM 方波：
+路径 A：只在 CNT=CCRx 那一刻触发一次
+路径 B：OCxREF 每次跳变都可能触发（取决于边沿配置），一个周期内可能触发两次
+#+end_example
