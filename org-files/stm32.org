@@ -1,3 +1,4 @@
 | [[file:../org-category/stm32/f1的flash的page_size.org][stm32f1的flash的page_size]] |
-| [[file:../org-category/stm32/定时器触发adc.org][定时器触发adc]]                     |
-| [[file:../org-category/stm32/定时器的OC模式和PWM模式.org][OC模式和PWM模式]]          |
+| [[file:../org-category/stm32/定时器触发adc.org][定时器触发adc]]             |
+| [[file:../org-category/stm32/定时器的OC模式和PWM模式.org][OC模式和PWM模式]]           |
+| [[file:..//org-category/stm32/continous-conversion.org][continous-conversion]]                       |

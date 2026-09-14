@@ -1,0 +1,4 @@
+* 对adc的continuous conversion网上的资料全部错误，都是说启动一次，后一直自动转换。
+但实际正确理解：
+1，设置软件启动，是启动后一直自动转换
+2，设置为外部触发，必须开启continous conversion,外部触发一次转换一次，比如定时器cc事件触发，来一次事件启动一次转换，等待下次事件。但前提是必须设置continous conversion 为enable. 网上全部说定时器事件触发时要设置为disable,是错误的。
