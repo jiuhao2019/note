@@ -1,0 +1,345 @@
+*** stm32
+[[https://blog.csdn.net/zhuimeng_ruili/article/details/112630215][对stm32
+flash 模拟eeprom的一些理解_an2594-CSDN博客]]
+
+*** segger
+[[https://kb.segger.com/RTT][RTT - SEGGER Knowledge Base]]
+
+*** multisim
+[[https://blog.csdn.net/xiaobaivera/article/details/138166497][电路仿真实验---Multisim十分钟入门使用介绍（适合新手）-CSDN博客]]
+
+[[https://blog.csdn.net/ZHOUPUYU/article/details/143107944][Multisim14.0的详细中文安装步骤【附安装包】_multisim14.0安装教程-CSDN博客]]
+
+*** lcd
+[[https://blog.csdn.net/weixin_51686526/article/details/139321833][lkdGUI移植（STM32F407+SPI屏幕）-CSDN博客]]
+
+[[https://blog.csdn.net/qq_23274715/article/details/80959804][美丽的lkdGui-CSDN博客]]
+
+[[https://blog.51cto.com/u_15288275/2958408][​【使用指南】lkdGui软件包------专为工业控制领域而生_wx60dac676d6910的技术博客_51CTO博客]]
+
+*** other
+[[https://www.qqxiuzi.cn/hanzi/xingshu.php?word=%C5%CC][盘的行书写法,盘字的行书字形]]
+
+[[https://docs.huihoo.com/index.html][开放文档 - Free and Open
+Documents - Huihoo]]
+
+[[https://www.ibiblio.org/about/][ibiblio-collections of collections]]
+
+[[https://web.libera.chat/][Libera.Chat]]
+
+[[https://program-think.blogspot.com/][编程随想的博客]]
+
+[[https://makefiletutorial.com/][Makefile Tutorial By Example]]
+
+[[https://pineresearch.com/shop/knowledge-category/theory/][Theory --
+Pine Research Instrumentation Store]]
+
+[[https://www.tutorialspoint.com/index.htm][RxJS, ggplot2, Python Data
+Persistence, Caffe2, PyBrain, Python Data Access, H2O, Colab, Theano,
+Flutter, KNime, Mean.js, Weka, Solidity]]
+
+[[https://www.mjwo.net/play/13892-1-1/][第六感生死缘-美国电影-高清完整版免费在线观看-美剧窝]]
+
+[[https://vim.fandom.com/wiki/Using_marks][Using marks | Vim Tips Wiki |
+Fandom]]
+
+[[https://www.mjwo.net/play/17423-1-1/][摩斯探长第一季-美剧-第01集-高清免费在线观看-美剧窝]]
+
+[[http://web.archive.org/web/20101209143037/http://www.eetimes.com/discussion/programming-pointers/4026076/Why-size-t-matters?][Why
+size_t matters]]
+
+[[https://www.sudosatirical.com/articles/user-hopping-distro-says-found-the-one/][User-Hopping
+Distro Says They Have Finally Found the 'One']]
+
+[[https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/][Online
+Checksum Calculator - SCADACore]]
+
+[[https://coding.tools/cn/hex-to-ascii][16进制到ASCII字符串在线转换工具 -
+Coding.Tools]]
+
+[[https://www.cnblogs.com/qiynet/p/4363688.html][总结Allegro元件封装(焊盘)制作方法[修整] -
+瘋耔 - 博客园]]
+
+[[https://hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/][Make
+tmux Pretty and Usable - A Guide to Customizing your tmux.conf - Ham
+Vocke]]
+
+[[https://mastodon.social/explore][Explore - Mastodon]]
+
+[[https://systemcrafters.net/][Welcome! - System Crafters]]
+
+[[https://www.joshmedeski.com/posts/setting-up-alacritty-for-a-fast-minimal-terminal-emulator/][Set
+up Alacritty for a fast, minimal, terminal emulator | Josh Medeski]]
+
+[[https://scholar.google.com/][Google 學術搜尋]]
+
+[[https://bbs.21ic.com/icview-3443376-1-1.html][怎样加库文件 -
+STM32/STM8单片机论坛 - ST MCU意法半导体官方技术支持论坛]]
+
+[[https://www.fmdevelopers.com.cn/forum.php?gid=63][技术交流分享 -
+低功耗嵌入式软件开发者论坛 - Powered by Discuz!]]
+
+[[https://blog.csdn.net/sinat_33408502/article/details/135837487][【嵌入式】STM32芯片使用12864串口屏(驱动为ST7567)-CSDN博客]]
+
+[[https://blog.csdn.net/qq_41359157/article/details/106174897][如何使用PCtoLCD2002取模（汉字、ASCII字符集）？-CSDN博客]]
+
+[[https://blog.csdn.net/qq_43432935/article/details/91049394][优化VMware虚拟机运行速度总结_mvware中如何将opengl升级至4.4-CSDN博客]]
+
+[[https://www.ddkk.tv/channel/1.html][电影 - 哆哆追剧最新最热电影推荐]]
+
+[[https://www.findhao.net/][FindHao]]
+
+[[https://codeberg.org/cizordj/i3-themer][cizordj/i3-themer: 🎨 Theme
+collection manager for i3-wm - Codeberg.org]]
+
+[[https://emcraft.com/home][Linux and System-On-Modules: i.MX RT1050,
+STM32F7, SmartFusion2, i.MX 8M, i.MX 6ULL, i.MX 6SoloX]]
+
+[[https://lwn.net/Kernel/LDD3/][Linux Device Drivers, Third Edition
+[LWN.net]]]
+
+[[https://github.com/dreamportdev/Osdev-Notes][dreamportdev/Osdev-Notes:
+A book that explore how to write an Operating System from scratch]]
+
+[[https://www.fmdevelopers.com.cn/forum.php][复旦微开发者论坛 - Powered
+by Discuz!]]
+
+[[https://sr.ht/][sourcehut hub]]
+
+[[https://demo2.yunser.com/math/fitted_curve/][在线多项式曲线拟合
+在线函数曲线拟合]]
+
+[[https://melpa.org/#/][MELPA]]
+
+[[https://annas-archive.org/][Anna's Archive: LibGen (Library Genesis),
+Sci-Hub, Z-Library in one place - Anna's Archive]]
+
+[[https://lukesmith.xyz/][Luke Smith]]
+
+[[https://discord.com/channels/578193015433330698/578193015433330700][Discord
+​| #general | DreamPort Dev]]
+
+[[https://www.bilibili.com/][哔哩哔哩 (゜-゜)つロ 干杯~-bilibili]]
+
+[[https://en.taiwebs.com/?lang=SG][Share and Download Free Software -
+Updated daily]]
+
+[[https://dengta.xn--xhq8sm16c5ls.com/#/dashboard][灯塔 Cloud]]
+
+[[https://2cy.io/user][用户中心 --- CYLINK]]
+
+[[https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dzh-CN%26next%3D%252F&dsh=S1795709769%3A1764350497424527&hl=zh-CN&ifkv=ARESoU17teN5-GsJ1fv1Mgm733coBLf7j5aHFsEcaDGOjNEz4Hi2YNr75fsRAlrDS4Ij2pQGwUMBqg&passive=true&service=youtube&uilel=3&flowName=GlifWebSignIn&flowEntry=ServiceLogin][]]
+
+[[https://www.doubao.com/chat/][豆包 - 字节跳动旗下 AI 智能助手]]
+
+[[https://m.iciba.com/word?w=ruthless][ruthless是什么意思_ruthless的翻译_音标_读音_用法_例句_爱词霸在线词典]]
+
+[[https://www.techspot.com/][TechSpot | Tech Enthusiasts, Power Users,
+Gamers]]
+
+[[https://gemini.google.com/app/8f8dbadec35a5d76][]]
+
+[[https://pan666.net/][Panwiki - （原我的小站论坛）]]
+
+*** UNICODE
+[[https://compart.com/en/unicode][Unicode - Compart]]
+
+[[https://qa.1r1g.com/sf/ask/1253601541/][如何找到下标字母的unicode？ |
+经验摘录]]
+
+[[https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=f287&mode=hex][UTF-8
+Tool]]
+
+[[https://unicode-table.com/en/][✔️ ❤️ ★ Unicode Character Table]]
+
+[[https://home.unicode.org/][Unicode -- The World Standard for Text and
+Emoji]]
+
+[[https://www.rapidtables.org/zh-CN/web/color/RGB_Color.html][RGB颜色代码表🎨]]
+
+[[https://www.compart.com/en/unicode/search?q=Modifier#characters][Search_unicode]]
+
+[[https://www.colorhexa.com/2b6a47][#2b6a47 hex color]]
+
+[[https://www.nerdfonts.com/cheat-sheet][Nerd Fonts - Iconic font
+aggregator, glyphs/icons collection, & fonts patcher]]
+
+*** 在线工具
+[[https://tooltt.com/floatconverter/][浮点数-Float-Double转二进制 -
+ToolTT在线工具箱]]
+[[https://www.lddgo.net/index][在线工具软件]]
+*** cubeide
+[[https://blog.csdn.net/m0_71548440/article/details/125637791][STM32
+cudeIDE使用J-link下载程序_stm32cube ide能用jilink吗-CSDN博客]]
+
+[[https://blog.csdn.net/qq_41650023/article/details/124317496][【STM32CubeIDE学习】STM32CubeIDE输出.hex文件-CSDN博客]]
+
+[[https://blog.csdn.net/occasionally/article/details/146004517][STM32CubeIDE
+-- 报错 Program file does not exist-CSDN博客]]
+
+*** youbute
+[[https://www.youtube.com/][YouTube]]
+
+[[https://publer.com/tools/photo-video-downloader][Social Media Photo &
+Video Downloader | Free Tool by Publer]]
+
+[[https://downsub.com/?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DGGY_1efenvs%26list%3DPLbtzT1TYeoMhTPzyTZboW_j7TPAnjv9XB%26index%3D13][下载字幕youbute]]
+
+[[https://www.tampermonkey.net/changelog.php?version=4.18.0&ext=dhdg&updated=true&old=4.16.1&intr=true][Tampermonkey
+• 4.18.0 Changes]]
+
+[[https://www.userscript.zone/?utm_campaign=gadusz&utm_source=tm.net&utm_medium=300x250-2-zh&w=1][Home
+​| Userscript.Zone]]
+
+[[https://bsky.app/][Discover --- Bluesky]]
+
+[[https://www.twitch.tv/luoshushu0][萝菽菽_ - Twitch]]
+
+[[https://spotifymate.com/en][Spotify Downloader - Download Spotify
+Songs to MP3 - SpotifyMate]]
+
+[[https://zhuanlan.zhihu.com/p/695680415][2026年8个Youtube在线下载网站 -
+知乎]]
+
+[[https://twitter.com/][twitter.com/]]
+
+*** siliconlab
+[[https://www.cnblogs.com/jdub/p/15878260.html][芯科BG22学习笔记：3-如何添加UART串口 -
+J-Dub - 博客园]]
+
+[[https://www.sekorm.com/][世强硬创平台-全球领先的研发服务平台-电子元器件,电机,部件,材料,仪器分销商]]
+
+[[https://blog.csdn.net/m0_38127906/article/details/107140810][EFM32PG1B使用时遇到那些的坑_efm32pg22-CSDN博客]]
+
+[[https://www.sekorm.com/news/32212361.html][【经验】如何修改Silicon
+Labs BRD4002底板VMCU输出电压]]
+
+[[https://www.sekorm.com/Web/Search/keyword/SE05N6R01GU?ugc=k][SE05N6R01GU搜索结果-世强硬创平台]]
+
+[[https://www.sekorm.com/news/55128086.html][【经验】蓝牙SoC芯片EFR32BG22使用SSV5生成Bootloader的方法]]
+
+[[https://www.sekorm.com/news/73291005.html][【经验】如何在Simplicity
+Studio v5中修改EFR32系列无线SoC的Bootloa]]
+
+[[https://www.sekorm.com/news/54167305.html][【经验】STUDIO V5中蓝牙SoC
+EFR32BG22添加串口LOG打印的方法]]
+
+[[https://www.sekorm.com/news/92236557.html?isSekormApp=0][【经验】Silicon
+Labs蓝牙Soc芯片EFR32BG22的蓝牙广播功率设置及注意事项]]
+
+*** freertos
+[[https://forums.freertos.org/][FreeRTOS Community Forums - The FreeRTOS
+Community Forums]]
+
+[[https://www.armbbs.cn/forum.php?mod=viewthread&tid=21719][第33章
+FreeRTOS低功耗之tickless模式 - FreeRTOS & Zephyr & RTEMS & Contiki -
+硬汉嵌入式论坛 - Powered by Discuz!]]
+
+[[https://blog.csdn.net/Chihiro1002/article/details/147853696][FreeRTOS移植(两种方法：CubeMX配置/自行移植）-CSDN博客]]
+
+[[https://blog.ajream.top/posts/1645af1c/][手动移植FreeRTOS到stm32 -
+aJream]]
+
+[[https://blog.csdn.net/qq_47159466/article/details/124542339][STM32
+hal库串口空闲中断最新用法_stm32hal库串口空闲中断-CSDN博客]]
+
+[[https://blog.csdn.net/weixin_42794454/article/details/117384577][STM32
+HAL库实现FreeRTOS+FreeModbus（从机和主机）_freemodbus
+freertos-CSDN博客]]
+
+[[https://blog.csdn.net/weixin_44564958/article/details/123497341][stm32移植freemodbusRTU（HAL库+Freertos）主机_stm32
+freemodbus移植 主站-CSDN博客]]
+
+[[https://blog.makdev.net/2022/12/stm32-freertos-cubeide.html][[STM32]
+FreeRTOS 手動移植至 CubeIDE 過程記錄 ~ 宅老大數位]]
+
+[[https://chatgpt.com/][ChatGPT]]
+
+*** flashDB
+[[https://www.bilibili.com/opus/941737447324123201][嵌入式数据库FlashDB使用 -
+哔哩哔哩]]
+
+*** linux
+[[https://sh.alynx.one/posts/GNOME-IBus-Wayland-IME/][GNOME 和 IBus 和
+Wayland 输入法 - 喵's StackHarbor]]
+
+[[https://odysee.com/][Odysee]]
+
+*** lvgl
+[[https://www.cnblogs.com/Huae/p/18621614][LVGL 移植到 STM32 通法 （
+例：LVGL 9.2.2 到 STM32F429 ） - 星云体 - 博客园]]
+
+[[https://blog.csdn.net/butfly/article/details/145185948][图文移植LVGL9.3.0到STM32F429_stm32移植lvgl9-CSDN博客]]
+
+*** simple_gui
+[[https://gitee.com/Polarix/MinimumFontLib/issues/I7ID65][编译好的exe不能运行，缺了多个库
+· Issue #I7ID65 · Polarix/MinimumFontLib - Gitee]]
+
+*** fft
+[[https://blog.csdn.net/qq_37542753/article/details/104442613][快速傅里叶变换（研二的我终于弄懂了）_fft变换
+bit reverse-CSDN博客]]
+
+[[https://blog.csdn.net/k331922164/article/details/116770519][数字信号处理------快速傅里叶变换_旋转因子-CSDN博客]]
+
+*** bbs
+[[https://www.amobbs.com/][amobbs.com 阿莫电子技术论坛 首页]]
+
+[[https://www.v2ex.com/][V2EX]]
+
+[[https://www.armbbs.cn/][硬汉嵌入式论坛 - Powered by Discuz!]]
+
+[[https://www.reddit.com/][Reddit - Dive into anything]]
+
+[[https://www.eeworld.com.cn/][电子工程世界-创新电子设计之原-专业的电子工程门户]]
+
+[[https://bbs.eeworld.com.cn/tag_%E6%B2%81%E6%81%92.html][【新提醒】沁恒-相关博客帖子 -
+电子工程世界-论坛]]
+
+[[https://bbs.eeworld.com.cn/thread-1199038-1-1.html][【新提醒】【沁恒RISC-V内核
+CH582】CH582 有线键盘转蓝牙键盘 - 国产芯片交流 - 电子工程世界-论坛]]
+
+[[http://www.cmsoft.cn/][野人家园-云想物联-嵌入式物联网技术专家]]
+
+[[https://forum.anfulai.cn/forum.php?mod=space&uid=3060&mobile=no][硬汉嵌入式论坛 -
+Powered by Discuz!]]
+
+*** motor
+[[https://doc.embedfire.com/motor/motor_tutorial/zh/latest/index.html][[野火]电机应用开发实战指南
+--- [野火]电机应用开发实战指南---基于STM32 文档]]
+
+*** emacs
+[[https://egh0bww1.com/posts/2024-12-14-55-org-mode-syntax/#orgnh-1][Org-mode
+语法汇总]]
+
+*** threadx
+[[https://github.com/eclipse-threadx/rtos-docs/blob/main/rtos-docs/threadx/index.md][rtos-docs/rtos-docs/threadx/index.md
+at main · eclipse-threadx/rtos-docs]]
+
+[[https://forum.anfulai.cn/forum.php?mod=viewthread&tid=99514&extra=page%3D1][【安富莱】ThreadX内核教程更新记录帖，共计23章节，已经完结（2021-08-30） -
+uCOS & uCGUI & emWin & embOS & TouchGFX & ThreadX - 硬汉嵌入式论坛 -
+Powered by Discuz!]]
+
+[[https://blog.csdn.net/ybhuangfugui/article/details/117828744][移植ThreadX操作系统，基于在Keil]]
+
+[[https://github.com/eclipse-threadx/threadx/blob/master/common/inc/tx_api.h][tx_api.h]]
+
+[[https://blog.csdn.net/zhudaokuan/article/details/148747253][【STM32
+HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
+
+[[https://www.baidu.com/][baidu]]
+
+[[https://www.deepl.com/zh/translator/l/en/zh][翻译]]
+
+[[https://youglish.com/][Pronounce]]
+
+[[https://translate.google.com/?hl=zh-CN][Google 翻译]]
+
+[[https://pro.lceda.cn/editor][嘉立创EDA(专业版) - V3.1.57]]
+
+[[https://activity.szlcsc.com/25ssy.html?c=Z&lcsc_vid=RVhYUlADRgdeVFFWFgRWUFxXEgAIA1wCFFNcUFNTQFUxVlNQRVZaXlJfQ1NXVDsOAxUeFF5JWBYZEEoEFggKEkoFGAxBCBAOEhNAFwwW][立创商城]]
+
+*** Other Bookmarks
+[[http://gen.lib.rus.ec/][Library Genesis]]
+
+[[https://akrzemi1.wordpress.com/2014/12/16/using-assertions/][Using
+assertions | Andrzej's C++ blog]]
