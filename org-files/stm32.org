@@ -61,12 +61,11 @@ ADC 侧配置：EXTSEL = TIMx_TRGO
 **** 高电平有效：ocxref = 1称为有效，= 0称为无效，这是固定的。
 **** 各模式下OCxREF的行为
 ***** pwm1模式
-#+begin_example
+#+begin_src C
 CNT<CCRx -> OCxREF = 高
 CNT>=CCRx -> OCxREF = 低
 CNT归零后 -> OCxREF重新变高
-#+end_example
-***** pwm2模式,与pwm1模式相反
+#+end_src***** pwm2模式,与pwm1模式相反
 ***** active模式
 #+begin_example
 匹配时置OCxREF高，后一直保持高,直到cnt溢出,变低

@@ -742,3 +742,5 @@ int main(void)
 }
 ,#+end_src
 #+end_example
+
+* link自动插入后，再修改为相对路径，以便能在github里可点击查看，绝对路径在github显示为不能点击
