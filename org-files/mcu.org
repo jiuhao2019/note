@@ -1133,24 +1133,25 @@ GDB 会继续执行，直到： 找到第 15 行的代码（如果存在且仍�
 *** finish 在函数里直接运行到返回，不一步一步
 ** GDB变量显示
 *** display用法
-**** 每次断点、中断、单步停下来自动打印 counter
-#+begin_example
-(gdb) display counter
-(gdb) continue
-#+end_example
-**** 查看当前自动显示项：
-#+begin_example
-(gdb) info display
-#+end_example
-**** 取消：
-#+begin_example
-(gdb) undisplay 1
-这里的 1 是 display 的编号。
-#+end_example
-**** 如果想每次停下来自动显示十六进制：
-#+begin_example
-display/x var
-#+end_example
+- display                     查看当前所有 display
+- display adc_value       添加
+- display/x adc_value    以十六进制自动显示
+- undisplay 1               删除编号 1 的 display
+- disable display 1        暂时关闭
+- enable display 1         重新启用
+*** watch用法
+- watch adc_value             # 添加 watchpoint，值发生变化时暂停
+- watch/x adc_value           # 以十六进制监视
+- rwatch adc_value            # 被读取时暂停
+- awatch adc_value            # 被读取或写入时暂停
+
+- info watchpoints            # 查看当前所有 watchpoint
+
+- delete 1                    # 删除编号 1 的 watchpoint
+- disable 1                   # 暂时关闭编号 1
+- enable 1                    # 重新启用编号 1
+
+- condition 1 adc_value > 100 # 给 watchpoint 1 添加条件
 *** 如果全局变量和局部变量同名，直接执行：
 #+begin_example
 (gdb) display counter
@@ -1175,6 +1176,10 @@ $2 = 100
 (gdb) display counter
 (gdb) display 'main.c'::counter
 *** 查看函数返回值，应该在函数调用结束的下一行再看其值，在该行查看的值是还没赋完值的情况
+*** p,watch和display区别
+| p       | 一次性查看        |
+| display | 每次暂停自动查看   |
+| watch   | 变量变化时暂停程序 |
 ** 将bt命令导出进文件便于查看
 *** 例如
 #+begin_example
