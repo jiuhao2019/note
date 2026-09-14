@@ -1,0 +1,53 @@
+* 定时器的OC模式和PWM模式
+** Output Compare mode,和PWM mode的区别
+#+begin_example
+本质，定时器计数CNT与CCR值相等时，输出行为不同
+#+end_example
+*** OC模式，执行单次动作，一个周期内只触发一次电平变化，
+**** frozen:         匹配时，输出不便，仅触发中断/dma
+**** active:         匹配时，输出有效电平，之后保持
+**** inactive:       匹配时，输出无效电平，之后保持
+**** toggle:         匹配时，电平翻转，占空比固定50%
+**** force active/inactive:   无视比较，直接强制输出
+*** PWM模式，一个周期内两次电平变化，匹配时，溢出时
+**** PWM1: 匹配前，输出有效电平，后无效电平
+**** PWM2:逻辑相反，匹配前，输出无效电平，后有效电平
+*** OCxREF是stm32定时器内部的一个中间参考信号，它不是最终输出到gpio引脚上的信号。
+**** 特点
+**** 高电平有效：ocxref = 1称为有效，= 0称为无效，这是固定的。
+**** 各模式下OCxREF的行为
+***** pwm1模式
+#+begin_src C
+CNT<CCRx -> OCxREF = 高
+CNT>=CCRx -> OCxREF = 低
+CNT归零后 -> OCxREF重新变高
+#+end_src***** pwm2模式,与pwm1模式相反
+***** active模式
+#+begin_example
+匹配时置OCxREF高，后一直保持高,直到cnt溢出,变低
+#+end_example
+***** inactive模式
+#+begin_example
+匹配时置OCxREF低，后一直保持低,直到cnt溢出,变高
+#+end_example
+***** toggle模式
+#+begin_example
+匹配时置OCxREF翻转一次,其他事件都无视
+#+end_example
+***** frozen模式
+#+begin_example
+匹配时置OCxREF不变，仅产生中断/DMA事件
+#+end_example
+***** force active模式
+#+begin_example
+OCxREF始终为高
+#+end_example
+***** force inactive模式
+#+begin_example
+OCxREF始终为低
+#+end_example
+*** 如果输出pwm，用pwm模式，不要用oc模式，因为
+#+begin_example
+1，oc模式不能输出0%和100%两个点，
+2，oc设置ccrx后立即生效，波形突变，而pwm模式会放到影子寄存器，下次生效。
+#+end_example
