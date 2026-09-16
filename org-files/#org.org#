@@ -406,12 +406,13 @@ HTML 中不会出现 1.、1.1.
 [fn:orghome] The link is: http://orgmode.org
 
 * Footnotes,即脚注
-例如技术文档中：
+** 例如技术文档中：
 #+begin_src C
 AGA8-92DC 是天然气物性计算标准[fn:aga8]。
 [fn:aga8] American Gas Association Report No.8.
 脚注适合放参考资料、补充说明、引用来源等，不会打断正文阅读。
-#+end_src** 常用操作：
+#+end_src
+** 常用操作：
 | 操作         | 快捷键                 |
 | 插入/编辑脚注 | C-c C-x f              |
 | 跳转脚注定义  | C-c C-c                |
