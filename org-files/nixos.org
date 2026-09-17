@@ -90,3 +90,9 @@ fcitx5 -d
 另外重要一点，不能在
 environment.systemPackages = with pkgs; [  ] 里添加fcitx5
 重啓後，輸入法配置里增加rime即可
+* 更新app
+#+begin_src C
+  先进入nixos的配置文件目录，比如~/Download/nixos
+  nix flake update
+  nh os switch
+#+end_src
