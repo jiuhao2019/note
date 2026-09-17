@@ -94,5 +94,6 @@ environment.systemPackages = with pkgs; [  ] 里添加fcitx5
 #+begin_src C
   先进入nixos的配置文件目录，比如~/Download/nixos
   nix flake update
+  gs                      //上传git修改
   nh os switch
 #+end_src
