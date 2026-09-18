@@ -1,0 +1,100 @@
+* 搜索软件
+#+begin_src c
+ nix search nixpkgs firefox
+#+end_src
+ 或者,在网页里搜索
+#+begin_src c
+ https://search.nixos.org/packages
+#+end_src
+* channel
+#+begin_src c
+sudo nix-channel --list
+sudo nix-channel --update
+sudo nix-channel --remove nixos
+sudo nix-channel --remove nixpkgs
+#+end_src
+* lf文件管理器使用
+lf 常用快捷键，按“日常使用”来记就够了：
+** 文件操作
+| Enter | 打开文件 |
+| y     | 复制    |
+| d     | 删除    |
+| r     | 重命名   |
+| p     | 粘贴    |
+
+注意：lf 默认的复制/粘贴是“内部剪贴板”，不是系统剪贴板。
+** 选择
+| Space | 选择/取消当前文件 |
+| v     | 反选           |
+| uv    | 取消所有选择     |
+|       |                |
+** 搜索 / 跳转
+| /  | 搜索文件名       |
+| n  | 下一个匹配       |
+| N  | 上一个匹配       |
+| f  | 快速查找        |
+| zh | 显示/隐藏隐藏文件 |
+
+不同版本/配置里隐藏文件常见的是 zh，而不是我上一条说的 .。如果你的 lf 是默认配置，可以直接按 zh。
+** 目录跳转
+| gh | 回到 home |
+| g/ | 根目录     |
+** 排序
+| os | 按大小排序    |
+| on | 按文件名排序  |
+| ot | 按修改时间排序 |
+| oe | 按扩展名排序  |
+** 其他
+| : | 输入 lf 命令           |
+| ! | 执行 shell 命令        |
+| $ | 执行 shell 命令并等待    |
+| % | 执行 shell 命令并保持 lf |
+| q | 退出                  |
+* 清理
+** sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +3
+- 作用是：删除 NixOS system profile 中的旧 generation 引用,开机显示
+- 这里的关键是：删除 generation 记录/引用，不等于马上删除 /nix/store 里的文件。
+- 所以执行完后，旧 generation 所依赖的 store path 可能仍然存在。
+** sudo nh clean all
+作用是：清理已经没有任何有效引用的 /nix/store 内容
+* 安裝中文輸入法fcitx5
+在~/.xinitx里添加
+#+begin_example
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+
+fcitx5 -d
+#+end_example
+在configuration.nix里添加
+#+begin_example
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "zh_CN.UTF-8/UTF-8"
+    ];
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+
+      fcitx5.addons = with pkgs; [
+        rime-data
+        fcitx5-gtk
+        fcitx5-nord
+        fcitx5-rime
+      ];
+    };
+  };
+#+end_example
+另外重要一点，不能在
+environment.systemPackages = with pkgs; [  ] 里添加fcitx5
+重啓後，輸入法配置里增加rime即可
+* 更新app
+#+begin_src C
+  先进入nixos的配置文件目录，比如~/Download/nixos
+  nix flake update
+  gs                      //上传git修改
+  nh os switch
+#+end_src

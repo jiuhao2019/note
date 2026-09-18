@@ -1,22 +1,3 @@
-*** stm32
-[[https://blog.csdn.net/zhuimeng_ruili/article/details/112630215][对stm32
-flash 模拟eeprom的一些理解_an2594-CSDN博客]]
-
-*** segger
-[[https://kb.segger.com/RTT][RTT - SEGGER Knowledge Base]]
-
-*** multisim
-[[https://blog.csdn.net/xiaobaivera/article/details/138166497][电路仿真实验---Multisim十分钟入门使用介绍（适合新手）-CSDN博客]]
-
-[[https://blog.csdn.net/ZHOUPUYU/article/details/143107944][Multisim14.0的详细中文安装步骤【附安装包】_multisim14.0安装教程-CSDN博客]]
-
-*** lcd
-[[https://blog.csdn.net/weixin_51686526/article/details/139321833][lkdGUI移植（STM32F407+SPI屏幕）-CSDN博客]]
-
-[[https://blog.csdn.net/qq_23274715/article/details/80959804][美丽的lkdGui-CSDN博客]]
-
-[[https://blog.51cto.com/u_15288275/2958408][​【使用指南】lkdGui软件包------专为工业控制领域而生_wx60dac676d6910的技术博客_51CTO博客]]
-
 *** other
 [[https://www.qqxiuzi.cn/hanzi/xingshu.php?word=%C5%CC][盘的行书写法,盘字的行书字形]]
 
@@ -168,15 +149,6 @@ aggregator, glyphs/icons collection, & fonts patcher]]
 [[https://tooltt.com/floatconverter/][浮点数-Float-Double转二进制 -
 ToolTT在线工具箱]]
 [[https://www.lddgo.net/index][在线工具软件]]
-*** cubeide
-[[https://blog.csdn.net/m0_71548440/article/details/125637791][STM32
-cudeIDE使用J-link下载程序_stm32cube ide能用jilink吗-CSDN博客]]
-
-[[https://blog.csdn.net/qq_41650023/article/details/124317496][【STM32CubeIDE学习】STM32CubeIDE输出.hex文件-CSDN博客]]
-
-[[https://blog.csdn.net/occasionally/article/details/146004517][STM32CubeIDE
--- 报错 Program file does not exist-CSDN博客]]
-
 *** youbute
 [[https://www.youtube.com/][YouTube]]
 
@@ -307,10 +279,6 @@ Powered by Discuz!]]
 [[https://doc.embedfire.com/motor/motor_tutorial/zh/latest/index.html][[野火]电机应用开发实战指南
 --- [野火]电机应用开发实战指南---基于STM32 文档]]
 
-*** emacs
-[[https://egh0bww1.com/posts/2024-12-14-55-org-mode-syntax/#orgnh-1][Org-mode
-语法汇总]]
-
 *** threadx
 [[https://github.com/eclipse-threadx/rtos-docs/blob/main/rtos-docs/threadx/index.md][rtos-docs/rtos-docs/threadx/index.md
 at main · eclipse-threadx/rtos-docs]]
@@ -339,7 +307,5 @@ HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
 [[https://activity.szlcsc.com/25ssy.html?c=Z&lcsc_vid=RVhYUlADRgdeVFFWFgRWUFxXEgAIA1wCFFNcUFNTQFUxVlNQRVZaXlJfQ1NXVDsOAxUeFF5JWBYZEEoEFggKEkoFGAxBCBAOEhNAFwwW][立创商城]]
 
 *** Other Bookmarks
-[[http://gen.lib.rus.ec/][Library Genesis]]
-
 [[https://akrzemi1.wordpress.com/2014/12/16/using-assertions/][Using
 assertions | Andrzej's C++ blog]]
