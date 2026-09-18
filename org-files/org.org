@@ -418,12 +418,11 @@ AGA8-92DC 是天然气物性计算标准[fn:aga8]。
 | 跳转脚注定义  | C-c C-c                |
 | 重新编号脚注  | org-footnote-normalize |
 * lists,即列表
-:PROPERTIES:
-:CUSTOM_ID: def710b5-82b9-46fe-911b-a3a88188364e
-:END:
-- Ordered Lists :: 带数字序号
-- Unordered Lists :: 不带数字序号
-- Description Lists :: Start with -, +, or * and followed by ::
+#+begin_src C
+Ordered Lists : 带数字序号
+Unordered Lists : 不带数字序号
+Description Lists : Start with -, +, or * and followed by ::
+#+end_src
 * Category,即分类，一个属性,CATEGORY 更多用于 Agenda 分类显示和 Clock 时间统计
 :PROPERTIES:
 :CUSTOM_ID: 058f8890-a2ed-43b5-bf9f-312e8bbfe537

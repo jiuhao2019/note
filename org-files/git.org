@@ -215,22 +215,22 @@ git clone -b <branch_name> --single-branch <repository_url>
 :CUSTOM_ID: ecc545fb-35ae-46b2-ab8f-4de8f4e5d902
 :END:
 #+begin_example
-   修改/etc/profile ,在这个文件末尾添加如下 (已解压后实际文件名为准,或者自定义文件夹名称) 
+   修改/etc/profile ,在这个文件末尾添加如下 (已解压后实际文件名为准,或者自定义文件夹名称)
 #+end_example
 #+begin_src sh
-   export JAVA_HOME=/usr/local/jdk1.8  
-   export JRE_HOME=${JAVA_HOME}/jre  
-   export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
-   export PATH=.:${JAVA_HOME}/bin:$PATH  
+   export JAVA_HOME=/usr/local/jdk1.8
+   export JRE_HOME=${JAVA_HOME}/jre
+   export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+   export PATH=.:${JAVA_HOME}/bin:$PATH
 #+end_src
-*** 4. 配置生效  
+*** 4. 配置生效
 :PROPERTIES:
 :CUSTOM_ID: 5cc0904e-e48c-4167-b774-76ada3bb26ed
 :END:
 #+begin_src sh
      source /etc/profile
 #+end_src
-*** 5. 验证是否成功  
+*** 5. 验证是否成功
 :PROPERTIES:
 :CUSTOM_ID: 5dc34f9c-128a-4dca-83bf-eacda1ab209b
 :END:
@@ -408,25 +408,25 @@ git config --global alias.sts 'stash show -p'
 :END:
         #+begin_example
         假设仓库有两个分支：
-        
+
         cubeide_release
         cubeide_labtest
-        
+
         先切到第一个：
         git switch cubeide_release
-        
+
         打tag
         git tag -a v1.0.0_release -m "CubeIDE release version"
-        
+
         再切到第二个：
         git switch cubeide_labtest
-        
+
         打tag
         git tag -a v1.0.0_labtest -m "CubeIDE lab test version"
-        
+
         然后把 tag 推送到远程：
         git push origin --tags
-        
+
         现在这两个提交点被永久保存。
         #+end_example
 ** 第二步：删除 branch（可选）
@@ -435,15 +435,15 @@ git config --global alias.sts 'stash show -p'
 :END:
        #+begin_example
        如果你确定这两个分支以后不再继续开发，可以删掉。
-       
+
        删除本地：
        git branch -d cubeide_release
        git branch -d cubeide_labtest
-       
+
        删除远程：
        git push origin --delete cubeide_release
        git push origin --delete cubeide_labtest
-       
+
        注意：删除 branch 不会影响 tag。
        tag 依然指向原来的提交。
        #+end_example
@@ -677,6 +677,6 @@ git push origin branchB
 --orphan 让每个分支没有共同历史，完全独立，相当于一个仓库里存两个项目
 #+end_src
 * github token
-#+begin_src shell
+#+begin_src C
 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
 #+end_src
