@@ -341,9 +341,6 @@ HTML 中不会出现 1.、1.1.
 #+end_src
 
 * 大纲相关的快捷键 :快捷键:
-:PROPERTIES:
-:CUSTOM_ID: ff27c5ec-d197-421b-8afd-a943e59b47d7
-:END:
 ** 折叠
 :PROPERTIES:
 :CUSTOM_ID: 2e284d27-06fe-44db-8f99-bc58c0b04b7f
@@ -352,18 +349,18 @@ HTML 中不会出现 1.、1.1.
 | S-TAB | 循环切换 整个文档 的大纲状态（三种状态：折叠，打开下一级，打开全部） |
 | TAB   | 循环切换光标 所在大纲 的状态 （三种状态：折叠，打开下一级，打开全部 |
 ** 大纲间移动
-:PROPERTIES:
-:CUSTOM_ID: 180dcd09-6c75-4125-a4b5-58c7e9e41278
-:END:
-| 快捷键     | 说明                  |
 | C-c C-n/p | 下/上一标题             |
 | C-c C-f/b | 下/上一标题（仅限同级标题） |
 | C-c C-u   | 跳到上一级标题           |
 | C-c C-j   | 切换到大纲浏览状态        |
+*** evil-mode快捷键
+#+begin_src C
+  上一个标题    [[
+  下一个标题    ]]
+  同级上个标题  []
+  同级下个标题  ][
+#+end_src
 ** 基于大纲的编辑
-:PROPERTIES:
-:CUSTOM_ID: 2ee293e5-c27b-4312-80ad-11ada1bddba9
-:END:
 | 快捷键          | 说明                                    |
 | M-RET          | 插入一个同级标题                           |
 | M-S-RET        | 插入一个同级TODO标题                       |
@@ -377,9 +374,6 @@ HTML 中不会出现 1.、1.1.
 | C-c /          | 只列出包含搜索结果的大纲，并高亮，支持多种搜索方式 |
 | C-c C-c        | 取消高亮                                 |
 ** 列表快捷键
-:PROPERTIES:
-:CUSTOM_ID: 3d852989-90f9-4254-b1cf-b6cc7dd5507f
-:END:
 | 快捷键          | 说明                      |
 | C-c 竖线       | 创建或转换成表格             |
 | 快捷键          | 说明                      |
@@ -734,7 +728,7 @@ int main(void)
 
 * link自动插入后，再修改为相对路径，以便能在github里可点击查看，绝对路径在github显示为不能点击
 
-* table对齐
+* table对齐,结合valign插件显示更整齐
 #+begin_src C
 <l>     左对齐
 <c>     居中
@@ -745,3 +739,14 @@ int main(void)
 |---------+---------+-------+----------+-------|
 | <l>     | <l>     |  <c>  |      <r> |   <r> |
 | 1Byte   | 1Byte   | 1Byte |    1Byte | 1Byte |
+
+* 增加删除列或行
+#+begin_src C
+操作	快捷键	        说明
+增加列	M-S-<right>	在当前列右侧插入一列
+删除列	M-S-<left>	        删除当前列
+增加行	M-S-<down>	在当前行下面插入一行
+删除行	M-S-<up>	        删除当前行
+
+其中 M 是 Alt，S 是 Shift。
+#+end_src
