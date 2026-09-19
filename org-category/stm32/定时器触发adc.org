@@ -14,16 +14,16 @@
 这是定时器的"主模式输出"，通过 TIMx_CR2 寄存器的 MMS[2:0] 位选择输出什么事件。
 MMS 位可以选择的输出内容包括：
 表格
-| MMS | TRGO 输出内容 | 含义                   |
-|-----+---------------+------------------------|
-| 000 | Reset         | 定时器复位事件          |
-| 001 | Enable        | 定时器使能信号          |
+| MMS | TRGO 输出内容  | 含义                |
+|-----+---------------+---------------------|
+| 000 | Reset         | 定时器复位事件         |
+| 001 | Enable        | 定时器使能信号         |
 | 010 | Update        | 计数器溢出/更新事件     |
 | 011 | Compare Pulse | CC 匹配时产生一个正脉冲 |
-| 100 | OC1REF        | 通道1的 OCxREF 信号    |
-| 101 | OC2REF        | 通道2的 OCxREF 信号    |
-| 110 | OC3REF        | 通道3的 OCxREF 信号    |
-| 111 | OC4REF        | 通道4的 OCxREF 信号    |
+| 100 | OC1REF        | 通道1的 OCxREF 信号   |
+| 101 | OC2REF        | 通道2的 OCxREF 信号   |
+| 110 | OC3REF        | 通道3的 OCxREF 信号   |
+| 111 | OC4REF        | 通道4的 OCxREF 信号   |
 ADC 侧配置：EXTSEL = TIMx_TRGO
                    必须设置continuous conversion 设置为enable
 关键点：TRGO 是一个复用器，它把定时器内部多种事件"打包"成一条统一的输出线。你通过 MMS 位选择"打包"哪个事件。

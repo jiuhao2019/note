@@ -1,0 +1,59 @@
+* C计算里判断浮点数 Nan
+#+begin_src c
+在 C 语言中判断一个浮点数是否是 NaN（Not a Number），不能使用 == 来比较，而应该使用标准库函数。
+
+1. 使用标准库函数 isnan
+
+#include <math.h>
+
+float x = ...;
+
+if (isnan(x)) {
+printf("x is NaN\n");
+}
+
+2. 为什么不能用 x == NAN？
+
+因为：
+
+NAN != NAN // 始终为真，NaN 与任何数都不相等，包括它自己
+
+所以，判断 NaN 要使用 isnan() 而不是比较：
+
+if (x == NAN) // 错误！
+
+3. isnan 适用于哪些类型？
+
+   对于 float 类型，isnanf(x)
+
+   对于 double 类型，isnan(x)
+
+   对于 long double 类型，isnanl(x)
+
+但一般使用 isnan(x) 就够用了，编译器会根据参数类型自动选对应函数。
+示例代码
+
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+float a = 0.0f / 0.0f; // 会生成 NaN
+
+    if (isnan(a)) {
+        printf("a 是 NaN\n");
+    } else {
+        printf("a 不是 NaN\n");
+    }
+
+    return 0;
+
+}
+
+如需进一步判断正无穷/负无穷等，也可以使用：
+
+    isinf(x)：判断是否为 ±INF
+
+    isfinite(x)：判断是否为有限数（不是 NaN 也不是 INF）
+
+如有更多上下文，比如你是想判断一个数组里是否含有 NaN，我可以提供相应代码示例。
+#+end_src

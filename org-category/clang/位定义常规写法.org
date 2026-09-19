@@ -1,0 +1,16 @@
+* 定义bit常规写法
+#+begin_example
+常规、规范一点的写法是把位移表达式用括号包起来，并且给常量加上无符号后缀，避免类型和优先级坑：
+#define BIT_USER_EVT1   (1U << 0)
+#+end_example
+** 再稍微解释一下为什么这样写更“正统”：
+#+begin_example
+<< 的优先级虽然比 |、& 高，但宏本身最好总是加括号，防止以后被放进复杂表达式里出问题
+1U 明确是无符号，避免和 int / signed 混用时触发编译器告警
+这种写法在 RTOS、驱动、寄存器定义里几乎是事实标准
+如果后面有一组位定义，通常也会这么排：
+#define BIT_USER_EVT1   (1U << 0)
+#define BIT_USER_EVT2   (1U << 1)
+#define BIT_USER_EVT3   (1U << 2)
+#+end_example
+

@@ -1,0 +1,48 @@
+* 没有if while等关键字加大括号的情况
+** 如果代码中没有显式的关键字（如 if、while、for 等），但你希望将一段代码单独用大括号 {} 包裹起来，可以简单地直接在代码的前后加上 {}。
+*** 示例：原始代码
+#+begin_src c
+      int x = 10;
+      printf("Hello, World!\n");
+      x++;
+
+      加大括号后的代码
+
+      {
+          int x = 10;
+          printf("Hello, World!\n");
+          x++;
+      }
+#+end_src
+
+** 规则和注意事项
+#+begin_src c
+        任意代码块都可以用大括号括起来
+        大括号本身不依赖于任何关键字，可以直接用于分隔代码逻辑或组织局部变量作用域。
+        局部作用域
+        用大括号括起来的代码块会创建一个新的作用域，代码块内定义的变量只能在这个代码块中访问。
+#+end_src
+#+begin_src c
+          示例：
+
+          {
+              int x = 10; // 局部变量 x
+              printf("x = %d\n", x);
+          }
+          // printf("x = %d\n", x); // 错误，x 在此作用域不可见
+#+end_src
+#+begin_src
+        嵌套代码块
+        代码块可以嵌套，用于更加精确地控制作用域：
+#+end_src
+#+begin_src c
+          {
+              int x = 5;
+              printf("Outer x = %d\n", x);
+              {
+                  int x = 10; // 内部代码块的 x，隐藏了外部 x
+                  printf("Inner x = %d\n", x);
+              }
+              printf("Outer x = %d\n", x); // 恢复外部 x
+          }
+#+end_src

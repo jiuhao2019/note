@@ -1,0 +1,238 @@
+* 多项式拟合
+#+begin_src c
+  /*Functtion :多项式拟合polyfit*/
+  #include <stdio.h>
+  #include <conio.h>
+  #include <stdlib.h>
+  #include <math.h>
+#+end_src
+#+begin_src c
+  main()
+  {
+    int i,j,m,n=7,poly_n=2;
+    double x[7]={1,2,3,4,6,7,8},y[7]={2,3,6,7,5,3,2};
+    double a[3];
+    void polyfit(int n,double *x,double *y,int poly_n,double a[]);
+
+    system("cls");
+    polyfit(n,x,y,poly_n,a);
+
+    for (i=0;i<poly_n+1;i++)/*这里是升序排列，Matlab是降序排列*/
+      printf("a[%d]=%g/n",i,a[i]);
+    getch();
+  }
+#+end_src
+#+begin_src c
+  /*==================polyfit(n,x,y,poly_n,a)===================*/
+  /*=======拟合y=a0+a1*x+a2*x^2+……+apoly_n*x^poly_n========*/
+  /*=====n是数据个数 xy是数据值 poly_n是多项式的项数======*/
+  /*===返回a0,a1,a2,……a[poly_n]，系数比项数多一（常数项）=====*/
+  void polyfit(int n,double x[],double y[],int poly_n,double a[])
+  {
+    int i,j;
+    double *tempx,*tempy,*sumxx,*sumxy,*ata;
+    void gauss_solve(int n,double A[],double x[],double b[]);
+    tempx=calloc(n,sizeof(double));
+    sumxx=calloc(poly_n*2+1,sizeof(double));
+    tempy=calloc(n,sizeof(double));
+    sumxy=calloc(poly_n+1,sizeof(double));
+    ata=calloc((poly_n+1)*(poly_n+1),sizeof(double));
+    for (i=0;i<n;i++)
+      {
+        tempx[i]=1;
+        tempy[i]=y[i];
+      }
+    for (i=0;i<2*poly_n+1;i++)
+      for (sumxx[i]=0,j=0;j<n;j++)
+        {
+  	sumxx[i]+=tempx[j];
+  	tempx[j]*=x[j];
+        }
+    for (i=0;i<poly_n+1;i++)
+      for (sumxy[i]=0,j=0;j<n;j++)
+        {
+  	sumxy[i]+=tempy[j];
+  	tempy[j]*=x[j];
+        }
+    for (i=0;i<poly_n+1;i++)
+      for (j=0;j<poly_n+1;j++)
+        ata[i*(poly_n+1)+j]=sumxx[i+j];
+    gauss_solve(poly_n+1,ata,a,sumxy);
+
+    free(tempx);
+    free(sumxx);
+    free(tempy);
+    free(sumxy);
+    free(ata);
+  }
+#+end_src
+
+#+begin_src c
+  void gauss_solve(int n,double A[],double x[],double b[])
+  {
+    int i,j,k,r;
+    double max;
+    for (k=0;k<n-1;k++)
+      {
+        max=fabs(A[k*n+k]); /*find maxmum*/
+        r=k;
+        for (i=k+1;i<n-1;i++)
+  	if (max<fabs(A[i*n+i]))
+  	  {
+  	    max=fabs(A[i*n+i]);
+  	    r=i;
+  	  }
+        if (r!=k)
+  	for (i=0;i<n;i++)         /*change array:A[k]&A[r] */
+  	  {
+  	    max=A[k*n+i];
+  	    A[k*n+i]=A[r*n+i];
+  	    A[r*n+i]=max;
+  	  }
+        max=b[k];                    /*change array:b[k]&b[r]     */
+        b[k]=b[r];
+        b[r]=max;
+        for (i=k+1;i<n;i++)
+  	{
+  	  for (j=k+1;j<n;j++)
+  	    A[i*n+j]-=A[i*n+k]*A[k*n+j]/A[k*n+k];
+  	  b[i]-=A[i*n+k]*b[k]/A[k*n+k];
+  	}
+      }
+
+    for (i=n-1;i>=0;x[i]/=A[i*n+i],i--)
+      for (j=i+1,x[i]=b[i];j<n;j++)
+        x[i]-=A[i*n+j]*x[j];
+  }
+#+end_src
+#+begin_example
+-------------------------------------chatgpt修复版
+✅ polyfit 函数的调用形式：
+polyfit(n, x, y, poly_n = 3, a);
+其中：
+    n: 需要拟合的数据点数量（n >= 4，至少 4 个点）；
+    x[]: 自变量数组；
+    y[]: 因变量数组；
+    poly_n = 3: 表示要拟合 3 阶多项式（结果含 4 个系数）；
+    a[]: 拟合结果数组，长度应为 poly_n + 1 = 4；
+⚠ 最小数据点数要求：
+    最少需要 poly_n + 1 = 4 个数据点。
+#+end_example
+#+end_src
+#+begin_src c
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+void gauss_solve(int n, double A[], double x[], double b[]) {
+    int i, j, k, r;
+    double max, tmp;
+
+    for (k = 0; k < n - 1; k++) {
+        max = fabs(A[k * n + k]);
+        r = k;
+        for (i = k + 1; i < n; i++) { // 修复：原本是 i < n - 1
+            if (fabs(A[i * n + k]) > max) {
+                max = fabs(A[i * n + k]);
+                r = i;
+            }
+        }
+
+        if (r != k) {
+            for (i = 0; i < n; i++) {
+                tmp = A[k * n + i];
+                A[k * n + i] = A[r * n + i];
+                A[r * n + i] = tmp;
+            }
+            tmp = b[k];
+            b[k] = b[r];
+            b[r] = tmp;
+        }
+
+        for (i = k + 1; i < n; i++) {
+            double factor = A[i * n + k] / A[k * n + k];
+            for (j = k; j < n; j++)
+                A[i * n + j] -= factor * A[k * n + j];
+            b[i] -= factor * b[k];
+        }
+    }
+
+    // 回代
+    for (i = n - 1; i >= 0; i--) {
+        x[i] = b[i];
+        for (j = i + 1; j < n; j++)
+            x[i] -= A[i * n + j] * x[j];
+        x[i] /= A[i * n + i];
+    }
+}
+#+end_src
+#+begin_src c
+void polyfit(int n, double x[], double y[], int poly_n, double a[]) {
+    int i, j;
+    double *tempx, *tempy, *sumxx, *sumxy, *ata;
+
+    tempx = calloc(n, sizeof(double));
+    tempy = calloc(n, sizeof(double));
+    sumxx = calloc(2 * poly_n + 1, sizeof(double));
+    sumxy = calloc(poly_n + 1, sizeof(double));
+    ata = calloc((poly_n + 1) * (poly_n + 1), sizeof(double));
+
+    for (i = 0; i < n; i++) {
+        tempx[i] = 1.0;
+        tempy[i] = y[i];
+    }
+
+    for (i = 0; i <= 2 * poly_n; i++) {
+        sumxx[i] = 0.0;
+        for (j = 0; j < n; j++) {
+            sumxx[i] += tempx[j];
+            tempx[j] *= x[j];
+        }
+    }
+
+    for (i = 0; i <= poly_n; i++) {
+        sumxy[i] = 0.0;
+        for (j = 0; j < n; j++) {
+            sumxy[i] += tempy[j];
+            tempy[j] *= x[j];
+        }
+    }
+
+    for (i = 0; i <= poly_n; i++) {
+        for (j = 0; j <= poly_n; j++) {
+            ata[i * (poly_n + 1) + j] = sumxx[i + j];
+        }
+    }
+
+    gauss_solve(poly_n + 1, ata, a, sumxy);
+
+    free(tempx);
+    free(tempy);
+    free(sumxx);
+    free(sumxy);
+    free(ata);
+}
+#+end_src
+#+begin_src c
+int main() {
+    int n = 6;
+    double x[6] = {0, 1, 2, 3, 4, 5};
+    double y[6];
+    for (int i = 0; i < n; i++) {
+        y[i] = 1 + 2 * x[i] + 3 * x[i] * x[i];  // y = 1 + 2x + 3x^2
+    }
+
+    int poly_n = 2;
+    double a[3];
+
+    polyfit(n, x, y, poly_n, a);
+
+    printf("拟合结果系数：\n");
+    for (int i = 0; i <= poly_n; i++) {
+        printf("a[%d] = %.10f\n", i, a[i]);
+    }
+
+    return 0;
+}
+#+end_src
+#+end_src

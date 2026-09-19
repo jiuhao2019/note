@@ -1,0 +1,147 @@
+* opaque pointer
+** opaque pointer（不透明指针）是一种 C 语言封装手法。 核心思想：
+
+.h 里只暴露 “指针类型”
+结构体内容隐藏在 .c
+外部只能通过 API 操作对象
+外部无法直接访问成员
+
+典型用于：
+
+模块封装
+驱动抽象
+防止全局结构体乱改
+面向对象风格 C 代码
+
+** 示例：
+*** 头文件
+#+begin_src c
+/* motor.h */
+
+#ifndef MOTOR_H
+#define MOTOR_H
+
+typedef struct motor motor_t;
+
+motor_t *motor_create(void);
+void motor_set_speed(motor_t *m, int speed);
+int motor_get_speed(motor_t *m);
+void motor_destroy(motor_t *m);
+
+#endif
+#+end_src
+
+#+begin_example
+这里：
+typedef struct motor motor_t; 只是声明了： struct motor; 外部不知道成员。
+#+end_example
+*** 真正定义在 .c：
+
+#+begin_src c
+/* motor.c */
+
+#include "motor.h"
+#include <stdlib.h>
+
+struct motor
+{
+    int speed;
+    int current;
+    int state;
+};
+
+motor_t *motor_create(void)
+{
+    motor_t *m = malloc(sizeof(motor_t));
+
+    if (m)
+    {
+        m->speed = 0;
+        m->current = 0;
+        m->state = 0;
+    }
+
+    return m;
+}
+
+void motor_set_speed(motor_t *m, int speed)
+{
+    m->speed = speed;
+}
+
+int motor_get_speed(motor_t *m)
+{
+    return m->speed;
+}
+
+void motor_destroy(motor_t *m)
+{
+    free(m);
+}
+#+end_src
+
+*** 外部代码：
+
+#+begin_src  c
+#include "motor.h"
+
+int main(void)
+{
+    motor_t *m = motor_create();
+
+    motor_set_speed(m, 100);
+
+    int speed = motor_get_speed(m);
+
+    motor_destroy(m);
+}
+#+end_src
+
+*** 下面这种会直接编译失败：
+#+begin_src c
+
+m->speed = 100;
+
+因为外部根本不知道结构体内容。
+#+end_src
+
+*** 优点：
+
+- 真正的数据保护,比： extern struct xxx g_xxx; 强很多。 降低耦合
+
+- 结构体成员改了：
+#+begin_src c
+struct motor
+{
+    float speed;
+};
+外部无需重新修改代码。
+#+end_src
+
+- 类似“私有成员” 接近 C++ private。 防止误操作
+
+*** 尤其适合：
+- RTOS共享数据
+- 驱动状态
+- 通信协议栈
+- GUI对象
+- 状态机
+
+*** 嵌入式常见缺点：
+- 通常需要动态内存
+ - 但也可以静态化：
+#+begin_src c
+   static struct motor g_motor;
+   然后返回：
+   motor_t *motor_get_instance(void);
+#+end_src
+- 调试不方便
+- 因为成员隐藏。
+- 多一次函数调用
+- 不能直接访问成员。
+
+*** Linux 内核也大量使用类似思想：
+- struct file;
+- struct device;
+- struct inode;
+- 很多时候头文件只给前向声明。

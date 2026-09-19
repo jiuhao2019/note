@@ -1,0 +1,190 @@
+* void类型指针转换整形
+#+begin_example
+    void类型指针可以转换为intptr_t或uintptr_t类型整形,反之亦可，值不变。
+#+end_example
+#+begin_src c
+      void *ptr;
+      int var;
+      unsigned int var1;
+
+      var = (int)(intptr_t)ptr;
+      ptr = (void *)(intptr_t)var;
+
+      var1 = (unsigned int)(uintptr_t)ptr;
+      ptr = (void *)(uintptr_t)var;
+#+end_src
+* 利用union float to byte 和byte to float
+#+begin_example
+在 C 语言中，你可以使用 union 联合体在 float 和 byte（通常是 uint8_t）之间高效地进行类型转换。这种方式不会改变底层的二进制表示，非常适合嵌入式系统中处理串口通信、EEPROM 存储等场景。
+
+下面是两个示例：
+✅ 1. float → byte[4]
+
+将 float 拆分为 4 个字节：
+
+#include <stdint.h>
+#include <stdio.h>
+
+union FloatBytes {
+float f;
+uint8_t bytes[4];
+};
+
+void float_to_bytes(float value, uint8_t out[4])
+{
+union FloatBytes fb;
+fb.f = value;
+for (int i = 0; i < 4; i++) {
+out[i] = fb.bytes[i];
+}
+}
+
+✅ 2. byte[4] → float
+
+将 4 个字节还原为 float：
+
+float bytes_to_float(const uint8_t in[4]) {
+union FloatBytes fb;
+for (int i = 0; i < 4; i++) {
+fb.bytes[i] = in[i];
+}
+return fb.f;
+}
+
+🔎 示例代码（验证）
+
+int main() {
+float original = 3.1415926f;
+uint8_t buffer[4];
+
+    float_to_bytes(original, buffer);
+
+    printf("Bytes: %02X %02X %02X %02X\n", buffer[0], buffer[1], buffer[2], buffer[3]);
+
+    float recovered = bytes_to_float(buffer);
+    printf("Recovered float: %f\n", recovered);
+
+    return 0;
+
+}
+
+⚠️ 注意事项
+
+    端序问题：上述代码依赖平台的内存布局（小端或大端）。一般在 STM32、x86 上是小端，即 buffer[0] 是最低有效字节。
+
+    类型别名惩罚（Type-Punning）：通过 union 做类型转换在 C99 是合法的，但在某些编译器上需要关闭 -fstrict-aliasing 或使用 __attribute__((packed)) 等手段规避优化问题。
+
+    跨平台通信建议使用网络字节序：必要时使用 htonl() 或手动调整字节顺序。
+
+如你有更复杂的数据结构或想处理多个浮点数，我也可以帮你扩展结构。是否需要加上 CRC、Flash 存储等内容？
+#+end_example
+* 整形数据强制转换为枚举
+#+begin_example
+    在 C 语言中，可以直接将整数（int 或 uint16_t 等）强制转换为枚举类型。
+    C 语言的枚举本质上是 int 类型，因此可以安全地进行类型转换。
+#+end_example
+** 示例 1：基本的整数转枚举
+#+begin_src c
+    #include <stdio.h>
+
+    typedef enum {
+        STATE_IDLE = 0,
+        STATE_RUNNING = 1,
+        STATE_ERROR = 2
+    } SystemState;
+
+    int main() {
+        int num = 1;  // 整数值
+        SystemState state = (SystemState)num;  // 强制转换为枚举类型
+
+        printf("State: %d\n", state);  // 输出 1，对应 STATE_RUNNING
+        return 0;
+    }
+#+end_src
+#+begin_example
+    说明：
+        num 是一个 int 类型变量，值为 1。
+        (SystemState)num 直接将整数转换为 SystemState 枚举类型。
+        输出 1，说明 state 现在是 STATE_RUNNING。
+#+end_example
+** 示例 2：带 switch 语句的枚举转换
+#+begin_example
+    当从外部数据（例如 Modbus 或传感器数据）获取整数值并转换为枚举时，建议使用 switch 语句或检查是否合法，以避免无效值。
+#+end_example
+#+begin_src  c
+    #include <stdio.h>
+
+    typedef enum {
+        MODE_OFF = 0,
+        MODE_AUTO = 1,
+        MODE_MANUAL = 2
+    } ControlMode;
+
+    void handleMode(int modeValue) {
+        ControlMode mode = (ControlMode)modeValue;  // 强制转换
+
+        switch (mode) {
+            case MODE_OFF:
+                printf("System is OFF\n");
+                break;
+            case MODE_AUTO:
+                printf("System is in AUTO mode\n");
+                break;
+            case MODE_MANUAL:
+                printf("System is in MANUAL mode\n");
+                break;
+            default:
+                printf("Invalid mode: %d\n", mode);
+                break;
+        }
+    }
+
+    int main() {
+        int input = 2;  // 从外部输入的整形数据
+        handleMode(input);
+
+        return 0;
+    }
+#+end_src
+#+begin_example
+    说明：
+        这里的 handleMode(int modeValue) 函数接受一个整数，并将其转换为 ControlMode 枚举类型。
+        switch 语句用于处理不同的模式，并提供默认情况，防止非法值导致意外行为。
+#+end_example
+** 示例 3：使用 uint16_t 转换
+#+begin_example
+    在嵌入式系统（如 Cortex-M0）中，我们通常使用 uint16_t 处理 Modbus 或寄存器数据：
+#+end_example
+
+#+begin_src c
+    #include <stdint.h>
+    #include <stdio.h>
+
+    typedef enum {
+        SENSOR_OK = 0x0000,
+        SENSOR_WARNING = 0x0001,
+        SENSOR_ERROR = 0x0002
+    } SensorStatus;
+
+    void checkSensor(uint16_t rawValue) {
+        SensorStatus status = (SensorStatus)rawValue;  // 强制转换
+
+        if (status > SENSOR_ERROR) {  // 检查是否超出枚举范围
+            printf("Unknown sensor status: 0x%04X\n", rawValue);
+        } else {
+            printf("Sensor status: %d\n", status);
+        }
+    }
+
+    int main() {
+        uint16_t data = 0x0002;  // 传感器状态值
+        checkSensor(data);
+
+        return 0;
+    }
+#+end_src
+* 有符号数和无符号数强制类型转换
+#+begin_src
+    bit数相同，改变解释方式。
+    bit数不同，情况更复杂。
+#+end_src

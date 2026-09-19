@@ -1,5 +1,5 @@
 * STM32F1的flash
-| Density           | Information block | Page 数 | Page 大小 | 总容量 |
+| Density           | Information block | Page 数 | Page 大小 | 总容量  |
 |-------------------+-------------------+---------+-----------+--------|
 | Low-density       | 4 Kb × 64 bit     |      32 | 1 KB      | 32 KB  |
 | Medium-density    | 16 Kb × 64 bit    |     128 | 1 KB      | 128 KB |

@@ -1,0 +1,13 @@
+* "#define"特殊字符
+#+begin_src C
+      #define Conn(x,y) x##y
+      #define ToChar(x) #@x
+      #define ToString(x) #x
+      int a=Conn(12,34);
+      char b=ToChar(a);
+      char c[]=ToString(a);
+      结果是 a=1234,c='a',c='1234';
+#+end_src
+#+begin_comment
+    可以看出 ## 是简单的连接符，#@用来给参数加单引号，#用来给参数加双引号即转成字符串。
+#+end_comment

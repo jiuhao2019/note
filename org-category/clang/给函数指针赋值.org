@@ -1,0 +1,89 @@
+* 给函数指针赋值 举例
+#+begin_example
+给函数指针赋值其实就是“让一个指针指向一个函数”，也可以理解为“让指针知道调用哪个函数”。下面是一些典型的例子，帮助你理解和掌握这个过程。
+#+end_example
+** 基础用法示例
+
+#+begin_src  c
+#include <stdio.h>
+
+// 定义一个普通函数
+int add(int a, int b) {
+return a + b;
+}
+
+// 函数指针赋值和使用
+int main() {
+// 定义一个函数指针，指向“返回 int，参数为 int, int”的函数
+int (*func_ptr)(int, int);
+
+    // 给函数指针赋值，让它指向函数 add
+    func_ptr = add;
+
+    // 使用函数指针调用函数
+    int result = func_ptr(3, 4);
+    printf("result = %d\n", result); // 输出：result = 7
+
+    return 0;
+
+}
+#+end_src
+
+** 数组中使用函数指针（函数跳转表）
+#+begin_src c
+
+#include <stdio.h>
+
+int add(int a, int b) { return a + b; }
+int sub(int a, int b) { return a - b; }
+
+int main() {
+// 定义函数指针数组
+int (\*func_table[2])(int, int);
+
+    // 分别赋值
+    func_table[0] = add;
+    func_table[1] = sub;
+
+    // 调用
+    printf("add: %d\n", func_table[0](10, 5));  // 输出 15
+    printf("sub: %d\n", func_table[1](10, 5));  // 输出 5
+
+    return 0;
+
+}
+#+end_src
+
+** 结构体中使用函数指针（策略模式/虚函数模拟）
+#+begin_src c
+
+#include <stdio.h>
+
+typedef struct {
+int (\*operate)(int, int);
+} operator_t;
+
+int mul(int a, int b) {
+return a \* b;
+}
+
+int main() {
+operator_t op;
+op.operate = mul; // 给结构体中的函数指针赋值
+
+    printf("mul: %d\n", op.operate(6, 7));  // 输出 42
+
+    return 0;
+
+}
+#+end_src
+** 小技巧：直接赋值 vs 使用地址符号
+
+#+begin_src c
+func_ptr = add; // ✅ 推荐写法
+func_ptr = &add; // ✅ 也可以，因为函数名本身就是地址
+
+两种写法都可以，但通常不需要写 &，因为函数名本身就代表函数的地址。
+
+需要我举出某种特定风格或项目中你遇到的实际场景，也可以告诉我，我可以按你的代码风格或项目需求来举例。
+#+end_src

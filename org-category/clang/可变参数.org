@@ -1,0 +1,42 @@
+* 可变参数
+#+begin_src C
+    #include <stdio.h>
+    #include <stdarg.h>
+
+    // 可变参数函数，求多个数的和
+    int sum(int count, ...) {
+        va_list args;
+        int total = 0;
+
+        // 初始化 args 为传入的可变参数列表
+        va_start(args, count);
+
+        // 通过循环读取每个传入的参数并累加
+        for (int i = 0; i < count; i++) {
+            total += va_arg(args, int); // 获取当前参数并转换为 int 类型
+        }
+
+        // 结束可变参数列表的使用
+        va_end(args);
+
+        return total;
+    }
+
+    int main() {
+        // 调用可变参数函数，传入不同数量的参数
+        printf("Sum of 3, 5, 7: %d\n", sum(3, 3, 5, 7));
+        printf("Sum of 1, 2, 3, 4, 5: %d\n", sum(5, 1, 2, 3, 4, 5));
+
+        return 0;
+    }
+#+end_src
+#+begin_src
+    解释：
+
+        va_list 类型用于声明一个变量，它将用于访问可变参数。
+        va_start(args, count) 用于初始化 args，其中 count 是第一个固定参数（即可变参数之前的参数）。
+        va_arg(args, int) 用于获取下一个可变参数，并且指定参数类型（此处为 int）。
+        va_end(args) 用于清理 args，结束可变参数的处理。
+
+    这个示例中，sum 函数接受一个整数参数 count，表示随后的可变参数的数量，然后计算这些参数的和。
+#+end_src

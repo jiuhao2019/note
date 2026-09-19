@@ -2413,7 +2413,7 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
 |-----+------------------------|
 | %I: | 小时 (12小时制)          |
 |-----+------------------------|
-| %M: | 分钟                    |
+| %M: | 分钟                   |
 |-----+------------------------|
 | %S: | 秒                     |
 |-----+------------------------|
@@ -2796,11 +2796,11 @@ sudo ncdu -x / 2>/dev/null
 :CUSTOM_ID: 99066125-4279-45e0-89fe-a69ffe411fa1
 :END:
    | cmd      | source | target | 序号 |
-   |----------+--------+--------+-----|
-   | cp/mv    | file   | file   |   1 |
-   | cp/mv    | file   | folder |   2 |
-   | cp/mv    | folder | file   |   3 |
-   | cp/mv -r | folder | folder |   4 |
+   |----------+--------+--------+------|
+   | cp/mv    | file   | file   |    1 |
+   | cp/mv    | file   | folder |    2 |
+   | cp/mv    | folder | file   |    3 |
+   | cp/mv -r | folder | folder |    4 |
 
 ** <1> 分别分2种情况：
 :PROPERTIES:
