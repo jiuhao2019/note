@@ -1,0 +1,4 @@
+* Org 导出的 HTML 是本地 file://... 页面，在 Chromium 里打开后 Vimium 不工作，那不是 Org HTML 的问题，而是 Chromium 默认不允许扩展访问本地文件
+- 在 Chromium 地址栏打开： chrome://extensions/
+- 找到 Vimium → Details（详细信息），打开：
+- Allow access to file URLs / 允许访问文件网址

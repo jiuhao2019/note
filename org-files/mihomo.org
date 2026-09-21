@@ -1,2 +1,67 @@
-星辰加速
+* 星辰加速
 https://starlinkboost.com/#/dashboard
+* mihomo  配置文件 ~/.config/mihomo/
+文件夹里，打开mihomo后会自动生成cache.db和config.yaml
+只须修改config.yaml即可
+基本配置[fn:1]
+#+begin_src C
+mixed-port: 7890
+allow-lan: false
+mode: rule
+
+external-controller: 127.0.0.1:9090
+secret: '135987'
+external-ui: /home/microvee/.config/mihomo/ui
+
+proxy-providers:
+  starlink:
+    type: http
+    url: "https://stov4.statab.de/scrb/061bf0fc942474e9300f7dfd4aeba13c"
+    path: ./providers/starlink.yaml
+    interval: 86400
+
+proxy-groups:
+  - name: PROXY
+    type: select
+    use:
+      - starlink
+
+rules:
+  - MATCH,PROXY
+#+end_src
+- 其中的mixed-port可以任意设置，不跟其他冲突即可，一般7890 ,7891等待都可以
+- proxy-providers里是订阅参数，mihomo启动后会自动下载订阅链接里内容到指定的路径里，比如上面的starlink.yaml,路径可以自定义
+- proxy-groups  只需在use 下增加栏目即可
+
+* 这三个选项则是在网页打开ui界面的参数
+#+begin_src C
+external-controller: 127.0.0.1:9090
+secret: '135987'
+external-ui: /home/microvee/.config/mihomo/ui
+#+end_src
+* 订阅和ui可以分开，ui可以用如下方式
+打开 MetaCubeXD 的 GitHub 仓库，然后切换到 gh-pages 分支：
+打开 MetaCubeXD GitHub
+点击分支选择器，选择 gh-pages
+点击绿色 Code
+点击 Download ZIP
+把这些内容放进：
+~/.config/mihomo/ui/
+而不是再套一层：
+~/.config/mihomo/ui/metacubexd-gh-pages/index.html
+* 浏览器里，如下地址打开webui
+#+begin_src C
+http://127.0.0.1:9090/ui/
+#+end_src
+
+* Footnotes
+
+[fn:1]
+#+begin_src C
+  在proxy-providers里
+  可以type： file
+  path： xxx.yaml 或xxx.yml
+  直接用文件也可以
+
+另外fish的配置和configureation.nix里分别添加proxy配置或环境变量
+#+end_src

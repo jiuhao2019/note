@@ -750,3 +750,63 @@ int main(void)
 
 其中 M 是 Alt，S 是 Shift。
 #+end_src
+* 让 Org 导出的 HTML 使用 Gruvbox 配色
+** 例如放在 .org 文件顶部：
+#+begin_src C
+#+HTML_HEAD: <style>
+#+HTML_HEAD: body {
+#+HTML_HEAD:   background: #282828;
+#+HTML_HEAD:   color: #ebdbb2;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: h1, h2, h3, h4 {
+#+HTML_HEAD:   color: #fabd2f;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: a {
+#+HTML_HEAD:   color: #83a598;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: code {
+#+HTML_HEAD:   color: #b8bb26;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: pre {
+#+HTML_HEAD:   background: #1d2021;
+#+HTML_HEAD:   color: #ebdbb2;
+#+HTML_HEAD:   padding: 1em;
+#+HTML_HEAD:   border-radius: 4px;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: table {
+#+HTML_HEAD:   border-collapse: collapse;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: th,
+#+HTML_HEAD: td {
+#+HTML_HEAD:   border: 1px solid #665c54;
+#+HTML_HEAD:   padding: 0.4em 0.8em;
+#+HTML_HEAD: }
+#+HTML_HEAD:
+#+HTML_HEAD: blockquote {
+#+HTML_HEAD:   border-left: 4px solid #d79921;
+#+HTML_HEAD:   color: #bdae93;
+#+HTML_HEAD:   padding-left: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+#+end_src
+** 主要 Gruvbox 深色颜色对应：
+#+begin_src C
+用途	颜色
+页面背景	#282828
+代码背景	#1d2021
+主文字	#ebdbb2
+黄色/标题	#fabd2f
+蓝色/链接	#83a598
+绿色/代码	#b8bb26
+橙色	#fe8019
+红色	#fb4934
+紫色	#d3869b
+灰色	#928374
+边框	#665c54
+#+end_src

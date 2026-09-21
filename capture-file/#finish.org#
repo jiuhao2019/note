@@ -1,8 +1,0 @@
-* FINISHED bsp里都去掉，改为放在app的状态机的init里
-- State "FINISHED"   from "TODO"       [2026-09-20 Sun 08:56]
-  [2026-09-01 Tue 14:08]
-* FINISHED 家用咖啡机的功能，清洗冲泡器，现在是清洗冲泡这一路管子， 还须清洗热水/蒸汽管子，因为长时间后都有必要
-- State "FINISHED"   from "TODO"       [2026-09-08 Tue 12:42]
-* FINISHED org备选命令里按最近使用“而不是每次默认
-- State "FINISHED"   from "TODO"       [2026-09-20 Sun 08:55]
-  [2026-09-18 Fri 12:53]

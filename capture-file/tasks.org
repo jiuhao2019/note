@@ -1,2 +1,0 @@
-* TODO gdbinit加target remote localhost:2331  不用每次输入
-* TODO 洗衣机盖起来
