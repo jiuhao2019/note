@@ -97,3 +97,8 @@ environment.systemPackages = with pkgs; [  ] 里添加fcitx5
   gs                      //上传git修改
   nh os switch
 #+end_src
+* 机场代理有问题，离线模式先能更新系统配置
+#+begin_src C
+sudo nixos-build switch --flake .#主机名 --offline
+主机名可以hostname  查看
+#+end_src
