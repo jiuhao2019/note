@@ -1,35 +1,31 @@
 * lfs_file_sync()
-可以简单理解为： sync 是“保存一下，但继续用”；close 是“保存并结束使用”。
+** 可以简单理解为： sync 是“保存一下，但继续用”；close 是“保存并结束使用”。
 | 操作             | 提交修改 | 文件仍打开 | 能继续 write |
 |------------------+---------+----------+-------------|
 | lfs_file_sync()  | 是      | 是       | 是          |
 | lfs_file_close() | 是      | 否       |             |
 * LFS_O_TRUNC -> lfs_file_open()的参数，如果文件存在时，先清空文件内容
-* lfs_getattr() lfs_setattr()
+* 函数lfs_getattr()   函数lfs_setattr()
 ** 属性是什么？
-LittleFS 的文件除了：
-类似 /config/test.bin
-这种文件数据外，还可以附加一小段 metadata：
-文件:
+*** LittleFS 的文件除了：
+- 类似 /config/test.bin 这种文件数据外，还可以附加一小段 metadata：
+#+begin_src C
     name: test.bin
     size: 128 bytes
     attr:
-        type=1:
-            version=5
-        type=2:
-            crc=0x12345678
-
-这些 attr 存在 LittleFS 元数据区域，不是普通文件内容。
+        type=1: version=5
+        type=2: crc=0x12345678
+#+end_src
+*** 这些 attr 存在 LittleFS 元数据区域，不是普通文件内容。
 ** type 可以取什么值？
-LittleFS 只规定：
-uint8_t type;
-范围：
-0 ~ 255
-通常自己分配：
-比如往type = 1, 写入某个属性
-可读取 type = 1的数据
-写入buffer及其size可以自定义，但size限制, 默认 #define LFS_ATTR_MAX 1022
-* lfs_stat() 函数用于获取这个结构体
+*** LittleFS 只规定：
+                         - uint8_t type;
+                         - 范围： 0 ~ 255
+*** 通常自己分配：
+                      - 比如往type = 1, 写入某个属性
+                      - 可读取 type = 1的数据
+                      - 写入buffer及其size可以自定义，但size限制, 默认 #define LFS_ATTR_MAX 1022
+** 函数lfs_stat() 用于获取这一段metatata
 #+begin_src  C
 struct lfs_info {
     // Type of the file, either LFS_TYPE_REG or LFS_TYPE_DIR
