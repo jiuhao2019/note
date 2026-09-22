@@ -1,7 +1,4 @@
 * 在 GNU Emacs 的 Dired 模式中，修改文件名有几种常用方式：
-:PROPERTIES:
-:CUSTOM_ID: d1fe962f-3851-4e8b-a647-57c1d6f0f345
-:END:
 #+begin_example
 1. 单个文件重命名（最常用）
 光标移动到文件上
@@ -45,13 +42,7 @@
 如果你有具体批量规则（比如加时间戳、编号），可以给出
 #+end_example
 * 在 Emacs 的 Dired 中，文件和目录的创建、删除都属于基本功能，且操作方式比较直接。
-:PROPERTIES:
-:CUSTOM_ID: 80de1a10-bc2b-4071-807a-0bb03b20fc1c
-:END:
 ** 1. 创建文件
-:PROPERTIES:
-:CUSTOM_ID: de501fd1-5bd5-42fb-9127-989323d7abc7
-:END:
 #+begin_example
 在 Dired 缓冲区中：
 C-x C-f
@@ -61,9 +52,6 @@ C-x C-f test.c
 若 test.c 不存在，保存时会创建。
 #+end_example
 ** 2. 创建目录
-:PROPERTIES:
-:CUSTOM_ID: bcff7ed8-61f8-47c3-9b5c-01fb0305109e
-:END:
 #+begin_example
 按： +
 然后输入目录名，例如：
@@ -71,9 +59,6 @@ test_dir
 Dired 会创建该文件夹。
 #+end_example
 ** 3. 删除文件 / 文件夹
-:PROPERTIES:
-:CUSTOM_ID: 26639e70-6a19-430a-8f1b-78464d50e87f
-:END:
 #+begin_example
 删除分两步：
 (1) 标记删除
@@ -100,9 +85,6 @@ Dired 会询问确认，然后删除。
 x      （统一删除）
 #+end_example
 ** 6. 创建空文件的另一种方式
-:PROPERTIES:
-:CUSTOM_ID: b65ad0f3-dd2b-4ed2-86de-653336874daf
-:END:
 #+begin_example
 C-x C-f new.txt
 C-x C-s
@@ -111,6 +93,7 @@ C-x C-s
 先标记 → 再执行批量操作。
 如果需要，我可以给你一份 Dired 高频按键表（10 个键就够日常开发），写代码时效率会明显高于普通文件管理器。
 #+end_example
+** 文件夹里有文件增删修改，在dired窗口gr刷新，命令是revert-buffer
 * 重命名文件时minibuffer提示类似文件名选项导致不能按回车
 :PROPERTIES:
 :CUSTOM_ID: e6be5b87-d070-4615-a725-aefe07c08682
