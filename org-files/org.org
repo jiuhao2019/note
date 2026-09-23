@@ -810,3 +810,21 @@ int main(void)
 灰色	#928374
 边框	#665c54
 #+end_src
+* 多个tag
+** Org-mode 一个标题可以有多个 tag，用冒号分隔：
+#+begin_example
+,* 任务 :work:urgent:
+
+这里有两个 tag：
+
+work
+urgent
+
+也可以更多：
+
+,* STM32 项目 :stm32:embedded:mcu:
+
+Org 的 tag 语法是：
+
+,* 标题 :tag1:tag2:tag3:
+#+end_example
