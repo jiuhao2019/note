@@ -1,0 +1,16 @@
+* tmux 误 detach current client   能恢复？
+** 可以。tmux detach-client 只是把当前终端与 tmux session 断开连接，session 本身通常还在。
+** 那么窗口、pane、正在运行的程序都不会因此消失。重新 attach 后会恢复到之前的状态。
+** 直接重新连接：
+*** 如果有多个 session：
+#+begin_src C
+tmux ls
+#+end_src
+*** 当前不处于tmux
+#+begin_src C
+tmux attach -t 0
+#+end_src
+*** 当前处于tmux中
+#+begin_src C
+tmux switch-client -t 0
+#+end_src
