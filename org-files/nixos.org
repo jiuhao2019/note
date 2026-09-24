@@ -102,3 +102,25 @@ environment.systemPackages = with pkgs; [  ] 里添加fcitx5
 sudo nixos-build switch --flake .#主机名 --offline
 主机名可以hostname 查看
 #+end_src
+* xprop输出的class
+#+begin_src C
+WM_CLASS = "com.follow.clash", "Com.follow.clash"
+                           ↑                    ↑
+                        instance             class
+即第一个是instance,第二个是clash
+awesomewm的rule里，比如
+{
+    rule_any = {
+        instance = { "com.follow.clash" },
+    },
+    properties = {
+        screen = 1,
+        tag = "⒍",
+        switch_to_tags = false,
+        placement = awful.placement.centered,
+    },
+},
+如下两者都能用
+instance = { "com.follow.clash" }
+class    = { "Com.follow.clash" }
+#+end_src
