@@ -94,7 +94,9 @@ environment.systemPackages = with pkgs; [  ] 里添加fcitx5
 #+begin_src C
   先进入nixos的配置文件目录，比如~/Download/nixos
   nix flake update
-  gs                      //上传git修改
+  git add .                      //上传git修改
+  git commit
+  git push
   nh os switch
 #+end_src
 * 机场代理有问题，离线模式先能更新系统配置
