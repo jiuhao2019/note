@@ -1,17 +1,12 @@
 * tar
-#+begin_example
     tar 是 Linux/Unix 下常用的归档工具，可用于打包和解压缩文件。以下是 tar 的常见用法：
-#+end_example
 ** 创建压缩包
-#+begin_example
     tar -cvf archive.tar file1 file2 dir1
 
         -c：创建新的归档文件
         -v：显示详细信息
         -f：指定归档文件名
-#+end_example
 ** 创建并压缩归档文件
-#+begin_example
     tar -czvf archive.tar.gz file1 file2 dir1
     tar -cjvf archive.tar.bz2 file1 file2 dir1
     tar -cJvf archive.tar.xz file1 file2 dir1
@@ -19,64 +14,42 @@
         -z：使用 gzip 压缩（.tar.gz）
         -j：使用 bzip2 压缩（.tar.bz2）
         -J：使用 xz 压缩（.tar.xz）
-#+end_example
 ** 解压缩归档文件
-#+begin_example
     tar -xvf archive.tar
     tar -xzvf archive.tar.gz
     tar -xjvf archive.tar.bz2
     tar -xJvf archive.tar.xz
 
         -x：解压缩文件
-#+end_example
 ** 查看归档内容
-#+begin_example
     tar -tvf archive.tar
     tar -tzvf archive.tar.gz
-#+end_example
 ** 解压到指定目录
-#+begin_example
     tar -xvf archive.tar -C /target/directory
-#+end_example
 ** 添加文件到已有归档
-#+begin_example
     tar -rvf archive.tar newfile
         -r：追加文件（仅适用于未压缩的 .tar）
-#+end_example
 ** 从归档删除文件
-#+begin_example
     tar --delete -f archive.tar file1
     （注意：不能删除压缩格式的 tar.gz、tar.bz2）
-#+end_example
 ** 提取特定文件
-#+begin_example
     tar -xvf archive.tar file1
-#+end_example
 ** 使用管道传输
-#+begin_example
     打包后通过 gzip 压缩：
     tar -cvf - dir1 | gzip > archive.tar.gz
     解压：
     gzip -dc archive.tar.gz | tar -xvf -
-#+end_example
 * lsblk
-#+begin_src
 可以使用 lsblk 命令加上 -f 选项，它会显示文件系统类型。执行以下命令：
 lsblk -f
 输出的结果中，FSTYPE 列会显示文件系统类型，如果是 NTFS，则会显示 ntfs。
-#+end_src
 * du
 ** 显示当前目录文件和文件夹大小
-#+begin_src sh
     du -h --max-depth=1
-#+end_src
 ** 按大小排序后显示
-#+begin_src sh
     du --max-depth=1 | sort -nr
 #+end_src
-
 * cp
-#+begin_example
 cp -r 和 cp -R 基本等价，都是递归复制目录。
 例如：
 cp -r dir1 dir2cp -R dir1 dir2
@@ -135,26 +108,20 @@ cp -dR --preserve=all
 
 做目录完整复制时通常更推荐：
 cp -a src dst
-#+end_example
 * w
-#+begin_example
 Linux w命令用于显示目前登入系统的用户信息。
 执行这项指令可得知目前登入系统的用户有哪些人，以及他们正在执行的程序。
 单独执行 w 指令会显示所有的用户，您也可指定用户名称，仅显示某位用户的相关信息。
 语法
 w [-fhlsuV][用户名称]
-#+end_example
 ** 参数说明：
-#+begin_example
     -f 　开启或关闭显示用户从何处登入系统。
     -h 　不显示各栏位的标题信息列。
     -l 　使用详细格式列表，此为预设值。
     -s 　使用简洁格式列表，不显示用户登入时间，终端机阶段作业和程序所耗费的CPU时间。
     -u 　忽略执行程序的名称，以及该程序耗费CPU时间的信息。
     -V 　显示版本信息。
-#+end_example
 ** 实例
-#+begin_example
 - 显示当前用户
 
 # w  // 显示当前用户登录信息及执行的命令
@@ -192,7 +159,6 @@ root   tty7   :0        Thu12  31:44m 10:10  0.60s gnome-session
 root   pts/0  :0.0       17:09  2:23m 15.26s 0.15s bash
 root   pts/1  192.168.1.17   18:51  0.00s 1.05s 0.14s -bash
 root   pts/2  192.168.1.17   19:48  5:54  0.05s 0.05s -bash
-#+end_example
 * rg
 ** help
 ripgrep 14.1.1
@@ -1782,9 +1748,7 @@ rg --files . | rg -e ".md$" # 正则匹配
 * 查看当前shell
 echo $SHELL
 * sudo !!
-#+begin_example
 将最后一次使用的命令加sudo后运行
-#+end_example
 * 7z
 主页：http://www.7-zip.org/
 中文主页：http://7z.sparanoid.com/
@@ -2087,41 +2051,26 @@ Usage: progress [-qdwmM] [-W secs] [-c command] [-p pid]
 Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent arguments.
 ** 显示指定命令的执行进度
 *** 单次显示
-#+BEGIN_SRC sh
  progress -c ffmpeg
-#+END_SRC
 *** 持续显示
-#+BEGIN_SRC sh
  progress -M -c ffmpeg
-#+END_SRC
 如果想监控其它命令，只需将 ffmpeg 换成想监控的命令即可。
 也可以连续使用多个 -c 同时监控多个命令的执行进度。
 ** 显示指定PID的执行进度
 *** 单次显示
-#+BEGIN_SRC sh
  progress -p 进程号
- #+END_SRC
 *** 持续显示
-#+BEGIN_SRC sh
  progress -M -p 进程号
- #+END_SRC
 ** Progress 一些其它操作方式
-#+BEGIN_SRC sh
  watch progress -wq
  watch progress -wc firefox
-#+END_SRC
 * kill
-    #+BEGIN_SRC sh
       kill pid
       kill -9 pid      立即结束pid，不能被忽略或捕获
-    #+END_SRC
 * tldr
 ** 安装
-#+begin_src sh
   paru -S tldr
-#+end_src
 ** 用法
-#+begin_src
     Display simple help pages for command-line tools from the tldr-pages project.
     Note: the `--language` and `--list` options are not required by the client specification, but most clients implement them.
     More information: https://github.com/tldr-pages/tldr/blob/main/CLIENT-SPECIFICATION.md#command-line-interface.
@@ -2146,16 +2095,11 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
 
     - [l]ist all available subcommand pages for a command:
       tldr --list | grep command | column
-#+end_src
 * 回收站-trash
 ** 安装
-#+begin_src sh
   paru -S trash-cli
-#+end_src
 ** 用法
-#+begin_src sh
   tldr trash-cli
-#+end_src
 * date
 ** 使用 date 命令时，可以通过 + 选项指定显示格式。例如： date "+%Y-%m-%d %H:%M:%S"
 输出示例： 2024-11-22 14:30:45
@@ -2187,7 +2131,6 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
 |-----+------------------------|
 ** 完整的格式化代码可以通过 man date 查看。
 * ln
-#+begin_src
     1. 硬链接 (ln)
     格式：
     ln 原文件 目标文件
@@ -2228,9 +2171,7 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
     示例：
 
     ln -sf /new/path/original.txt link.txt  # 强制更新软链接
-#+end_src
 * journalctl
-#+begin_src
     journalctl 是 Linux 系统中用于查看 systemd 日志的工具，
     它可以查询、过滤和管理 systemd 产生的日志信息。
     以下是常见的 journalctl 用法：
@@ -2286,17 +2227,13 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
     journalctl -o json-pretty
     短格式
         journalctl -o short
-#+end_src
 * cp
-#+begin_src
     避免手动确认但不覆盖已有文件 →  cp -rn -v
     避免手动确认并覆盖所有文件    →  cp -rf -v
     自动输入 y（覆盖所有文件）    →  yes | cp -ir -v
     自动输入 n（不覆盖已有文件） →  yes n | cp -ir -v
     只覆盖比目标文件新的文件       →  cp -ru -v
-#+end_src
 * bat
-    #+begin_src sh
     是一个增强版的 cat，用来高亮和分页查看文件内容。
       运行以下命令检查是否安装：
 
@@ -2331,13 +2268,9 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
       echo "alias bat='batcat'" >> ~/.bashrc
       source ~/.bashrc
 
-    #+end_src
 * fastfetch
-#+begin_example
 ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
-#+end_example
 * ctrl-z   fg
-#+begin_src
     Ctrl-Z: This is used to suspend (pause) the currently running foreground process in the terminal.
     fg: This command is used to bring a suspended background job back to the foreground.
     可以堆栈形式 多层 fg 吗
@@ -2357,9 +2290,7 @@ ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
            fg %2
 
            多个作业：如果你有多个后台作业，它们会按照作业编号堆叠。每次执行 fg 时，只会恢复最顶部的作业，但可以通过 jobs 命令来查看和选择你想恢复的作业。
-#+end_src
 * ASCII表
-#+begin_src 
     ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是一种字符编码标准，包含 128 个字符（0-127），用于表示英文字母、数字、标点符号和控制字符。以下是完整的 ASCII 码表：
     控制字符（0-31）
     十进制	十六进制	字符	描述
@@ -2430,17 +2361,15 @@ ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
     96	0x60	`	反引号
     97-122	0x61-0x7A	a-z	小写字母
     123	0x7B	{	左大括号
-    124	0x7C		
+    124	0x7C
     125	0x7D	}	右大括号
     126	0x7E	~	波浪号
     删除字符（127）
     十进制	十六进制	字符	描述
     127	0x7F	DEL	删除（Delete）
-    
+
     这个 ASCII 码表是基础字符编码的一部分，被广泛用于计算机系统中。如果需要扩展字符（128-255），则属于扩展 ASCII 码（如 ISO-8859 或 UTF-8 编码）。
-#+end_src
 * ncdu
-#+begin_src 
 ncdu 是一个终端下查看磁盘占用的工具，类似 du，但带交互界面，适合快速找“大文件/大目录”。
 
 安装：
@@ -2521,7 +2450,6 @@ ncdu -f file.json
 sudo ncdu -x / 2>/dev/null
 
 避免权限报错刷屏。
-#+end_src
 * cp/mv
    | cmd      | source | target | 序号 |
    |----------+--------+--------+------|
@@ -2607,4 +2535,3 @@ sync
 如果你要写入的是 .img 文件，比如树莓派镜像 raspbian.img，命令格式一样。
 
 如需帮助确认设备名或写一个脚本简化这类操作，也可以告诉我。
-
