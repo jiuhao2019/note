@@ -1,136 +1,42 @@
 * account-secure
-** 博通vmware
-  - user 815514981@qq.com
-  - code wn870728WN_wn
-
-** nxp
-- 用户名: 815514981@qq.com
-- 密码: wn870728WN-
-
-** 学校请假_微信公众号_数智教育平台
-  - 用户名: 13047616365
-  - 密码: wn870728_wn
-
-** stm32
--  用户名: 815514981@qq.com
--  密码: wn870728_wn
-
-** clouddrive2
-  - 用户名: 815514981@qq.com
-  - 密码: wn870728wn
-
-** 盘盘资源
-  - 用户名: 815514981@qq.com
-  - 密码: wn870728wn
-
-** wechat
-  - 用户名: _abcdefg_xyz
-  - 密码: wn870728
-
-** baidu wangpan
-  - 用户名: 13047616365
-  - 密码: WN870728
-
-** csdn
-  - 用户名: 13047616365
-  - 密码: _wn870728_wn
-
-** bilibili
-  - 用户名: 13047616365
-  - 密码: wn870728
-
-** twitter
-  - 用户名: +8613047616365
-  - 密码: wn870728
-
-** siliconlabs
-- 用户名: 815514981@qq.com
-- 密码: wn870728
-
-** gitee
-- 用户名: 815514981@qq.com
-- 密码: wn870728
-
-** github
-- 用户名: 815514981@qq.com
-- 密码: wn870728
-
-** media wiki/ OSDev
-- 用户名: Whynotthink
-- 密码: _YET_henghenghaha_yet
-#+end_example
-** 华海教育
- - 学校代码：86023
- - 用户名：13047616365
- - 密码：222945
-
-** 知呼
-- 账户：13047616365
-- 密码：wn870728wn
-
-** 立创
--    13047616365
--    _whatdoyouwant3S
-
-** google
-- 815514981@qq.com
-- _wn870728_WN
-
-** twitch
-- henghenghahaA(henghenghahaa):wn870728
-- milk.drinkor@gmail.com
-
-** bsky
-- https://bsky.app
-- hookey-hookle:wn870728
-- milk.drinkor@gmail.com
-
-** tencentqq
-*** code
-        - 815514981
-        - wn870728
-*** SMTP/IMAP 授权码已生成 在第三方客户端登录时，密码框请输入以下授权码：
-#+begin_src C
-knafuaqpwgeobcea
-#+end_src
-** discord
-- ( mike ) wn870728
-- milk.drinkor@gmail.com
-#+end_example
-** dota-steam
-- henghenghaha17( 815514981@qq.com)
-- wn870728
-
-** eeworld
-| user   | passwd   | email            |
-|--------+----------+------------------|
-| wn0728 | wn870728 | 815514981@qq.com |
-
-** dengtacloud.com
-- 815514981@qq.com
-- wn870728hh
-
-** mitce.net
-- 815514981@qq.com
-- wn870728
-
-** gougou.win
-- 815514981@qq.com
-- wn870728
-#+end_example
-** dengta-airport
-- 815514981@qq.com
-- wn870728hh
-#+end_example
-** 硬汉论坛
-- 815514981@qq.com  jiuhao2019
-- wn870728_WN
-
-** deepseek
-- 13047616365
-- wn870728
+| platform                   | acount                                | passwd                 |
+|----------------------------+---------------------------------------+------------------------|
+| 博通vmware                 | 815514981@qq.com                      | wn870728WN_wn          |
+| nxp                        | 815514981@qq.com                      | wn870728WN-            |
+| 学校请假_微信公众号_数智教育平台 | 13047616365                           | wn870728_wn            |
+| stm32                      | 815514981@qq.com                      | wn870728_wn            |
+| clouddrive2                | 815514981@qq.com                      | wn870728wn             |
+| 盘盘资源                    | 815514981@qq.com                      | wn870728wn             |
+| wechat                     | _abcdefg_xyz                          | wn870728               |
+| 百度网盘                    | 13047616365                           | WN870728               |
+| csdn                       | 13047616365                           | _wn870728_wn           |
+| bilibili                   | 13047616365                           | wn870728               |
+| twitter                    | +8613047616365                        | wn870728               |
+| siliconlabs                | 815514981@qq.com                      | wn870728               |
+| gitee                      | 815514981@qq.com                      | wn870728               |
+| github                     | 815514981@qq.com                      | wn870728               |
+| media wiki/ OSDev          | Whynotthink                           | _YET_henghenghaha_yet  |
+| 华海教育,学校代码：86023       | 13047616365                           | 222945                 |
+| 知呼                       | 13047616365                           | wn870728wn             |
+| 立创                       | 13047616365                           | _whatdoyouwant3S       |
+| google                     | 815514981@qq.com                      | _wn870728_WN           |
+| twitch                     | henghenghahaA(henghenghahaa):wn870728 | milk.drinkor@gmail.com |
+| bsky https://bsky.app      | hookey-hookle:wn870728                | milk.drinkor@gmail.com |
+| tencentqq                  | 815514981                             | wn870728               |
+| qq-mail                    | SMTP/IMAP 授权码                       | knafuaqpwgeobcea       |
+| discord                    | ( mike ) wn870728                     | milk.drinkor@gmail.com |
+| dota-steam                 | henghenghaha17( 815514981@qq.com)     | wn870728               |
+| eeworld                    | wn0728                                | wn870728               |
+| wn870728hh                 | 815514981@qq.com                      | wn870728hh             |
+| wn870728                   | 815514981@qq.com                      | wn870728               |
+| gougou.win                 | 815514981@qq.com                      | wn870728               |
+| dengta-airport             | 815514981@qq.com                      | wn870728hh             |
+| 硬汉论坛                    | 815514981@qq.com  jiuhao2019          | wn870728_WN            |
+| deepseek                   | 13047616365                           | wn870728               |
 
 * telephone
+| name     |     telephone |
+|----------+---------------|
 | Dad      | 150-7273-4737 |
 | 表嫂     | 135-8842-5272 |
 | 程浩     | 183-7183-6223 |
