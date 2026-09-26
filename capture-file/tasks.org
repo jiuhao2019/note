@@ -1,6 +1,4 @@
 * TODO 寻找串口助手，能自定义配置的
-* TODO emacs tab颜色修改，当前有有颜色，非激活的灰色
 * TODO 温湿度功能
 * TODO 办公室电脑的nvim配置里scroll-it.nvim插件的配置文件，require了remember,改为scroll-it, 复制过来忘记改
-* TODO 删除block structure
-* TODO 测试其他代理工具
+* TODO emacs tab颜色修改，当前有有颜色，非激活的灰色
