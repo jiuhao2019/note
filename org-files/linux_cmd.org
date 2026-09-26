@@ -1,19 +1,8 @@
-:PROPERTIES:
-:ID:       6990cb90-2faf-4c47-a11b-25ed1d25e5dd
-:END:
-#+title: linux_cmd
-#+date: [2026-04-12 Sun 22:24]
 * tar
-:PROPERTIES:
-:CUSTOM_ID: bb26a710-e4ff-4381-87c8-bab8eeb3e7e2
-:END:
 #+begin_example
     tar 是 Linux/Unix 下常用的归档工具，可用于打包和解压缩文件。以下是 tar 的常见用法：
 #+end_example
 ** 创建压缩包
-:PROPERTIES:
-:CUSTOM_ID: 5977adb0-cf80-410f-aa20-6a47a92f3f90
-:END:
 #+begin_example
     tar -cvf archive.tar file1 file2 dir1
 
@@ -22,9 +11,6 @@
         -f：指定归档文件名
 #+end_example
 ** 创建并压缩归档文件
-:PROPERTIES:
-:CUSTOM_ID: b7960249-6eb4-4837-81fb-a94fbfadb36b
-:END:
 #+begin_example
     tar -czvf archive.tar.gz file1 file2 dir1
     tar -cjvf archive.tar.bz2 file1 file2 dir1
@@ -35,9 +21,6 @@
         -J：使用 xz 压缩（.tar.xz）
 #+end_example
 ** 解压缩归档文件
-:PROPERTIES:
-:CUSTOM_ID: 757493a8-1c67-42b4-bc0d-a1d127c44ccc
-:END:
 #+begin_example
     tar -xvf archive.tar
     tar -xzvf archive.tar.gz
@@ -47,47 +30,29 @@
         -x：解压缩文件
 #+end_example
 ** 查看归档内容
-:PROPERTIES:
-:CUSTOM_ID: 5c78f92a-778d-4871-b59e-893f5470c9a1
-:END:
 #+begin_example
     tar -tvf archive.tar
     tar -tzvf archive.tar.gz
 #+end_example
 ** 解压到指定目录
-:PROPERTIES:
-:CUSTOM_ID: 4950bcbb-145e-4a17-8734-5e2fad15ef7f
-:END:
 #+begin_example
     tar -xvf archive.tar -C /target/directory
 #+end_example
 ** 添加文件到已有归档
-:PROPERTIES:
-:CUSTOM_ID: 4b68efb6-0b7b-48d6-a51e-7c6da13b0151
-:END:
 #+begin_example
     tar -rvf archive.tar newfile
         -r：追加文件（仅适用于未压缩的 .tar）
 #+end_example
 ** 从归档删除文件
-:PROPERTIES:
-:CUSTOM_ID: 897585c1-708f-4e48-97d8-ca1e2c0a9722
-:END:
 #+begin_example
     tar --delete -f archive.tar file1
     （注意：不能删除压缩格式的 tar.gz、tar.bz2）
 #+end_example
 ** 提取特定文件
-:PROPERTIES:
-:CUSTOM_ID: 986f10fb-f88b-4324-bb51-44b7a512aa02
-:END:
 #+begin_example
     tar -xvf archive.tar file1
 #+end_example
 ** 使用管道传输
-:PROPERTIES:
-:CUSTOM_ID: ac600d3c-a670-48fc-96cf-36e082a64221
-:END:
 #+begin_example
     打包后通过 gzip 压缩：
     tar -cvf - dir1 | gzip > archive.tar.gz
@@ -95,37 +60,22 @@
     gzip -dc archive.tar.gz | tar -xvf -
 #+end_example
 * lsblk
-:PROPERTIES:
-:CUSTOM_ID: 616cede6-c336-4100-a238-0de498134b5a
-:END:
 #+begin_src
 可以使用 lsblk 命令加上 -f 选项，它会显示文件系统类型。执行以下命令：
 lsblk -f
 输出的结果中，FSTYPE 列会显示文件系统类型，如果是 NTFS，则会显示 ntfs。
 #+end_src
 * du
-:PROPERTIES:
-:CUSTOM_ID: 1b433345-00c4-4f4a-8aaa-2a88957b6f94
-:END:
 ** 显示当前目录文件和文件夹大小
-:PROPERTIES:
-:CUSTOM_ID: 3badfe2e-cde8-4b26-889b-e57bd7259e4f
-:END:
 #+begin_src sh
     du -h --max-depth=1
 #+end_src
 ** 按大小排序后显示
-:PROPERTIES:
-:CUSTOM_ID: 61803893-8e65-405b-a362-8f132232fff8
-:END:
 #+begin_src sh
     du --max-depth=1 | sort -nr
 #+end_src
 
 * cp
-:PROPERTIES:
-:CUSTOM_ID: b120242f-9db5-464b-b922-bef764fbf3fa
-:END:
 #+begin_example
 cp -r 和 cp -R 基本等价，都是递归复制目录。
 例如：
@@ -187,9 +137,6 @@ cp -dR --preserve=all
 cp -a src dst
 #+end_example
 * w
-:PROPERTIES:
-:CUSTOM_ID: 585294e8-52e5-40b1-9e17-22e909251bff
-:END:
 #+begin_example
 Linux w命令用于显示目前登入系统的用户信息。
 执行这项指令可得知目前登入系统的用户有哪些人，以及他们正在执行的程序。
@@ -198,9 +145,6 @@ Linux w命令用于显示目前登入系统的用户信息。
 w [-fhlsuV][用户名称]
 #+end_example
 ** 参数说明：
-:PROPERTIES:
-:CUSTOM_ID: 3693dd9b-7559-4ca0-b6c4-9107e51b2d06
-:END:
 #+begin_example
     -f 　开启或关闭显示用户从何处登入系统。
     -h 　不显示各栏位的标题信息列。
@@ -210,9 +154,6 @@ w [-fhlsuV][用户名称]
     -V 　显示版本信息。
 #+end_example
 ** 实例
-:PROPERTIES:
-:CUSTOM_ID: ff65e017-325b-4c42-83cd-32322526cbac
-:END:
 #+begin_example
 - 显示当前用户
 
@@ -253,13 +194,7 @@ root   pts/1  192.168.1.17   18:51  0.00s 1.05s 0.14s -bash
 root   pts/2  192.168.1.17   19:48  5:54  0.05s 0.05s -bash
 #+end_example
 * rg
-:PROPERTIES:
-:CUSTOM_ID: 7f0d585b-08c3-4c0d-9b61-d22b32097d4c
-:END:
 ** help
-:PROPERTIES:
-:CUSTOM_ID: 6297c31a-e330-416f-b27c-a3f03c85f5ab
-:END:
 ripgrep 14.1.1
 Andrew Gallant <jamslam@gmail.com>
 
@@ -1825,68 +1760,32 @@ OTHER BEHAVIORS:
         information, such as the presence of target specific optimizations and
         the git revision that this build of ripgrep was compiled from.
 ** 最基础的
-:PROPERTIES:
-:CUSTOM_ID: 45c7711f-2a8b-49b9-b1d3-36dc0e74fd91
-:END:
 rg 'test'  a.txt
 ** -w有word之意，表示搜索的字符串作为一个独立的单词时才会被匹配到。
-:PROPERTIES:
-:CUSTOM_ID: daf47293-9060-46aa-bb5b-6212cd73d013
-:END:
 rg -w 'test'  a.txt
 ** 使用-i选项，即可在搜索时不区分大小写
-:PROPERTIES:
-:CUSTOM_ID: 82a51eef-08ad-4a2e-9bfc-05601a2552a9
-:END:
 rg -i 'test' a.txt
 ** -l只打印有匹配的文件名
-:PROPERTIES:
-:CUSTOM_ID: 72cda05b-e98a-4e25-92ae-5997547ddfa7
-:END:
 rg -l 'test'  a.txt
 ** -C 输出匹配上下几行的内容
-:PROPERTIES:
-:CUSTOM_ID: 13687b41-06fb-473d-8746-daefbbc46c69
-:END:
 rg -C 2 'c'  a.txt
 ** 使用 -e REGEX 来指定正则表达式
-:PROPERTIES:
-:CUSTOM_ID: c4ef09d6-20ef-42c8-877f-2be8ac275943
-:END:
 rg -e "*sql" -C 2
 *** 默认 rg 会忽略 .gitignore 和隐藏文件，可以使用 -uu 来查询所有内容
-:PROPERTIES:
-:CUSTOM_ID: f23f4215-55ba-4fce-98c0-e937924d264c
-:END:
 rg -uu "word" .
 *** 可以使用 -t type 来指定文件类型：
-:PROPERTIES:
-:CUSTOM_ID: 1197059e-3591-4f2a-a43b-e32e444a7a59
-:END:
 rg -t markdown "mysql" .  # 在 md 文件中查找 “mysql” 关键字
 支持的文件类型可以通过 rg --type-list 查看
 *** 搜索文件
-:PROPERTIES:
-:CUSTOM_ID: 888768e2-69c3-48eb-a925-df81a7842c1e
-:END:
 列出当前文件夹会进行查询的所有文件且搜索以 md 为后缀的文件
 rg --files . | rg -e ".md$" # 正则匹配
 * 查看当前shell
-:PROPERTIES:
-:CUSTOM_ID: 13037ddd-14f7-4e49-b37a-ad4671572b76
-:END:
 echo $SHELL
 * sudo !!
-:PROPERTIES:
-:CUSTOM_ID: bffbdc1b-aa50-4e06-8129-1a34e5617a60
-:END:
 #+begin_example
 将最后一次使用的命令加sudo后运行
 #+end_example
 * 7z
-:PROPERTIES:
-:CUSTOM_ID: d7c1209a-4f65-4f10-8340-816688de9b6c
-:END:
 主页：http://www.7-zip.org/
 中文主页：http://7z.sparanoid.com/
 命令行版本下载：http://7z.sparanoid.com/download.html
@@ -1903,9 +1802,6 @@ p7zip-rar软件包提供对7z的RAR文件的支持，在大多数情况下，安
 这里有两个参数是必须的，command 和base_archive_name,对应操作和生成的压缩文件(或解压文件)的路径
 
 ** 主要特征：
-:PROPERTIES:
-:CUSTOM_ID: 40327a81-d43c-40d4-9868-186004221771
-:END:
 
  - 全新的LZMA算法加大了7z格式的压缩比
  - 支持格式：
@@ -1913,9 +1809,6 @@ p7zip-rar软件包提供对7z的RAR文件的支持，在大多数情况下，安
   - 仅解压缩：ARJ, CAB, CHM, CPIO, DEB, DMG, FAT, HFS, ISO, LZH, LZMA, MBR, MSI, NSIS, NTFS, RAR, RPM, UDF, VHD, WIM, XAR, Z
 
 ** 退出代码
-:PROPERTIES:
-:CUSTOM_ID: 8f7a170e-a0d2-4d4f-a5fc-5bf1a02e9059
-:END:
 
 0 ： 正常，没有错误；
 
@@ -1930,9 +1823,6 @@ p7zip-rar软件包提供对7z的RAR文件的支持，在大多数情况下，安
 255 ： 用户停止了操作；
 
 ** 使用语法
-:PROPERTIES:
-:CUSTOM_ID: ce024e87-6c9e-4505-ac31-81171877719b
-:END:
 
 7z <命令行> [<选项>...] <基本档案名称> [<参数变量>...]
 
@@ -1949,14 +1839,8 @@ p7zip-rar软件包提供对7z的RAR文件的支持，在大多数情况下，安
 如果只用*，7-Zip 会将其视为任何扩展名的全部文件。
 
 ** 命令及实例
-:PROPERTIES:
-:CUSTOM_ID: 140be731-31ce-44fc-b6cf-eab3576ad67a
-:END:
 
 *** a 添加文件到压缩档案。
-:PROPERTIES:
-:CUSTOM_ID: 17ee526d-1574-4f4a-985f-2cc86e654b3e
-:END:
 
 7z a archive1.zip subdir\ ：增加subdir文件夹下的所有的文件和子文件夹到archive1.zip中，archived1.zip中的文件名包含subdir\前缀。
 
@@ -1969,97 +1853,58 @@ cd /D c:\dir1\
 7z a Files.7z *.txt -r ： 增加当前文件夹及其子文件夹下的所有的txt文件到Files.7z中。
 
 *** b 测试 CPU 运行速度及检查内存错误。
-:PROPERTIES:
-:CUSTOM_ID: cd18bafd-7607-4848-b89d-a305ebd60704
-:END:
 
 *** d 从压缩档案删除文件。
-:PROPERTIES:
-:CUSTOM_ID: 926fc082-6299-49c4-b3a3-379afc745631
-:END:
 
 7z d archive.zip *.bak -r ：从archive.zip中删除所有的bak文件。
 
 *** e 从压缩档案中释放文件到当前目录中。或者到指定的输出文件夹。输出文件夹设置可以通过 -o (设置输出文件夹) 选项来更改。此命令会将所有被释放的文件放置到一个文件夹。如果您想使用完整路径释放文件，您必须使用 x (完整路径释放) 命令。
-:PROPERTIES:
-:CUSTOM_ID: 176bfdef-19e3-4fb3-904d-13610a4dfa71
-:END:
 
 7z e archive.zip ：从压缩档案 archive.zip 中释放所有文件到当前文件夹。
 
 7z e archive.zip -oc:\soft *.cpp ：从压缩档案 archive.zip 中释放 *.cpp 文件到 c:\soft 文件夹。
 
 *** l 列出压缩档案内容。
-:PROPERTIES:
-:CUSTOM_ID: fee0a56d-d365-4460-988a-661557af1162
-:END:
 
 7z l archive.zip ：列出压缩档案 archive.zip 的内容。
 
 *** t 测试压缩档案文件的完整性。
-:PROPERTIES:
-:CUSTOM_ID: 58713dbf-5e64-4c5d-86d0-5c88d90964ae
-:END:
 
 7z t archive.zip *.doc ：在压缩档案 archive.zip 中测试 *.doc 文件的完整性。
 
 *** u 在压缩档案文件中使用较新的文件替换掉较旧的文件。
-:PROPERTIES:
-:CUSTOM_ID: 8c524ff7-d904-4284-9bf6-d2cde20db4a6
-:END:
 
 7z u archive.zip *.doc ：在压缩档案 archive.zip 中更新 *.doc 文件。
 
 *** x 在当前目录中，使用完整路径从压缩档案中释放文件.或者到指定的输出文件夹。
-:PROPERTIES:
-:CUSTOM_ID: b2fda6de-c13d-4dd6-a5e9-04b8923202ff
-:END:
 
 7z x archive.zip ：从压缩档案 archive.zip 中释放所有文件到当前文件夹。
 
 7z x archive.zip -oc:\soft *.cpp ：从压缩档案 archive.zip 中释放 *.cpp 文件到 c:\soft 文件夹。
 
 ** 更多的选项
-:PROPERTIES:
-:CUSTOM_ID: 27c110ce-89c5-40ed-b408-ae66ca9df615
-:END:
 
 *** -- 在命令行中使“--”后的选项开关“-”都失效。这样就允许在命令行中使用文件名以“-”开头的文件。
-:PROPERTIES:
-:CUSTOM_ID: 40ea756c-ee84-49dd-b919-97ce41b6c044
-:END:
 
 7z t -- -ArchiveName.7z ：测试 -ArchiveName.7z 压缩档案.
 
 *** -i指定压缩时附加文件或一类文件。此选项可附件添加多个类型。
-:PROPERTIES:
-:CUSTOM_ID: 2ad7ff92-2252-4b6a-b659-011713b44241
-:END:
 
 i[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的-r选项见后面-r），<file_ref>可以为@{listfile} | !{wildcard}。
 
 7z a -tzip src.zip *.txt -ir!DIR1\*.cpp ：从当前目录中添加 *.txt 文件，和 DIR1 目录及其子目录中的 *.cpp 文件到 src.zip 压缩档案。
 
 *** -x 指定某一文件或某一类文件从操作中排除。此选项可同时排除多个类型。
-:PROPERTIES:
-:CUSTOM_ID: 58126cb3-a293-4183-b9f8-0808b45491b4
-:END:
 
 x[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的-r选项见后面-r），<file_ref>可以为@{listfile} | !{wildcard}。
 
 7z a -tzip archive.zip *.txt -x!temp.* ：添加除 temp.* 文件之外的所有 *.txt 文件到压缩档案 archive.zip。
 
 *** -o 指定释放文件的输出文件夹。此选项只能和释放命令配合使用。
-:PROPERTIES:
-:CUSTOM_ID: e8423a0d-4c79-4fa0-9102-0961ef52cca3
-:END:
 
 7z x archive.zip -oc:\Doc ：从 archive.zip 压缩档案释放所有文件到 c:\Doc 文件夹。
 
 *** -r 递归子目录选项。
-:PROPERTIES:
-:CUSTOM_ID: 2caa3dd2-3772-4803-9590-53e861c2054d
-:END:
 
 -r 开启递归子目录。对于 e (释放)、l (列表)、t (测试)、x (完整路径释放) 这些在压缩档案中操作的命令， 会默认使用此选项。
 
@@ -2072,23 +1917,14 @@ x[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的
 7z a -tzip archive.zip -r src\*.cpp src\*.h ：将 src 目录及其子目录中的 *.cpp 及 *.h 文件添加到 archive.zip 压缩档案。
 
 *** -t 指定压缩档案格式。指定压缩档案格式。它们可以是：zip、7z、rar、cab、gzip、bzip2、tar 或其它格式。而 默认值是 7z 格式。
-:PROPERTIES:
-:CUSTOM_ID: b642984f-0236-425c-8982-4710c7cdce79
-:END:
 
 7z a -tzip archive.zip *.txt ：使用 zip 格式从当前目录中添加所有 *.txt 文件到压缩档案 archive.zip。
 
 *** -y 使 7-Zip 执行命令时的大多数提示失效。您可以使用此选项来阻止在 e (释放) 和 x (完整路径释放) 命令中文件覆盖时的提示。
-:PROPERTIES:
-:CUSTOM_ID: 488d9b3b-5c40-4548-b7d3-6a95a9a36f82
-:END:
 
 7z x src.zip -y ：从 src.zip 释放所有文件。所有的覆盖提示将被阻止且所有相同文件名的文件将被覆盖。
 
 *** -v指定分卷大小。
-:PROPERTIES:
-:CUSTOM_ID: 4a37b198-7968-4985-98d5-b846a19e1151
-:END:
 
 {Size}[b | k | m | g]
 
@@ -2097,16 +1933,10 @@ x[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的
 7z a a.7z *.txt -v10k -v15k -v2m ： 创建 a.7z 分卷压缩档案。第一个分卷为 10 KB，第二个为 15 KB，剩下全部为 2 MB。
 
 *** -p 指定密码。
-:PROPERTIES:
-:CUSTOM_ID: dbc1dbe1-c9db-49b4-9134-94e5a37c111d
-:END:
 
 7z x archive.zip -psecret ：将设有密码“secret”的压缩档案 archive.zip 中所有文件释放。
 
 *** -ao 指定在释放期间如何覆盖硬盘上现有的同名文件。
-:PROPERTIES:
-:CUSTOM_ID: 2786f114-c656-4b28-b081-780baf6cea5e
-:END:
 
 语法：-ao[a | s | u ]
 
@@ -2121,34 +1951,22 @@ x[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的
 7z x test.zip -aoa ：从压缩档案 test.zip 中释放所有文件并却不做提示直接覆盖现有文件。
 
 *** -an 不解析命令行中的 archive_name 区域。此选项必须和 -i (附加文件) 开关一起使用。比如您为压缩档案使用列表文件，您就需要指定 -ai 选项，所以您需要禁止解析命令行中的 archive_name 区域。
-:PROPERTIES:
-:CUSTOM_ID: 7047df8d-2eea-4d1c-8a80-c14c525155fc
-:END:
 
 实例见后面的-ai和-ax中。
 
 *** -ai 指定附加文件，包括压缩档案文件名及通配符。此选项可同时附加多个类型。
-:PROPERTIES:
-:CUSTOM_ID: 08d95e36-ca1b-438e-bdf7-be4b924699b8
-:END:
 
 ai[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的-r选项见后面-r），<file_ref>可以为@{listfile} | !{wildcard}。
 
 7z t -an -air!*.7z ： 在当前目录及子目录下测试 *.7z 压缩档案。
 
 *** -ax 指定必须从操作中排除的压缩档案。此选项可同时排除多个类型。
-:PROPERTIES:
-:CUSTOM_ID: efe638f6-2f76-4ee0-b157-9d07e25d2c13
-:END:
 
 ax[<recurse_type>]<file_ref> 其中<recurse_type>为可以为r[- | 0]（具体的-r选项见后面-r），<file_ref>可以为@{listfile} | !{wildcard}。
 
 7z t -an -ai!*.7z -ax!a*.7z ：测试除 a*.7z 之外的 *.7z 压缩档案。
 
 ** 更多的不常用的选项，可以查看帮助。
-:PROPERTIES:
-:CUSTOM_ID: b309353a-16bb-4e74-8b23-a3ea83bf8069
-:END:
 
 例如：-m设置压缩算法；
 
@@ -2236,22 +2054,13 @@ Type        Format        Example filename
 
 在Windows的64位操作系统下，除需要7z.exe外，还需要7z.dll，我将他们打包为一个zip文件，否则你执行命令的时候可能会遇到上面的错误。
 * history
-:PROPERTIES:
-:CUSTOM_ID: 0c631061-f6f8-4f09-9467-8d1bade5e586
-:END:
 - 清除所有记录
   history -c
 - 清除指定记录
   history -d 5 4 3
   删除第5 4 和3序号的记录
 * progress
-:PROPERTIES:
-:CUSTOM_ID: ac0f637a-5056-4fe2-8ce1-d8e70a2a8a56
-:END:
 ** help
-:PROPERTIES:
-:CUSTOM_ID: e07cb88d-1d2e-4dc5-8bea-b32eab15e95e
-:END:
 progress - Coreutils Viewer
 ---------------------
 Shows progress on file manipulations (cp, mv, dd, ...)
@@ -2277,74 +2086,41 @@ Usage: progress [-qdwmM] [-W secs] [-c command] [-p pid]
 
 Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent arguments.
 ** 显示指定命令的执行进度
-:PROPERTIES:
-:CUSTOM_ID: 8b9c9968-7184-4d0c-948f-eee6e1da8202
-:END:
 *** 单次显示
-:PROPERTIES:
-:CUSTOM_ID: f34b6d4e-e37b-4525-8e82-0fc76f35c98e
-:END:
 #+BEGIN_SRC sh
  progress -c ffmpeg
 #+END_SRC
 *** 持续显示
-:PROPERTIES:
-:CUSTOM_ID: 79ef5dd0-daf0-45f6-9c42-059230e11ce5
-:END:
 #+BEGIN_SRC sh
  progress -M -c ffmpeg
 #+END_SRC
 如果想监控其它命令，只需将 ffmpeg 换成想监控的命令即可。
 也可以连续使用多个 -c 同时监控多个命令的执行进度。
 ** 显示指定PID的执行进度
-:PROPERTIES:
-:CUSTOM_ID: e8b2b75e-0114-479f-9651-13549f2c6de4
-:END:
 *** 单次显示
-:PROPERTIES:
-:CUSTOM_ID: fecff3c0-3daa-4d0d-87c7-5982c5f1ded1
-:END:
 #+BEGIN_SRC sh
  progress -p 进程号
  #+END_SRC
 *** 持续显示
-:PROPERTIES:
-:CUSTOM_ID: a466c10a-a9a3-4b2f-a7d0-b81726673a95
-:END:
 #+BEGIN_SRC sh
  progress -M -p 进程号
  #+END_SRC
 ** Progress 一些其它操作方式
-:PROPERTIES:
-:CUSTOM_ID: ccba6d93-6b03-410b-9ada-906e62f9e2a2
-:END:
 #+BEGIN_SRC sh
  watch progress -wq
  watch progress -wc firefox
 #+END_SRC
 * kill
-:PROPERTIES:
-:CUSTOM_ID: a589f57d-0f63-4988-8988-1b008fe7c7d0
-:END:
     #+BEGIN_SRC sh
       kill pid
       kill -9 pid      立即结束pid，不能被忽略或捕获
     #+END_SRC
 * tldr
-:PROPERTIES:
-:CUSTOM_ID: b61050ba-b107-4faf-a52e-ef0d5c448c58
-:END:
 ** 安装
-:PROPERTIES:
-:CUSTOM_ID: 8bce88e4-2831-41f9-8e86-0ce5b26b3d33
-:END:
 #+begin_src sh
   paru -S tldr
 #+end_src
 ** 用法
-:PROPERTIES:
-:CUSTOM_ID: 8f1ae21e-baec-4f91-8c02-0f2d63a1f5cb
-:END:
 #+begin_src
     Display simple help pages for command-line tools from the tldr-pages project.
     Note: the `--language` and `--list` options are not required by the client specification, but most clients implement them.
@@ -2372,36 +2148,18 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
       tldr --list | grep command | column
 #+end_src
 * 回收站-trash
-:PROPERTIES:
-:CUSTOM_ID: f9d85a6e-614a-4816-8b62-136187686c9d
-:END:
 ** 安装
-:PROPERTIES:
-:CUSTOM_ID: 92d430b0-e4d1-4f08-b907-01fa241ed083
-:END:
 #+begin_src sh
   paru -S trash-cli
 #+end_src
 ** 用法
-:PROPERTIES:
-:CUSTOM_ID: 8ddf32c4-1858-46fd-bf99-42b60f221b61
-:END:
 #+begin_src sh
   tldr trash-cli
 #+end_src
 * date
-:PROPERTIES:
-:CUSTOM_ID: d180948a-2d42-447c-bccd-0a96ae88ffc5
-:END:
 ** 使用 date 命令时，可以通过 + 选项指定显示格式。例如： date "+%Y-%m-%d %H:%M:%S"
-:PROPERTIES:
-:CUSTOM_ID: b4e1a095-89fa-4e20-aac2-08ccfd92b197
-:END:
 输出示例： 2024-11-22 14:30:45
 ** 常用格式化代码：
-:PROPERTIES:
-:CUSTOM_ID: af495bd1-3be4-458a-8e0e-080a62e86554
-:END:
 |-----+------------------------|
 | %Y: | 四位数的年份 (如 2024)    |
 |-----+------------------------|
@@ -2428,13 +2186,7 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
 | %B: | 月份的全称 (如 November) |
 |-----+------------------------|
 ** 完整的格式化代码可以通过 man date 查看。
-:PROPERTIES:
-:CUSTOM_ID: 1aca0caa-d983-4367-a75e-9bc63a0da666
-:END:
 * ln
-:PROPERTIES:
-:CUSTOM_ID: f0a3f1ed-6bce-4895-96c8-d9fd8e8cc3bb
-:END:
 #+begin_src
     1. 硬链接 (ln)
     格式：
@@ -2478,9 +2230,6 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
     ln -sf /new/path/original.txt link.txt  # 强制更新软链接
 #+end_src
 * journalctl
-:PROPERTIES:
-:CUSTOM_ID: 639f9be7-a6d2-4089-b470-b74d3bb70c73
-:END:
 #+begin_src
     journalctl 是 Linux 系统中用于查看 systemd 日志的工具，
     它可以查询、过滤和管理 systemd 产生的日志信息。
@@ -2539,9 +2288,6 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
         journalctl -o short
 #+end_src
 * cp
-:PROPERTIES:
-:CUSTOM_ID: 3e2be6ff-202a-472e-a5c9-d2318a35270e
-:END:
 #+begin_src
     避免手动确认但不覆盖已有文件 →  cp -rn -v
     避免手动确认并覆盖所有文件    →  cp -rf -v
@@ -2550,9 +2296,6 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
     只覆盖比目标文件新的文件       →  cp -ru -v
 #+end_src
 * bat
-:PROPERTIES:
-:CUSTOM_ID: 6213be00-5d64-41d2-92ea-4eaa9d8272ea
-:END:
     #+begin_src sh
     是一个增强版的 cat，用来高亮和分页查看文件内容。
       运行以下命令检查是否安装：
@@ -2590,16 +2333,10 @@ Multiple options allowed for: -a -c -p -i. Use PROGRESS_ARGS for permanent argum
 
     #+end_src
 * fastfetch
-:PROPERTIES:
-:CUSTOM_ID: 3a094f8f-4a91-46b8-ad4b-f16c30d74581
-:END:
 #+begin_example
 ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
 #+end_example
 * ctrl-z   fg
-:PROPERTIES:
-:CUSTOM_ID: 0c53cfa6-822b-470b-bf37-b20e0b24d0d4
-:END:
 #+begin_src
     Ctrl-Z: This is used to suspend (pause) the currently running foreground process in the terminal.
     fg: This command is used to bring a suspended background job back to the foreground.
@@ -2622,9 +2359,6 @@ ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
            多个作业：如果你有多个后台作业，它们会按照作业编号堆叠。每次执行 fg 时，只会恢复最顶部的作业，但可以通过 jobs 命令来查看和选择你想恢复的作业。
 #+end_src
 * ASCII表
-:PROPERTIES:
-:CUSTOM_ID: 33d04ffa-d9c2-4e58-b351-fa4ca4838c3b
-:END:
 #+begin_src 
     ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是一种字符编码标准，包含 128 个字符（0-127），用于表示英文字母、数字、标点符号和控制字符。以下是完整的 ASCII 码表：
     控制字符（0-31）
@@ -2706,9 +2440,6 @@ ln -sT /home/nerd/Downloads/deploy-debian/fastfetch /home/nerd/.config/fastfetch
     这个 ASCII 码表是基础字符编码的一部分，被广泛用于计算机系统中。如果需要扩展字符（128-255），则属于扩展 ASCII 码（如 ISO-8859 或 UTF-8 编码）。
 #+end_src
 * ncdu
-:PROPERTIES:
-:CUSTOM_ID: 36f90f71-2c75-4717-a1b8-00118714179d
-:END:
 #+begin_src 
 ncdu 是一个终端下查看磁盘占用的工具，类似 du，但带交互界面，适合快速找“大文件/大目录”。
 
@@ -2792,9 +2523,6 @@ sudo ncdu -x / 2>/dev/null
 避免权限报错刷屏。
 #+end_src
 * cp/mv
-:PROPERTIES:
-:CUSTOM_ID: 99066125-4279-45e0-89fe-a69ffe411fa1
-:END:
    | cmd      | source | target | 序号 |
    |----------+--------+--------+------|
    | cp/mv    | file   | file   |    1 |
@@ -2803,109 +2531,31 @@ sudo ncdu -x / 2>/dev/null
    | cp/mv -r | folder | folder |    4 |
 
 ** <1> 分别分2种情况：
-:PROPERTIES:
-:CUSTOM_ID: 9fd4b9a2-4c84-4bf3-a593-1fa60db6aaea
-:END:
 *** cp a.txt b.txt
-:PROPERTIES:
-:CUSTOM_ID: 8ee234e9-1d0d-40f3-9449-4f7c76ef86a1
-:END:
 *** 含义：把 a.txt 的内容复制为一个新的文件 b.txt。
-:PROPERTIES:
-:CUSTOM_ID: 37e78eac-6c96-4fa0-81aa-a298a90fccd2
-:END:
 *** 如果 b.txt 已存在，则会被覆盖；不存在则创建。
-:PROPERTIES:
-:CUSTOM_ID: 62e707be-58db-4161-9001-f39a9240ecba
-:END:
 *** mv a.txt b.txt
-:PROPERTIES:
-:CUSTOM_ID: dcda926a-766b-4f37-aeb6-ae2dfd773a16
-:END:
 *** 含义：把 a.txt 重命名为 b.txt。
-:PROPERTIES:
-:CUSTOM_ID: 99b647fa-b120-4c38-ae65-6bb749311e4d
-:END:
 *** 如果 b.txt 已存在，则会被覆盖；不存在则重命名。
-:PROPERTIES:
-:CUSTOM_ID: 21f255f3-04d2-4e54-90a5-14f901a1360e
-:END:
 ** <2> 分别分2种情况
-:PROPERTIES:
-:CUSTOM_ID: cb6bad8f-f99c-4bcd-abd3-23fdd7b5a9ea
-:END:
 *** cp file.txt dir/
-:PROPERTIES:
-:CUSTOM_ID: f193e6b2-7b79-4d84-b993-ebbba5e2a354
-:END:
 *** cp file.txt dir
-:PROPERTIES:
-:CUSTOM_ID: fea2a7f1-6f8d-4abd-83b3-5905280dab56
-:END:
 *** mv file.txt dir/
-:PROPERTIES:
-:CUSTOM_ID: fc048465-de02-4ca8-926f-e6b103c30a45
-:END:
 *** mv file.txt dir
-:PROPERTIES:
-:CUSTOM_ID: 14110d6d-8d68-4f73-a581-6e33250579d2
-:END:
 *** 这四个命令在目标 dir 存在时，效果完全一样：把 file.txt 复制/移动到 dir 目录下
-:PROPERTIES:
-:CUSTOM_ID: b7003aa6-1d35-4185-ac59-b7f3615848c2
-:END:
 ** <3> 是错误的格式用法
-:PROPERTIES:
-:CUSTOM_ID: 692c01c6-643f-465d-a7e1-f149b2312913
-:END:
 ** <4> 分别分2种情况, 须加 -r 才正确
-:PROPERTIES:
-:CUSTOM_ID: 5d2ff0e9-3aaf-4310-84bc-77ea5f2987fa
-:END:
 *** cp -r dir1 dir2
-:PROPERTIES:
-:CUSTOM_ID: 1a217135-8812-47ce-8785-6a64d83da48f
-:END:
 *** 如果 dir2 不存在：会将 dir1 复制为 dir2（相当于重命名复制）。
-:PROPERTIES:
-:CUSTOM_ID: 476742e5-c6f0-4689-a1cc-d324a707b3af
-:END:
 *** 如果 dir2 已存在：会将 dir1 复制为 dir2/dir1。
-:PROPERTIES:
-:CUSTOM_ID: a3d28a7f-2e36-47ea-b1a9-8725353f0db5
-:END:
 *** cp -r dir1/ dir2
-:PROPERTIES:
-:CUSTOM_ID: 3312abe1-33a3-4595-8543-76a9e40b0edf
-:END:
 *** 如果 dir2 不存在：会将 dir1 复制为 dir2（相当于重命名复制）。
-:PROPERTIES:
-:CUSTOM_ID: b763d573-42eb-45fc-a12b-f99c37c1df9c
-:END:
 *** 如果 dir2 已存在：会将 dir1 内容复制到 dir2里。
-:PROPERTIES:
-:CUSTOM_ID: f0212c98-2366-483d-9006-f7af3c7d161a
-:END:
 *** ✅ 推荐记忆方式：
-:PROPERTIES:
-:CUSTOM_ID: d706929c-25b1-4f92-96df-010dd088a981
-:END:
 *** 你想要的结果	                  建议命令
-:PROPERTIES:
-:CUSTOM_ID: ff182ccf-7686-4d78-bc70-2d3f107e4ea9
-:END:
 *** 复制整个目录到目标中	          cp -r dir1 dir2/
-:PROPERTIES:
-:CUSTOM_ID: 4466d052-e6c5-4228-adde-59f2fb84dde8
-:END:
 *** 只复制目录的内容，不包括目录自身  cp -r dir1/ dir2/
-:PROPERTIES:
-:CUSTOM_ID: 0e27b88c-f435-41bd-a052-99c61b153359
-:END:
 *** 复制并改名（复制为别的目录名）	  cp -r dir1 newname
-:PROPERTIES:
-:CUSTOM_ID: 0b8d7284-4b31-4fb1-97a6-e1cfdc432b86
-:END:
 =======
 
 * sudo dd制作upan
