@@ -86,9 +86,13 @@
 - milk.drinkor@gmail.com
 
 ** tencentqq
-- 815514981
-- wn870728
-#+end_example
+*** code
+        - 815514981
+        - wn870728
+*** SMTP/IMAP 授权码已生成 在第三方客户端登录时，密码框请输入以下授权码：
+#+begin_src C
+knafuaqpwgeobcea
+#+end_src
 ** discord
 - ( mike ) wn870728
 - milk.drinkor@gmail.com
