@@ -3,3 +3,4 @@
 * TODO 办公室电脑的nvim配置里scroll-it.nvim插件的配置文件，require了remember,改为scroll-it, 复制过来忘记改
 * TODO emacs tab颜色修改，当前有有颜色，非激活的灰色
 * TODO ssh登录nixos，便于装nixos系统
+* TODO 删除nixos配置里的gruvbox 壁纸通过github拉取，改为静态下载到目录
