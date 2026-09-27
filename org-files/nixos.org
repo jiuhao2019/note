@@ -8,10 +8,11 @@
 #+end_src
 * channel
 #+begin_src c
-sudo nix-channel --list
-sudo nix-channel --update
-sudo nix-channel --remove nixos
-sudo nix-channel --remove nixpkgs
+  sudo nix-channel --list
+  sudo nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-unstable nixos
+  sudo nix-channel --update
+  sudo nix-channel --remove nixos
+  sudo nix-channel --remove nixpkgs
 #+end_src
 * lf文件管理器使用
 lf 常用快捷键，按“日常使用”来记就够了：
@@ -126,3 +127,258 @@ awesomewm的rule里，比如
 instance = { "com.follow.clash" }
 class    = { "Com.follow.clash" }
 #+end_src
+* NixOS 安装 ISO 默认可以通过 SSH 登录
+** 假设：
+- Win10：SSH 客户端
+- NixOS ISO：被连接的机器
+- NixOS ISO 已经联网
+** 在 NixOS ISO 终端执行： sudo systemctl start sshd
+** 然后查看 ISO 的 IP： ip addr
+** 例如看到： inet 192.168.1.100/24
+** 那么 Win10 上执行： ssh nixos@192.168.1.100
+** 不过有一个关键点：ISO 环境里的 nixos 用户通常没有可用密码，所以需要先设置密码： sudo passwd nixos 然后输入密码。
+** 因此完整流程就是：
+#+begin_src C
+sudo systemctl start sshd
+sudo passwd nixos
+ip addr
+#+end_src
+** Win10： ssh nixos@192.168.1.100
+** 如果提示： The authenticity of host ... can't be established.
+输入： yes 即可。
+** 如果你是在安装 NixOS 时使用 SSH，我更推荐直接在 ISO 上运行：
+#+begin_src C
+sudo systemctl enable --now sshd
+sudo passwd nixos
+#+end_src
+** 这样 SSH 服务立即启动，同时设置为当前运行环境的启用状态。
+** 注意：ISO 重启后这些设置都会消失，因为你修改的是 live ISO 的运行环境，不是最终安装到硬盘的 NixOS。
+* 装nixos系统
+** vmware须设置uefi模式启动
+** 进入iso系统后,使用root且设置密码，以便ssh登录
+#+begin_src C
+  sudo -i
+  passwd root
+#+end_src
+** 用fdisk分区,且格式化
+*** 用fdisk分区
+**** 分区1 1G大小，fdisk里选类型1 即efi类型
+**** 分区2 设置2倍ram大小，fdisk里选类型19  即swap类型
+**** 分区3 设置剩下的所有磁盘空间大小，fdisk里选类型23  即linux-root类型
+**** 按p查看所有分区信息
+**** 最后按w写入并生效所有设置后退出fdisk
+*** 格式化
+           - 分区1 mkfs.fat -F32 /dev/sda1
+           - 分区2 mkswap /dev/sda2
+           - 分区3 mkfs.ext4 /dev/sda3
+*** 挂载,须如下顺序
+#+begin_src C
+mount /dev/sda3 /mnt
+mount --mkdir /dev/sda2 /mnt/boot
+swapon /dev/sda2
+#+end_src
+** iso系统开启ssh
+#+begin_src C
+systemctl start sshd
+ip addr
+#+end_src
+** 其他系统里登录iso
+#+begin_src C
+ssh root@192.168.0.103
+#+end_src
+** 第一次登录正常，后面登录失败，试试 ssh-keygen -R 192.168.0.103  后再登录
+** 将如下基本configuration.nix文件用scp传给iso
+#+begin_src C
+{ config, lib, pkgs, inputs, ... }:
+{
+  imports =
+    [
+      ./hardware-configuration.nix
+    ];
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.timeout = 3;
+  boot.consoleLogLevel = 0;
+  boot.initrd.verbose = false;
+  boot.kernelParams = [
+    "quiet"
+    "loglevel=3"
+    "systemd.show_status=false"
+    "rd.systemd.show_status=false"
+    "udev.log_level=3"
+  ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  system.stateVersion = "26.11";
+  #nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  nix.settings.substituters = [
+    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=5"
+    "https://mirrors.ustc.edu.cn/nix-channels/store?priority=10"
+    "https://cache.nixos.org/"
+  ];
+
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
+  #networking.proxy.default = "http://127.0.0.1:7890";
+  #networking.proxy.noProxy = "127.0.0.1,localhost";
+  networking.firewall.enable = false;
+
+  time.timeZone = "Asia/Shanghai";
+
+  environment.systemPackages = with pkgs; [
+    vim
+	nvim
+    wget
+    curl
+    git
+  ];
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "zh_CN.UTF-8/UTF-8"
+    ];
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+
+      fcitx5.addons = with pkgs; [
+        rime-data
+        fcitx5-gtk
+        fcitx5-nord
+        fcitx5-rime
+      ];
+    };
+  };
+
+  programs.fuse.userAllowOther = true;
+  #programs.thunar.enable = true;
+  programs.fish.enable = true;
+  programs.dconf.enable = true;
+  #programs.nix-ld.enable = true;
+  #programs.nix-ld.libraries = with pkgs; [
+  #  gcc.cc.lib
+  #  freetype
+  #  libSM
+  #  libICE
+  #  libXrender
+  #  libXrandr
+  #  libXfixes
+  #  libXcursor
+  #  fontconfig
+  #  libX11
+  #];
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.victor-mono
+    wqy_zenhei
+    noto-fonts-color-emoji
+    source-han-sans
+    source-han-serif
+    lxgw-wenkai
+  ];
+
+  fonts.fontconfig.enable = true;
+  fonts.fontconfig.defaultFonts = {
+    monospace = [ "Victor Mono Nerd Font Mono" ];
+
+    # sansSerif = [ "WenQuanYi Zen Hei" ];
+    # sansSerif = [ "Source Han Sans SC" ];
+    sansSerif = [ "LXGW WenKai" ];
+
+    # serif = [ "WenQuanYi Zen Hei" ];
+    # serif = [ "LXGW WenKai" ];
+    serif = [ "Source Han Serif SC" ];
+  };
+  # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true;
+    windowManager.awesome.enable = true;
+    displayManager.startx = {
+      enable = true;
+      generateScript = true;
+    };
+  };
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+  };
+  # 解决jlink的usb权限
+  services.udev.extraRules = ''
+    ATTR{idVendor}=="1366", MODE="0666"
+  '';
+  services.getty.autologinUser = null;
+
+  virtualisation.vmware.guest.enable = true;
+  systemd.services.vmware-hgfs = {
+    description = "Mount VMware HGFS";
+    after = [ "vmtoolsd.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.open-vm-tools}/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other";
+      ExecStop = "/run/current-system/sw/bin/umount /mnt/hgfs";
+    };
+  };
+  systemd.tmpfiles.rules = [
+    "d /mnt/hgfs 0755 root root -"
+  ];
+
+  users.users.microvee = {
+    isNormalUser = true;
+    shell = pkgs.fish;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
+  security.sudo.extraRules = [
+    {
+      users = [ "microvee" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+}
+#+end_src
+** 比如这样传
+#+begin_src C
+  scp /path/configuration.nix root@192.168.0.103:/mnt/etc/nixos
+  如果目录用scp -r
+#+end_src
+** 修改iso的nix-chananel为国内源
+#+begin_src C
+nix-channel --remove nixos
+nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixos-unstable nixos
+nix-channel --update
+#+end_src
+** 可以install
+#+begin_src C
+nixos-install
+快结束时会提示输入root的passwd，如果长时间没有输入，会报错，得重新输入nixos-install安装，所以别走开太久不管，
+最后有 installation finished! 即基本最小系统安装ok了
+#+end_src
+** 重启前记得：
+#+begin_src C
+umount -R /mnt
+#+end_src
+** 默认约定配置文件路径 /mnt/nixos//
+ - 但可以通过软链接，使用自定义的配置文件，软链到默认配置文件路径即可
