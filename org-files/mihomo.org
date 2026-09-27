@@ -16,7 +16,7 @@ external-ui: /home/microvee/.config/mihomo/ui
 proxy-providers:
   starlink:
     type: http
-    url: "https://stov4.statab.de/scrb/061bf0fc942474e9300f7dfd4aeba13c"
+    url: "https://xxxx"
     path: ./providers/starlink.yaml
     interval: 86400
 
