@@ -676,7 +676,3 @@ git push origin branchB
 
 --orphan 让每个分支没有共同历史，完全独立，相当于一个仓库里存两个项目
 #+end_src
-* github token
-#+begin_src C
-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
-#+end_src
