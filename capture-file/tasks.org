@@ -4,3 +4,4 @@
 * TODO emacs tab颜色修改，当前有有颜色，非激活的灰色
 * TODO ssh登录nixos，便于装nixos系统
 * TODO 删除nixos配置里的gruvbox 壁纸通过github拉取，改为静态下载到目录
+* TODO org打开pdf 路径修改

@@ -145,7 +145,7 @@ ADC Inject:     ↑            ↑
 #+end_example
 
 **  还有一个容易混淆的地方：Injected 并不是“采样速度更快”。它本身的 ADC 转换速度并没有因为叫 Injected 而变快；优势主要是高优先级 + 独立结果寄存器 + 更适合定时器触发/同步采样。
-* 光耦
+* 普通光耦，常见参数
 ** 光耦主要参数：
 *** CTR
 #+begin_example
@@ -305,3 +305,93 @@ VCE(sat)
 * 二极管续流
 瞬时冲击看Ifsm,比如启动，停止堵转
 pwm形式驱动看If
+* 高速光藕,常见参数
+** IF / 输入电流
+** VOL、VOH
+** tPLH、tPHL
+#+begin_src C
+这两个是传播延迟。
+
+光耦不是：
+
+输入变化
+    ↓
+输出立即变化
+
+而是：
+
+输入变化
+    ↓
+LED 发光
+    ↓
+光接收
+    ↓
+内部电路处理
+    ↓
+输出变化
+
+所以存在延迟。
+
+tPLH
+
+Propagation Delay, Low → High
+
+表示：
+
+输入导致输出从 LOW → HIGH 所需要的时间。
+
+例如：
+
+tPLH = 100 ns
+tPHL
+
+Propagation Delay, High → Low
+
+表示：
+
+输入导致输出从 HIGH → LOW 所需要的时间。
+
+例如：
+
+tPHL = 80 ns
+#+end_src
+** tr、tf
+#+begin_src C
+这是输出信号的上升时间和下降时间。
+
+tr：
+
+输出从 LOW 上升到 HIGH 所需要的时间。
+
+通常定义类似：
+
+10% → 90%
+
+tf：
+
+输出从 HIGH 下降到 LOW 所需要的时间。
+
+通常类似：
+
+90% → 10%
+
+例如：
+
+tr = 20 ns
+tf = 15 ns
+
+表示输出边沿比较快。
+
+这个和 tPLH/tPHL 不一样：
+
+tPLH / tPHL
+    ↓
+“什么时候开始发生变化？”
+
+tr / tf
+    ↓
+“开始变化以后，变化得有多快？”
+#+end_src
+** 最大数据率
+** CMTI/CMR
+** 输出驱动能力
