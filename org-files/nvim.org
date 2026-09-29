@@ -67,13 +67,7 @@ nvim --version | grep clipboard
 
 有 +clipboard 或 +xterm_clipboard 表示已启用。
 * 按如下步骤即可愉快使用folder
-:PROPERTIES:
-:CUSTOM_ID: e0d93664-9635-4384-9eef-bd8ab6fc9c95
-:END:
 ** 设置folder选项
-:PROPERTIES:
-:CUSTOM_ID: 6e40f2da-5923-4b39-ba73-be431ba4c314
-:END:
 #+begin_src  vim
 vim.o.foldcolumn = "1" -- 左边显示折叠标记
 vim.o.foldlevel = 99 -- 默认展开所有
@@ -83,20 +77,11 @@ vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 #+end_src
 ** 安装插件
-:PROPERTIES:
-:CUSTOM_ID: 47bf96a0-eac8-45f2-8f93-2f014a8df2f0
-:END:
 #+begin_example
 nvim-origami
 #+end_example
 ** 使用keybind
-:PROPERTIES:
-:CUSTOM_ID: f9c81144-7a66-4ae2-8c4f-60f141144329
-:END:
 *** 光标所在处折叠（cursor fold）
-:PROPERTIES:
-:CUSTOM_ID: d07a7c00-a96a-4663-ad13-a6429e504866
-:END:
 #+begin_example
 zo：打开 fold（open）
 zc：关闭 fold（close）
@@ -105,17 +90,11 @@ zO：递归打开光标处（open recursively）
 zA：递归切换光标处（toggle recursively）
 #+end_example
 *** 全局 fold 控制
-:PROPERTIES:
-:CUSTOM_ID: d1076154-e49d-4505-8dfc-90ffae33dc2a
-:END:
 #+begin_example
 zR：打开buffer所有 fold（Reduce folding）
 zM：关闭buffer所有 fold（Maximize folding）
 #+end_example
 *** foldlevel 控制
-:PROPERTIES:
-:CUSTOM_ID: 811f29d7-0549-4d10-9348-a8ded7d2e5fc
-:END:
 #+begin_example
 zr：foldlevel++（按一次展开一层）
 zm：foldlevel--（按一次收起一层）
