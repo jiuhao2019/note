@@ -1,4 +1,4 @@
-*** other
+* other
 [[https://www.qqxiuzi.cn/hanzi/xingshu.php?word=%C5%CC][盘的行书写法,盘字的行书字形]]
 
 [[https://docs.huihoo.com/index.html][开放文档 - Free and Open
@@ -122,7 +122,7 @@ Gamers]]
 
 [[https://pan666.net/][Panwiki - （原我的小站论坛）]]
 
-*** UNICODE
+* UNICODE
 [[https://compart.com/en/unicode][Unicode - Compart]]
 
 [[https://qa.1r1g.com/sf/ask/1253601541/][如何找到下标字母的unicode？ |
@@ -145,11 +145,11 @@ Emoji]]
 [[https://www.nerdfonts.com/cheat-sheet][Nerd Fonts - Iconic font
 aggregator, glyphs/icons collection, & fonts patcher]]
 
-*** 在线工具
+* 在线工具
 [[https://tooltt.com/floatconverter/][浮点数-Float-Double转二进制 -
 ToolTT在线工具箱]]
 [[https://www.lddgo.net/index][在线工具软件]]
-*** youbute
+* youbute
 [[https://www.youtube.com/][YouTube]]
 
 [[https://publer.com/tools/photo-video-downloader][Social Media Photo &
@@ -175,7 +175,7 @@ Songs to MP3 - SpotifyMate]]
 
 [[https://twitter.com/][twitter.com/]]
 
-*** siliconlab
+* siliconlab
 [[https://www.cnblogs.com/jdub/p/15878260.html][芯科BG22学习笔记：3-如何添加UART串口 -
 J-Dub - 博客园]]
 
@@ -199,7 +199,7 @@ EFR32BG22添加串口LOG打印的方法]]
 [[https://www.sekorm.com/news/92236557.html?isSekormApp=0][【经验】Silicon
 Labs蓝牙Soc芯片EFR32BG22的蓝牙广播功率设置及注意事项]]
 
-*** freertos
+* freertos
 [[https://forums.freertos.org/][FreeRTOS Community Forums - The FreeRTOS
 Community Forums]]
 
@@ -227,33 +227,33 @@ FreeRTOS 手動移植至 CubeIDE 過程記錄 ~ 宅老大數位]]
 
 [[https://chatgpt.com/][ChatGPT]]
 
-*** flashDB
+* flashDB
 [[https://www.bilibili.com/opus/941737447324123201][嵌入式数据库FlashDB使用 -
 哔哩哔哩]]
 
-*** linux
+* linux
 [[https://sh.alynx.one/posts/GNOME-IBus-Wayland-IME/][GNOME 和 IBus 和
 Wayland 输入法 - 喵's StackHarbor]]
 
 [[https://odysee.com/][Odysee]]
 
-*** lvgl
+* lvgl
 [[https://www.cnblogs.com/Huae/p/18621614][LVGL 移植到 STM32 通法 （
 例：LVGL 9.2.2 到 STM32F429 ） - 星云体 - 博客园]]
 
 [[https://blog.csdn.net/butfly/article/details/145185948][图文移植LVGL9.3.0到STM32F429_stm32移植lvgl9-CSDN博客]]
 
-*** simple_gui
+* simple_gui
 [[https://gitee.com/Polarix/MinimumFontLib/issues/I7ID65][编译好的exe不能运行，缺了多个库
 · Issue #I7ID65 · Polarix/MinimumFontLib - Gitee]]
 
-*** fft
+* fft
 [[https://blog.csdn.net/qq_37542753/article/details/104442613][快速傅里叶变换（研二的我终于弄懂了）_fft变换
 bit reverse-CSDN博客]]
 
 [[https://blog.csdn.net/k331922164/article/details/116770519][数字信号处理------快速傅里叶变换_旋转因子-CSDN博客]]
 
-*** bbs
+* bbs
 [[https://www.amobbs.com/][amobbs.com 阿莫电子技术论坛 首页]]
 
 [[https://www.v2ex.com/][V2EX]]
@@ -275,11 +275,11 @@ CH582】CH582 有线键盘转蓝牙键盘 - 国产芯片交流 - 电子工程世
 [[https://forum.anfulai.cn/forum.php?mod=space&uid=3060&mobile=no][硬汉嵌入式论坛 -
 Powered by Discuz!]]
 
-*** motor
+* motor
 [[https://doc.embedfire.com/motor/motor_tutorial/zh/latest/index.html][[野火]电机应用开发实战指南
 --- [野火]电机应用开发实战指南---基于STM32 文档]]
 
-*** threadx
+* threadx
 [[https://github.com/eclipse-threadx/rtos-docs/blob/main/rtos-docs/threadx/index.md][rtos-docs/rtos-docs/threadx/index.md
 at main · eclipse-threadx/rtos-docs]]
 
@@ -306,6 +306,9 @@ HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
 
 [[https://activity.szlcsc.com/25ssy.html?c=Z&lcsc_vid=RVhYUlADRgdeVFFWFgRWUFxXEgAIA1wCFFNcUFNTQFUxVlNQRVZaXlJfQ1NXVDsOAxUeFF5JWBYZEEoEFggKEkoFGAxBCBAOEhNAFwwW][立创商城]]
 
-*** Other Bookmarks
+* Other Bookmarks
 [[https://akrzemi1.wordpress.com/2014/12/16/using-assertions/][Using
 assertions | Andrzej's C++ blog]]
+
+* nvim-colorscheme
+https://vimcolorschemes.com/i/trending

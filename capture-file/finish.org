@@ -7,3 +7,11 @@
 - State "FINISHED"   from "TODO"       [2026-09-21 Mon 14:17]
 * FINISHED 洗衣机盖起来
 - State "FINISHED"   from "TODO"       [2026-09-21 Mon 14:17]
+* FINISHED ssh登录nixos，便于装nixos系统
+- State "FINISHED"   from "TODO"       [2026-09-29 Tue 23:00]
+* FINISHED 温湿度功能
+- State "FINISHED"   from "TODO"       [2026-09-29 Tue 22:59]
+* FINISHED org打开pdf 路径修改
+- State "FINISHED"   from "TODO"       [2026-09-29 Tue 23:00]
+* FINISHED 删除nixos配置里的gruvbox 壁纸通过github拉取，改为静态下载到目录
+- State "FINISHED"   from "TODO"       [2026-09-29 Tue 23:01]

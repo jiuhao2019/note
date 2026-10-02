@@ -189,7 +189,7 @@ ssh root@192.168.0.103
 ** 第一次登录正常，后面登录失败，试试 ssh-keygen -R 192.168.0.103  后再登录
 ** 将如下基本configuration.nix文件用scp传给iso
 #+begin_src C
-  { config, lib, pkgs, inputs, ... }:
+  { config, lib, pkgs,  ... }:
   {
     imports =
       [
@@ -391,5 +391,5 @@ umount -R /mnt
   - 检查 configuration.nix 里的proxy端口和~/.gitconfig里的proxy端口跟代理软件一致后
   - 再sudo nixos-rebuild switch --offline
   - 如果能连代理后，即可起飞
-  - 再把flake.nix   home.nix等恢复到配置文件夹里来，相关配置打开，恢复前面删除的inputs
+  - 再把flake.nix   home.nix等恢复到配置文件夹里来，相关配置打开，恢复前面删除的inputs -> { config, lib, pkgs, inputs, ... }:
   - 重新sudo nixos-rebuild switch
