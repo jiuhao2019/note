@@ -232,24 +232,20 @@ FreeRTOS 手動移植至 CubeIDE 過程記錄 ~ 宅老大數位]]
 哔哩哔哩]]
 
 * linux
-[[https://sh.alynx.one/posts/GNOME-IBus-Wayland-IME/][GNOME 和 IBus 和
-Wayland 输入法 - 喵's StackHarbor]]
+[[https://sh.alynx.one/posts/GNOME-IBus-Wayland-IME/][GNOME 和 IBus 和 Wayland 输入法 - 喵's StackHarbor]]
 
 [[https://odysee.com/][Odysee]]
 
 * lvgl
-[[https://www.cnblogs.com/Huae/p/18621614][LVGL 移植到 STM32 通法 （
-例：LVGL 9.2.2 到 STM32F429 ） - 星云体 - 博客园]]
+[[https://www.cnblogs.com/Huae/p/18621614][LVGL 移植到 STM32 通法 （例：LVGL 9.2.2 到 STM32F429 ） - 星云体 - 博客园]]
 
 [[https://blog.csdn.net/butfly/article/details/145185948][图文移植LVGL9.3.0到STM32F429_stm32移植lvgl9-CSDN博客]]
 
 * simple_gui
-[[https://gitee.com/Polarix/MinimumFontLib/issues/I7ID65][编译好的exe不能运行，缺了多个库
-· Issue #I7ID65 · Polarix/MinimumFontLib - Gitee]]
+[[https://gitee.com/Polarix/MinimumFontLib/issues/I7ID65][编译好的exe不能运行，缺了多个库 · Issue #I7ID65 · Polarix/MinimumFontLib - Gitee]]
 
 * fft
-[[https://blog.csdn.net/qq_37542753/article/details/104442613][快速傅里叶变换（研二的我终于弄懂了）_fft变换
-bit reverse-CSDN博客]]
+[[https://blog.csdn.net/qq_37542753/article/details/104442613][快速傅里叶变换（研二的我终于弄懂了）_fft变换 bit reverse-CSDN博客]]
 
 [[https://blog.csdn.net/k331922164/article/details/116770519][数字信号处理------快速傅里叶变换_旋转因子-CSDN博客]]
 
@@ -264,35 +260,27 @@ bit reverse-CSDN博客]]
 
 [[https://www.eeworld.com.cn/][电子工程世界-创新电子设计之原-专业的电子工程门户]]
 
-[[https://bbs.eeworld.com.cn/tag_%E6%B2%81%E6%81%92.html][【新提醒】沁恒-相关博客帖子 -
-电子工程世界-论坛]]
+[[https://bbs.eeworld.com.cn/tag_%E6%B2%81%E6%81%92.html][【新提醒】沁恒-相关博客帖子 - 电子工程世界-论坛]]
 
-[[https://bbs.eeworld.com.cn/thread-1199038-1-1.html][【新提醒】【沁恒RISC-V内核
-CH582】CH582 有线键盘转蓝牙键盘 - 国产芯片交流 - 电子工程世界-论坛]]
+[[https://bbs.eeworld.com.cn/thread-1199038-1-1.html][【新提醒】【沁恒RISC-V内核 CH582】CH582 有线键盘转蓝牙键盘 - 国产芯片交流 - 电子工程世界-论坛]]
 
 [[http://www.cmsoft.cn/][野人家园-云想物联-嵌入式物联网技术专家]]
 
-[[https://forum.anfulai.cn/forum.php?mod=space&uid=3060&mobile=no][硬汉嵌入式论坛 -
-Powered by Discuz!]]
+[[https://forum.anfulai.cn/forum.php?mod=space&uid=3060&mobile=no][硬汉嵌入式论坛 - Powered by Discuz!]]
 
 * motor
-[[https://doc.embedfire.com/motor/motor_tutorial/zh/latest/index.html][[野火]电机应用开发实战指南
---- [野火]电机应用开发实战指南---基于STM32 文档]]
+[[https://doc.embedfire.com/motor/motor_tutorial/zh/latest/index.html][[野火]电机应用开发实战指南 --- [野火]电机应用开发实战指南---基于STM32 文档]]
 
 * threadx
-[[https://github.com/eclipse-threadx/rtos-docs/blob/main/rtos-docs/threadx/index.md][rtos-docs/rtos-docs/threadx/index.md
-at main · eclipse-threadx/rtos-docs]]
+[[https://github.com/eclipse-threadx/rtos-docs/blob/main/rtos-docs/threadx/index.md][rtos-docs/rtos-docs/threadx/index.md at main · eclipse-threadx/rtos-docs]]
 
-[[https://forum.anfulai.cn/forum.php?mod=viewthread&tid=99514&extra=page%3D1][【安富莱】ThreadX内核教程更新记录帖，共计23章节，已经完结（2021-08-30） -
-uCOS & uCGUI & emWin & embOS & TouchGFX & ThreadX - 硬汉嵌入式论坛 -
-Powered by Discuz!]]
+[[https://forum.anfulai.cn/forum.php?mod=viewthread&tid=99514&extra=page%3D1][【安富莱】ThreadX内核教程更新记录帖，共计23章节，已经完结（2021-08-30） - uCOS & uCGUI & emWin & embOS & TouchGFX & ThreadX - 硬汉嵌入式论坛 - Powered by Discuz!]]
 
 [[https://blog.csdn.net/ybhuangfugui/article/details/117828744][移植ThreadX操作系统，基于在Keil]]
 
 [[https://github.com/eclipse-threadx/threadx/blob/master/common/inc/tx_api.h][tx_api.h]]
 
-[[https://blog.csdn.net/zhudaokuan/article/details/148747253][【STM32
-HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
+[[https://blog.csdn.net/zhudaokuan/article/details/148747253][【STM32 HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
 
 [[https://www.baidu.com/][baidu]]
 
@@ -307,8 +295,10 @@ HAL库】使用HAL库操作FLASH_hal库flash操作-CSDN博客]]
 [[https://activity.szlcsc.com/25ssy.html?c=Z&lcsc_vid=RVhYUlADRgdeVFFWFgRWUFxXEgAIA1wCFFNcUFNTQFUxVlNQRVZaXlJfQ1NXVDsOAxUeFF5JWBYZEEoEFggKEkoFGAxBCBAOEhNAFwwW][立创商城]]
 
 * Other Bookmarks
-[[https://akrzemi1.wordpress.com/2014/12/16/using-assertions/][Using
-assertions | Andrzej's C++ blog]]
+[[https://akrzemi1.wordpress.com/2014/12/16/using-assertions/][Using assertions | Andrzej's C++ blog]]
 
-* nvim-colorscheme
+* vim-colorscheme
 https://vimcolorschemes.com/i/trending
+
+* blog
+https://www.jamescherti.com/about/

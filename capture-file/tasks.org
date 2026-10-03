@@ -1,3 +1,4 @@
 * TODO 办公室电脑的nvim配置里scroll-it.nvim插件的配置文件，require了remember,改为scroll-it, 复制过来忘记改
-* TODO emacs tab颜色修改，当前有有颜色，非激活的灰色
+* FINISHED emacs tab颜色修改，当前有有颜色，非激活的灰色
+- State "FINISHED"   from "TODO"       [2026-10-03 Sat 14:29]
 * TODO 类似eza zoxide的现代工具，替换原有ls  cd
