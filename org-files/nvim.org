@@ -1,7 +1,4 @@
 * nvim寄存器
-:PROPERTIES:
-:CUSTOM_ID: 62f6aca9-4639-447f-8881-aeb81314c512
-:END:
 
 在 nvim（Neovim）中，“寄存器”（registers）是用来临时存储文本数据的机制，比如剪切、复制、粘贴时中转的内容。你可以将文本复制到寄存器中，也可以从寄存器中粘贴文本，非常适合重复操作、宏命令、插件开发等用途。
 📋 常见寄存器类型
@@ -14,9 +11,6 @@ a-z 用户手动指定的寄存器（小写追加，大写覆盖）
 - 系统剪贴板（需要 Neovim 支持 +clipboard）
 
 * 主选择缓冲区（在 Linux 下等同于鼠标选择内容）
-:PROPERTIES:
-:CUSTOM_ID: 671e3276-c835-4c1c-843a-c835eb3f36a9
-:END:
   / 最近的搜索模式
   : 最近的命令
   . 最近插入的文本
@@ -100,9 +94,6 @@ zr：foldlevel++（按一次展开一层）
 zm：foldlevel--（按一次收起一层）
 #+end_example
 * 批量转uft-8格式
-:PROPERTIES:
-:CUSTOM_ID: ffdc493c-f3e3-4b9a-8dc2-850095aaebb2
-:END:
 #+begin_src
     打开vim
     看下vim 工作目录，
@@ -112,18 +103,12 @@ zm：foldlevel--（按一次收起一层）
     然后， :argdo set fenc=utf-8 | update
 #+end_src
 * tag stack
-:PROPERTIES:
-:CUSTOM_ID: d65df23d-2612-4173-9974-4dbcec1787b9
-:END:
 #+begin_src
     ctrl+] 会push一个tag，并且跳转到tag;如该tag有多个，则 :tnext和 :tprev是下一个和前一个
     ctrl+t会到上一个tag
     ctrl+i和ctrl+o是光标位置，上一次和后一次
 #+end_src
 * 十进制数字和十六进制数字 互换显示
-:PROPERTIES:
-:CUSTOM_ID: 98f6f1b1-c97b-4562-ac8f-4774d5a78721
-:END:
 #+begin_src
     十进制->十六进制：
     :%s/\d\+/\=printf("%X",submatch(0))/g
@@ -131,9 +116,6 @@ zm：foldlevel--（按一次收起一层）
     :%s/0[xX]\x\+/\=str2nr(submatch(0),16)/g
 #+end_src
 * 批量重命名
-:PROPERTIES:
-:CUSTOM_ID: fdacba70-37e2-411d-9454-532b595d6a6d
-:END:
 #+begin_src sh
       :read !ls
       或者:read !find ./
@@ -142,9 +124,6 @@ zm：foldlevel--（按一次收起一层）
       然后:write !sh
 #+end_src
 * windows的neovim安装pynvim
-:PROPERTIES:
-:CUSTOM_ID: d08edc13-ad9d-4ad1-acaa-47773249d57b
-:END:
 #+begin_src
     - 在powershell里安装python3
       choco install python
@@ -152,9 +131,6 @@ zm：foldlevel--（按一次收起一层）
     - 在nvim里 :checkhealth检查是否安装好了python.
 #+end_src
 * 替换批量数字为递增
-:PROPERTIES:
-:CUSTOM_ID: f736aa08-43bb-4361-9663-8f4ddc295a04
-:END:
 #+begin_src
     :let n=0 | g/opIndex(\zs\d\+/s//\=n/ | let n+=1
 
@@ -177,9 +153,6 @@ zm：foldlevel--（按一次收起一层）
     另外，在替换命令中，如果省略匹配模式字符串，它会使用之前定义的匹配模式字符串，在本例中就是由”global”命令定义的”opIndex(\zs\d\+”。
 #+end_src
 * 递增竖着一列数字
-:PROPERTIES:
-:CUSTOM_ID: d78bb889-b298-4683-8751-a37717bded5c
-:END:
 #+begin_src
     <div class="test">[0]</div>
     <div class="test">[0]</div>
@@ -219,9 +192,6 @@ zm：foldlevel--（按一次收起一层）
     <div class="test">[90]</div>
 #+end_src
 * 刷新已经打开的buffer里文件内容
-:PROPERTIES:
-:CUSTOM_ID: 56ae93ba-2057-4598-8e16-fe3f5c08858f
-:END:
 #+begin_src
     VIM如何自动保存文件、自动重加载文件、自动刷新显示文件
 
@@ -238,116 +208,59 @@ zm：foldlevel--（按一次收起一层）
     在vimrc中添加 set autowriteall 可使切换文件时，修改的文件被自动保存。
 #+end_src
 * cheat sheet
-:PROPERTIES:
-:CUSTOM_ID: cae0afa8-3f22-42ca-a9de-db215f46d636
-:END:
 ** diff
-:PROPERTIES:
-:CUSTOM_ID: 05fd8cae-a811-4d58-ab95-71acfe1922b9
-:END:
 #+attr_org: :width 41%
 [[../../pics/neovim/diff.png]]
 ** 全局
-:PROPERTIES:
-:CUSTOM_ID: 63f6bdee-073d-4534-9214-723aacf30068
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/全局.png]]
 ** 可视化模式命令
-:PROPERTIES:
-:CUSTOM_ID: 9966221b-9302-445f-af20-bb4900407d6d
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/可视化模式命令.png]]
 ** 复制粘贴
-:PROPERTIES:
-:CUSTOM_ID: e417069f-beac-4c94-8492-805a08f64729
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/复制粘贴.png]]
 ** 多文件搜索
-:PROPERTIES:
-:CUSTOM_ID: c7bc9aca-0b37-4d25-a62f-fc03d1380f3a
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/多文件搜索.png]]
 ** 多文件编辑
-:PROPERTIES:
-:CUSTOM_ID: 4dd55017-7f89-42f6-a23c-cc804b010444
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/多文件编辑.png]]
 ** 宏
-:PROPERTIES:
-:CUSTOM_ID: 894a7bba-65d9-4e54-ac50-4bae1ed65ead
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/宏.png]]
 ** 寄存器
-:PROPERTIES:
-:CUSTOM_ID: 3003b351-9139-4c87-a417-437b4bc452fd
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/寄存器.png]]
 ** 插入模式-插入/追加文本
-:PROPERTIES:
-:CUSTOM_ID: 0d749d1a-d1aa-48c1-9af8-383d71642c37
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/插入模式.png]]
 [[../../pics/neovim/文字缩进.png]]
 ** 查找/替换
-:PROPERTIES:
-:CUSTOM_ID: fa95ae11-e250-42cc-af0f-a968e4e081b5
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/查找替换.png]]
 ** 标记
-:PROPERTIES:
-:CUSTOM_ID: a86ab200-319b-4c54-b0a5-b54f59770640
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/标记.png]]
 ** 移动1/3
-:PROPERTIES:
-:CUSTOM_ID: e4a2d57b-3b5d-4cc2-89a3-b5fe24bd1fe9
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/移动1.png]]
 ** 移动2/3
-:PROPERTIES:
-:CUSTOM_ID: 5fc522c5-0a41-46cf-89ce-424edde0efc2
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/移动2.png]]
 ** 移动3/3
-:PROPERTIES:
-:CUSTOM_ID: bb5c3e7a-bbc2-4a02-98c7-a5396a183947
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/移动3.png]]
 ** 编辑文本
-:PROPERTIES:
-:CUSTOM_ID: 7b9eb18c-e7b5-450c-a544-464f38f08f9d
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/编辑文本.png]]
 ** 推出
-:PROPERTIES:
-:CUSTOM_ID: 10fd3cc3-d95e-4b65-b027-473901c034e9
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/退出.png]]
 ** 选择文本
-:PROPERTIES:
-:CUSTOM_ID: bf6c6e73-cde1-493a-9054-a97477110341
-:END:
 #+attr_org: :width 31%
 [[../../pics/neovim/选择文本.png]]
 * 重装neovim前清除旧版本缓存
-:PROPERTIES:
-:CUSTOM_ID: b4e5cb88-58cb-4623-85b7-75bbe9e3e88f
-:END:
 #+begin_src sh
   #!/usr/bin/bash
   rm -rf ~/.cache/nvim
@@ -356,25 +269,16 @@ zm：foldlevel--（按一次收起一层）
   rm -rf ~/.local/share/nvim
 #+end_src
 * nvim-spectre插件，过滤搜索结果
-:PROPERTIES:
-:CUSTOM_ID: 948ac2a4-cc35-4d00-a747-b9f879d845c1
-:END:
 #+begin_src 
 path选项
 ,*.c         搜索结果只c文件
 ,*.{c,h}   搜索结果只在c和h文件
 #+end_src
 * 每次都弹出Please Press Enter
-:PROPERTIES:
-:CUSTOM_ID: 1855664c-8faa-46d2-98e0-46a2d5c0c2e7
-:END:
 #+begin_example
 cmdheight设置为2即可，若设置为0就会出现次现象
 #+end_example
 * vimrc
-:PROPERTIES:
-:CUSTOM_ID: 68bfacf9-99a1-4d5d-826a-8bbb520603da
-:END:
 
 
 #+begin_src viml
@@ -517,9 +421,6 @@ noremap <silent> <Leader>e :NERDTreeToggle<CR>
 "┕─────────────────────────────────────────────────────────────────────────────┙
 #+end_src
 * astylerc
-:PROPERTIES:
-:CUSTOM_ID: d5463aeb-7929-401f-af5e-e8beaabef678
-:END:
 
 
 新建文件.astylerc,添加如下内容
@@ -538,9 +439,6 @@ noremap <silent> <Leader>e :NERDTreeToggle<CR>
   --suffix=none
 #+end_src
 * undotree使用
-:PROPERTIES:
-:CUSTOM_ID: 72f9b430-5656-43a7-9fc0-77662393cb59
-:END:
 
 
 打开undotree界面后，
@@ -549,9 +447,6 @@ noremap <silent> <Leader>e :NERDTreeToggle<CR>
 q 退出undotree.
 emacs的undotree插件一样的方法使用。
 * 不用插件注释和撤销注释
-:PROPERTIES:
-:CUSTOM_ID: 7cb0a1c5-5931-4cb8-8edc-b479430047d9
-:END:
 
 
 选中几行
@@ -561,23 +456,14 @@ emacs的undotree插件一样的方法使用。
 :norm x   或者:norm 3x  或者:norm xxx
 就删除选中的行前面的几列
 * 显示文件的单词数,行数等
-:PROPERTIES:
-:CUSTOM_ID: 89bdfda6-317b-4492-a444-0a1d9b9a7604
-:END:
 
 
 g <ctrl-g>
 * 输入时自动完成提示当前目录下存在的文件的文件名输入
-:PROPERTIES:
-:CUSTOM_ID: 3c903eca-2322-419c-86c0-05ab13629e54
-:END:
 
 
 ctrl-x ctrl-f
 * 在vim的ext命令模式
-:PROPERTIES:
-:CUSTOM_ID: 8349b7af-f420-4bc5-bffa-fa7fd4b9805c
-:END:
 
 
 ctrl-f打开历史命令,
@@ -587,9 +473,6 @@ ctrl-c关闭历史命令
 esc则回到normal模式,jk又可以在
 选项上下移动
 * 修改和删除搜索的指定单词
-:PROPERTIES:
-:CUSTOM_ID: 4aaced9c-a577-4667-96f9-4237550a1e40
-:END:
 
 
 先用/搜索某个单词
@@ -598,9 +481,6 @@ gn配合c或d则
 cgn来修改一个搜索的单词后，再不断按.来对下一个重复修改动作
 dgn则类似删除
 * copy line
-:PROPERTIES:
-:CUSTOM_ID: 5e1dbc9e-803d-47fe-be1c-9f5d80edda65
-:END:
 
 
     :281t. – Copy line 281 and paste it below the current line
@@ -612,26 +492,17 @@ ex命令t用来copy行,t左边是源右边是目标位置，空就表示当前�
 源可以是绝对行数，相对当前行数，范围行
 目标位置可以是绝对行数，相对当前行数
 * 输入特殊符号
-:PROPERTIES:
-:CUSTOM_ID: bdff7739-c8bf-49b7-b52d-ab15460ddda4
-:END:
 
 
 在insert模式，ctrl-k在加2character就可以输入特殊符号，
 :dig可以查看特殊符号
 * :jumps	可以显示历史跳转
-:PROPERTIES:
-:CUSTOM_ID: 15e1f212-d058-47ae-ab98-5dc100bedf37
-:END:
 
 
 	:clearjumps	可以清除历史跳转
 ctrl-o 后退一个jump
 ctrl-i 前进一个jump
 * 替换多个后显示替换记录,举例如下
-:PROPERTIES:
-:CUSTOM_ID: 578a1908-17d6-4ac9-ab60-1971fb75c90b
-:END:
 
 
 :g/MATCH/#|s/MATCH/REPLACE/g|#
@@ -640,9 +511,6 @@ ctrl-i 前进一个jump
 28 Excuse me, do you have any MATCHES?
 28 Excuse me, do you have any REPLACEES?
 * 光标形状颜色
-:PROPERTIES:
-:CUSTOM_ID: d1420b22-05a7-4b9c-8b34-c9104005e1a1
-:END:
 
 
 " Set cursor shape and color
@@ -675,9 +543,6 @@ endif
 . 号在这里的作用其实是字符串拼接，方便区分形状配置部分和颜色配置部分而已。去掉 . 号直接将两部分配置写在一个字符串里也是可以的。
 即 let &t_SR = "\<Esc>[3 q" . "\<Esc>]12;black\x7" 等同于 let &t_SR = "\<Esc>[3 q\<Esc>]12;black\x7"
 * 插件管理器plug
-:PROPERTIES:
-:CUSTOM_ID: aa91bd93-b820-4194-b6c9-f598aaacaaf5
-:END:
 
 
  #+begin_src sh
@@ -686,15 +551,9 @@ endif
  更新了插件，运行PlugInstall
  重启vim
 * vim-vba插件
-:PROPERTIES:
-:CUSTOM_ID: fdc64c6b-aa8a-4785-8cad-de02ab1328e3
-:END:
 
 
 ** 只需用 Vim 打开， 执行一下 :so % 即可,无须用户自己找插件的安装路径。
-:PROPERTIES:
-:CUSTOM_ID: fd166e3d-796f-4d9e-8925-a2eea5b0d3f8
-:END:
 
 
   vim someplugin.vba
@@ -702,39 +561,24 @@ endif
   :q
  然后插件和它的所有部件都会被安装在合适的目录里。用户无须刻意进到 某个特定的目录来执行此命令。另外，插件的帮助也会被自动安装。
 ** 删除 vimball 安装的插件很容易:
-:PROPERTIES:
-:CUSTOM_ID: 81aeae06-921d-4870-8c11-6c62fd31557e
-:END:
 
 
   :RmVimball someplugin.vba
 * 插件管理器pathogen
-:PROPERTIES:
-:CUSTOM_ID: 980e16c4-8984-48d4-823c-5b4b7c8c5687
-:END:
 
 
 ** 安装pathogen
-:PROPERTIES:
-:CUSTOM_ID: 92f0da2f-dd6c-4291-b7d7-d1b7021529e0
-:END:
 
 
   mkdir -p ~/.vim/autoload ~/.vim/bundle
   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   Add this to your vimrc: execute pathogen#infect()
 ** Now any plugins you wish to install can be extracted to a subdirectory under ~/.vim/bundle, and they will be added to the 'runtimepath'.
-:PROPERTIES:
-:CUSTOM_ID: d774b5a4-12f3-470f-a38d-a85de746cfa1
-:END:
 
 
   或者cd ~/.vim/bundle
   git clone http://github/xxx/xxx
 * 不带配置启动
-:PROPERTIES:
-:CUSTOM_ID: 703e0eb6-2283-4735-8605-ad449e7fc1be
-:END:
 
 
 1. 使用 -u 选项指定空配置
@@ -773,9 +617,6 @@ redir 是 Vim 提供的一个命令，用于将输出重定向到变量或文件
     结果将被保存到当前目录下的 digraphs.txt 文件中。
 
 ** 方法 2：使用命令行直接保存输出
-:PROPERTIES:
-:CUSTOM_ID: aa85a39e-9fff-4541-86c6-ad9484826e69
-:END:
 
 
 
@@ -790,9 +631,6 @@ vim -c ':redir > digraphs.txt | dig | redir END | qa'
     qa: 退出 Vim。
 
 ** 方法 3：使用 Shell 截取输出
-:PROPERTIES:
-:CUSTOM_ID: 82a453d5-107d-410c-a9e4-b135b27a9b6a
-:END:
 
 
 
@@ -805,15 +643,9 @@ vim -es -c ':dig' -c ':qa' > digraphs.txt
     :qa: 退出 Vim。
     > digraphs.txt: 将输出重定向到文件。
 * mapleader和maplocalleader
-:PROPERTIES:
-:CUSTOM_ID: a41c60ab-9f39-44f8-aff0-6749047181c1
-:END:
 
 
 ** 区别总结
-:PROPERTIES:
-:CUSTOM_ID: 7f72a078-79e6-4ae2-a444-8e8aa7e90721
-:END:
 
 
 |----------+-----------+----------------|
@@ -826,9 +658,6 @@ vim -es -c ':dig' -c ':qa' > digraphs.txt
 | 配置优先级 | 高        | 局部可覆盖全局    |
 |----------+-----------+----------------|
 * gentoo 添加python支持安装vim
-:PROPERTIES:
-:CUSTOM_ID: ea2d9e35-e275-4d79-9851-ce261b8ab608
-:END:
 
 
 cd /etc/portage/package.use
@@ -838,16 +667,10 @@ app-editors/vim python python3
 重新编译安装
 sudo emerge --update --newuse app-editors/vim
 * vim 自动更行ctags
-:PROPERTIES:
-:CUSTOM_ID: 63a5920a-f22c-4bb2-8419-27eb64656a28
-:END:
 
 
 
 ** 安装 ctags
-:PROPERTIES:
-:CUSTOM_ID: a91373b9-9f69-4678-ab2e-1ad31ed122da
-:END:
 
 
 
@@ -856,15 +679,9 @@ sudo emerge --update --newuse app-editors/vim
 sudo apt install universal-ctags
 
 ** 配置 Vim 自动更新 ctags
-:PROPERTIES:
-:CUSTOM_ID: 1aa8126c-fd06-41e9-a5d6-43ece864f8a7
-:END:
 
 
 *** 方式一：在 Vim 配置文件中添加自动命令
-:PROPERTIES:
-:CUSTOM_ID: ab0d2358-ca91-4fb0-81f2-2012865aa84d
-:END:
 
 
 #+begin_src sh
@@ -883,9 +700,6 @@ sudo apt install universal-ctags
   这个配置会在每次保存文件时，检查是否有 .git 目录，并在项目根目录下运行 ctags -R。
 #+end_src
 *** 方式二：结合插件管理工具
-:PROPERTIES:
-:CUSTOM_ID: e35c932c-a288-421f-91c3-c20fbf83f77d
-:END:
 
 
 #+begin_src sh
@@ -899,13 +713,7 @@ sudo apt install universal-ctags
       let g:gutentags_cache_dir = expand('~/.cache/tags')
 #+end_src
 * vim-autoformat插件使用astyle
-:PROPERTIES:
-:CUSTOM_ID: 45509336-cffc-4796-96ef-b72629faf525
-:END:
 ** 安装 astyle
-:PROPERTIES:
-:CUSTOM_ID: e94e4035-ad47-4c1b-a7b8-680db0a80d9b
-:END:
 
 
 
@@ -920,9 +728,6 @@ macOS（使用 Homebrew）：
 
     如果你在 Windows 上，可以从 AStyle 官方网站 下载并安装它。
 ** 配置 vim-autoformat 使用 astyle
-:PROPERTIES:
-:CUSTOM_ID: 807c8177-b25a-4d81-a43f-74cfee0545dd
-:END:
 
 
 #+begin_src sh
@@ -953,9 +758,6 @@ macOS（使用 Homebrew）：
       :Autoformat
 #+end_src
 * debian12源码安装vim
-:PROPERTIES:
-:CUSTOM_ID: 004fb812-7576-40b4-b5bc-e65a9083ef49
-:END:
 
 
 #+begin_src sh
@@ -1029,13 +831,7 @@ macOS（使用 Homebrew）：
       如果 make install 提示权限不足，确保使用了 sudo。
 #+end_src
 * vim插件UltiSnips 使用
-:PROPERTIES:
-:CUSTOM_ID: cafd49e9-c32d-4fc1-ad14-64572eece3a4
-:END:
 ** 安装 UltiSnips
-:PROPERTIES:
-:CUSTOM_ID: 0b1f276e-bd60-4a5e-a767-eab2ebbb3b8e
-:END:
 #+begin_src sh
   UltiSnips 通常和 vim-plug 一起使用进行插件管理，以下是安装方法：
   (1) 安装,github clone 到~/.vim/bundle里
@@ -1051,9 +847,6 @@ macOS（使用 Homebrew）：
 
 #+end_src
 ** 基本用法
-:PROPERTIES:
-:CUSTOM_ID: d4cafd4d-3d49-4b7e-8e59-5022a726fb9e
-:END:
 #+begin_example
 (1) 添加自定义片段
 
@@ -1086,9 +879,6 @@ endsnippet
     编辑当前占位符：直接修改占位符内容。
 #+end_example
 ** 高级功能
-:PROPERTIES:
-:CUSTOM_ID: bcabc55b-fa15-4736-9699-602c4cb77b0d
-:END:
 #+begin_example
 (1) 动态片段
 
@@ -1115,9 +905,6 @@ endsnippet
 这里的 b 表示只有在 python 文件类型中有效。
 #+end_example
 ** 常见问题
-:PROPERTIES:
-:CUSTOM_ID: e77e6d7a-4dd9-4eca-8a70-2e645a523e9a
-:END:
 #+begin_example
 (1) 片段无法触发
 
@@ -1133,9 +920,6 @@ let g:UltiSnipsExpandTrigger="<C-l>"
 UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自定义片段，能够极大提高工作效率！如果还有其他问题，欢迎继续咨询！
 #+end_example
 ** 添加C片段 具体demo
-:PROPERTIES:
-:CUSTOM_ID: 3d780984-00d2-4067-886b-156a74419222
-:END:
 #+begin_src sh
   以下是为 C 语言添加代码片段的具体示例，以及如何使用它们的操作指南。
   1. 创建 C 语言的片段文件
@@ -1269,9 +1053,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
 
 <<<<<<< HEAD
 * vim diff用法
-:PROPERTIES:
-:CUSTOM_ID: 9970bd74-4af1-4d76-9004-cc3b3a0e3070
-:END:
 
 
 #+begin_src sh
@@ -1351,9 +1132,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
       git difftool -t vimdiff
 #+end_src
 * nerdcommenter插件快捷键
-:PROPERTIES:
-:CUSTOM_ID: 53c2f5a2-285e-478e-955a-bf14c44a0874
-:END:
 
 
  #+begin_src sh
@@ -1414,16 +1192,10 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
        Uncomments the selected line(s).
  #+end_src
 * set paste
-:PROPERTIES:
-:CUSTOM_ID: 10462f24-ba79-44f7-8741-ee9ecf50915f
-:END:
 
 
 #+begin_src sh
 ** 命令启用
-:PROPERTIES:
-:CUSTOM_ID: 8addd006-fadb-4df8-bd54-04e8ee8e04c4
-:END:
 
 
 
@@ -1434,9 +1206,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
       启用后，状态栏中通常会显示 -- INSERT (paste) --，表示已经进入 Paste 模式。
 
 **   快捷键启用
-:PROPERTIES:
-:CUSTOM_ID: 93cabb70-5663-46d1-9be2-98373a9faaa6
-:END:
 
 
 
@@ -1447,9 +1216,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
           按下 F2 即可快速启用或关闭 Paste 模式。
 
 ** Paste 模式的应用场景
-:PROPERTIES:
-:CUSTOM_ID: d9b5d9d9-f7b3-4978-a947-0846646a3032
-:END:
 
 
 
@@ -1461,9 +1227,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
           如果插入模式下某些按键（如 <Tab>）有特殊映射，Paste 模式会禁用这些映射，确保粘贴内容保持原样。
 
 **  如何退出 Paste 模式
-:PROPERTIES:
-:CUSTOM_ID: 78ca8367-7a98-4fa3-b4a3-7cae9b5d21e4
-:END:
 
 
 
@@ -1476,9 +1239,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
           如果配置了 pastetoggle，再次按下快捷键即可关闭 Paste 模式。
 
 **  如何知道当前是否处于 Paste 模式
-:PROPERTIES:
-:CUSTOM_ID: 31f695bc-e9b4-4ec4-aa97-aaf13db7544e
-:END:
 
 
 
@@ -1495,9 +1255,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
 #+end_src
 =======
 * vim双引号寄存器作用
-:PROPERTIES:
-:CUSTOM_ID: 290ca730-7f44-4cfd-9ba1-da478e175a24
-:END:
 
 
 #+begin_src sh
@@ -1536,105 +1293,60 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
 
 #+end_src
 * quickfix和locallist区别
-:PROPERTIES:
-:CUSTOM_ID: 6ea9b792-15be-490a-92a0-e005659bbcc1
-:END:
 
 
 ** 在 Neovim 和 Vim 中，quickfix 和 location list 是两种用于显示和导航错误、警告或搜索结果的窗口。 它们的主要区别在于作用范围和使用场景：
-:PROPERTIES:
-:CUSTOM_ID: 9894f420-2f7a-47f5-8ad9-242c0f8624db
-:END:
 
 
 ** 1. Quickfix List (快速修复列表)
-:PROPERTIES:
-:CUSTOM_ID: 642b3a37-1ee3-4ce6-8d2e-88fd3cec90e5
-:END:
 
 
 
 *** 作用范围：全局
-:PROPERTIES:
-:CUSTOM_ID: ff177ba6-4b7a-4c56-932e-ca317b7e8cac
-:END:
 
 
       Quickfix 列表是全局的，适用于整个 Neovim 实例。它的内容可以来自不同的文件，适合跨文件的操作，比如运行编译器、搜索整个项目或执行多文件替换时生成的结果。
 
 *** 打开方式：
-:PROPERTIES:
-:CUSTOM_ID: c9c62d3f-cee9-47db-923a-5008a86d6b13
-:END:
 
 
       使用 :copen 打开 Quickfix 窗口，:cclose 关闭，:cnext 和 :cprev 在列表中跳转。
 
 **** 典型用途：
-:PROPERTIES:
-:CUSTOM_ID: 70344b70-dadd-4275-a1a7-14b1513e5fb9
-:END:
 
 
     - 通过 :make 查看编译错误。
     - 使用 :grep 或 :vimgrep 搜索多个文件中的内容。
 
 ** 2. Location List (局部列表)
-:PROPERTIES:
-:CUSTOM_ID: 22475078-a4c2-4a0e-920a-e7c6c1db02b3
-:END:
 
 
 
 ***    作用范围：局部（窗口相关）
-:PROPERTIES:
-:CUSTOM_ID: 7335f099-63f6-4d4a-8e37-771a4ad92361
-:END:
 
 
 **** Location List 是局部的，与某个特定的窗口绑定。每个窗口都有独立的 Location List，内容通常是该窗口中相关操作的结果。
-:PROPERTIES:
-:CUSTOM_ID: 9edf4e12-2805-4856-94b5-466f24aae7e6
-:END:
 
 
 
 ***    打开方式：
-:PROPERTIES:
-:CUSTOM_ID: c92aa3f9-2d5b-49ac-b6a2-0f6204a7fd91
-:END:
 
 
 **** 使用 :lopen 打开 Location List，:lclose 关闭，:lnext 和 :lprev 在列表中跳转。
-:PROPERTIES:
-:CUSTOM_ID: d977bda6-221c-4a15-8a1b-c9ef2c4d231f
-:END:
 
 
 
 ***   典型用途：
-:PROPERTIES:
-:CUSTOM_ID: ac1c2d8f-47a7-440b-aac7-10032880002f
-:END:
 
 
 **** 检查当前文件的语法或拼写错误（比如 LSP 提供的诊断信息）。
-:PROPERTIES:
-:CUSTOM_ID: 84683f8b-19e5-4254-b8a9-cbfe10f7cc43
-:END:
 
 
 **** 与窗口绑定的操作，比如某些插件生成的结果。
-:PROPERTIES:
-:CUSTOM_ID: f7477a25-d63a-4b6a-9f07-e41b6d842925
-:END:
 
 
 
 ** 3. 具体区别对比
-:PROPERTIES:
-:CUSTOM_ID: be9ae482-cf40-4f14-977a-7833b7408eff
-:END:
 
 
 |---------+----------------------+-------------------------|
@@ -1651,15 +1363,9 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
 | 适用场景 | 项目范围的任务          | 局部错误或问题检查          |
 |---------+----------------------+-------------------------|
 ** 4. 示例
-:PROPERTIES:
-:CUSTOM_ID: 1f3390d6-2e66-4731-babf-b425a27c31fb
-:END:
 
 
 *** 使用 Quickfix List：
-:PROPERTIES:
-:CUSTOM_ID: 1c0c41a2-ef5b-41e0-a8aa-9aee511cc343
-:END:
 
 
 #+begin_src sh
@@ -1669,9 +1375,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
 #+end_src
 
 *** 使用 Location List：
-:PROPERTIES:
-:CUSTOM_ID: 582b86ef-d1c4-405c-b29f-6f841e2f65c0
-:END:
 
 
 
@@ -1681,17 +1384,8 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
   #+end_src
 
 ** 总之，如果你需要跨文件查看结果，使用 Quickfix；如果只关心当前文件或窗口的内容，使用 Location List 更合适。
-:PROPERTIES:
-:CUSTOM_ID: ed4acff5-e506-4f6c-b53b-4975c5028c31
-:END:
 * vim自带插件管理功能
-:PROPERTIES:
-:CUSTOM_ID: b3e79739-eb0d-459a-aa47-3b8545a53ffe
-:END:
 ** Pathogen
-:PROPERTIES:
-:CUSTOM_ID: ddee0188-8090-4da0-bcfa-5c0df44b9553
-:END:
 #+begin_src
     Pathogen 是一个第三方插件管理工具，可以让你更方便地管理 Vim 插件，每个插件都可以独立存放在 ~/.vim/bundle/目录中。
     兼容vim7及更高版本
@@ -1713,9 +1407,6 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
     git clone https://github.com/preservim/nerdtree.git ~/.vim/bundle/nerdtree
 #+end_src
 ** Vim 自带的插件管理
-:PROPERTIES:
-:CUSTOM_ID: 23e05b2c-f288-4cdc-805c-a4702e828aad
-:END:
 #+begin_src
     Vim8 及更高版本提供了原生的 packpath 插件管理方式，类似于 Pathogen，但无需额外安装插件管理器。
     插件目录结构
@@ -1734,17 +1425,11 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
     Vim 会自动加载 start/ 目录中的插件。
 #+end_src
 ** 选择
-:PROPERTIES:
-:CUSTOM_ID: 5c553603-9465-4658-949f-23c7945d947e
-:END:
 #+begin_src
     如果你使用 Vim 8 及更高版本，建议直接使用 Vim 自带的插件管理方式，无需额外安装 Pathogen。
     如果你使用的是 Vim 7，可以使用 Pathogen。
 #+end_src
 ** Vim 8 自带插件管理目录 ~/.vim/pack/plugins/start和~/.vim/pack/plugins/opt
-:PROPERTIES:
-:CUSTOM_ID: fa6fdfa7-d016-42e1-a4c0-8572d1e1326f
-:END:
 #+begin_src
     在 Vim 8 及更高版本中，插件可以按照“包（package）”的机制进行管理。通常的目录结构如下：
 
@@ -1826,25 +1511,16 @@ UltiSnips 是一个高度可定制的插件，结合社区提供的片段和自�
     这种包管理机制使得用户能够灵活地管理插件加载，既保证常用插件随时可用，又可以延迟加载不常用插件以提高性能。
 #+end_src
 * 每个tab设置不同cwd
-:PROPERTIES:
-:CUSTOM_ID: d1677e60-a638-40a0-bea7-4d91f76c3da9
-:END:
 #+begin_example
 使用:tcd <folder>
 #+end_example
 * guicursor
-:PROPERTIES:
-:CUSTOM_ID: 6eba6c03-68ad-4308-9ea2-aee36c91ff2b
-:END:
 #+begin_example
 To change your cursor in Neovim, see help for guicursor: :h guicursor.
 To change your cursor (block by default) to underline (horizontal line) for all modes: set guicursor=a:hor20.
 If you prefer a cursor with a vertical line as shape: set guicursor=a:ver20
 #+end_example
 * 表达式寄存器
-:PROPERTIES:
-:CUSTOM_ID: 8401bef5-6361-4f94-b9ff-f7c30f0fca55
-:END:
 #+begin_example
 表达式寄存器
 在 Vim / Neovim 中，表达式寄存器（expression register） 是寄存器 =。它允许在编辑时 即时计算表达式并把结果插入文本。
@@ -1981,19 +1657,6 @@ Ctrl-r =
 如果你经常写 嵌入式 C（STM32 / 寄存器 / 位操作），有几个 Vim 的 位运算和地址生成技巧非常实用，可以显著减少手算错误。
 #+end_example
 * minifile.nvim插件创建删除文件
-:PROPERTIES:
-:CUSTOM_ID: f2ed5a0d-9b51-4280-bb64-41c9fd0bd3da
-:END:
 ** 打开minifile插件后，像vim普通操作 i进入insert模式 输入任意字符，退出insert 模式 "ctr + =" 即创建了该文件
-:PROPERTIES:
-:CUSTOM_ID: bb643930-1768-4837-94d2-70c1618a4e6f
-:END:
 ** 若字符最后以/结尾  则会创建文件夹
-:PROPERTIES:
-:CUSTOM_ID: dc0395ef-724a-400d-9321-06a5e76c1d6e
-:END:
 ** dd删除该行后，"ctr + =" 即删除了该文件夹或 文件
-:PROPERTIES:
-:CUSTOM_ID: ad2a229c-de36-49a3-b84d-c557cf077975
-:END:
-| [[../vim-neovim/folder功能.org][folder功能]] |

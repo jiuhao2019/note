@@ -15,3 +15,7 @@
 - State "FINISHED"   from "TODO"       [2026-09-29 Tue 23:00]
 * FINISHED 删除nixos配置里的gruvbox 壁纸通过github拉取，改为静态下载到目录
 - State "FINISHED"   from "TODO"       [2026-09-29 Tue 23:01]
+* FINISHED 办公室电脑的nvim配置里scroll-it.nvim插件的配置文件，require了remember,改为scroll-it, 复制过来忘记改
+- State "FINISHED"   from "TODO"       [2026-10-07 Wed 08:44]
+* FINISHED emacs tab颜色修改，当前有有颜色，非激活的灰色
+- State "FINISHED"   from "TODO"       [2026-10-03 Sat 14:29]
