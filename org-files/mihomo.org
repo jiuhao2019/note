@@ -40,20 +40,17 @@ secret: '135987'
 external-ui: /home/microvee/.config/mihomo/ui
 #+end_src
 * 订阅和ui可以分开，ui可以用如下方式
-打开 MetaCubeXD 的 GitHub 仓库，然后切换到 gh-pages 分支：
-打开 MetaCubeXD GitHub
-点击分支选择器，选择 gh-pages
-点击绿色 Code
-点击 Download ZIP
-把这些内容放进：
-~/.config/mihomo/ui/
-而不是再套一层：
-~/.config/mihomo/ui/metacubexd-gh-pages/index.html
+- 打开 MetaCubeXD 的 GitHub 仓库，然后切换到 gh-pages 分支：
+- 打开 MetaCubeXD GitHub
+- 点击分支选择器，选择 gh-pages
+- 点击绿色 Code
+- 点击 Download ZIP
+- 把这些内容放进： ~/.config/mihomo/ui/
+- 而不是再套一层： ~/.config/mihomo/ui/metacubexd-gh-pages/index.html
 * 浏览器里，如下地址打开webui
 #+begin_src C
 http://127.0.0.1:9090/ui/
 #+end_src
-
 * Footnotes
 
 [fn:1]
