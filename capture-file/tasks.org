@@ -1,2 +1,4 @@
 * TODO 类似eza zoxide的现代工具，替换原有ls  cd
 * TODO vmware 鼠标静止几秒即隐藏
+* TODO 弹簧电机出货功能，固定补转1/4圈，实际再调试
+* TODO 返回的状态检测完善
