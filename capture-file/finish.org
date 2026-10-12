@@ -19,3 +19,17 @@
 - State "FINISHED"   from "TODO"       [2026-10-07 Wed 08:44]
 * FINISHED emacs tab颜色修改，当前有有颜色，非激活的灰色
 - State "FINISHED"   from "TODO"       [2026-10-03 Sat 14:29]
+* FINISHED 开门信号检测,开取货门信号
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:08]
+* FINISHED 一次出货结束拿走货后，光幕会恢复  关电磁锁
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 09:29]
+* FINISHED 下限位报警，是超时没有碰到下限位红外，而上限位报警是碰到上限位红外
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:07]
+* FINISHED 编码器故障，启动后几秒没有编码器信号触发即报
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:07]
+* FINISHED 故障码里有的故障是可自动更新故障码，比如大门开故障，门关上后自动更新故障码里状态,而有的故障码则不能，比如电机过流，须停止待检测故障后，机器重启
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:07]
+* FINISHED 状态2里的出货结果多了货盘电机正在出货，货盘电机出货成功，货盘电机出货失败,如果是售货车模式出货，则用这几个出货结果，售货车模式指加入多个货物后统一出货，否则，屏幕上点击某个商品直接出货。
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:07]
+* FINISHED 弹簧电机出货功能，固定补转1/4圈，实际再调试
+- State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:08]
