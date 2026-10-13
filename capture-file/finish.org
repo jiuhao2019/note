@@ -33,3 +33,11 @@
 - State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:07]
 * FINISHED 弹簧电机出货功能，固定补转1/4圈，实际再调试
 - State "FINISHED"   from "TODO"       [2026-10-12 Mon 13:08]
+* FINISHED 返回的状态检测完善
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 08:12]
+* FINISHED 货斗货拿走后稍等再判断光幕， 以应对用户拿起货物后手滑又掉下，没法开门，延迟时间则不怕此情景
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 08:12]
+* FINISHED boot开机延时暂时改短，因为售货机功能会先发重启，如果重启后时间太长会丢掉命令
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 12:47]
+* FINISHED 判断大门开 取货斗门开  就不制作的 判断反了，须检测
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 12:47]
