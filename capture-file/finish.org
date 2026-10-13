@@ -41,3 +41,15 @@
 - State "FINISHED"   from "TODO"       [2026-10-13 Tue 12:47]
 * FINISHED 判断大门开 取货斗门开  就不制作的 判断反了，须检测
 - State "FINISHED"   from "TODO"       [2026-10-13 Tue 12:47]
+* FINISHED 出货矩阵电机检测电流,过流停止
+- State "FINISHED"   from              [2026-10-05 Mon 16:33]
+* FINISHED vmware 鼠标静止几秒即隐藏
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 13:29]
+* FINISHED 出货命令里 有个参数没有解析处理，就是碰触红外后继续运行的时间
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 13:39]
+* FINISHED 每层红外长时间挡住触发，1长响声加层数短响
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 16:04]
+* FINISHED 温湿度命令是0x0a, 但上位机用的0x09,所以暂时用0x09测试用
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 16:43]
+* FINISHED 自动恢复功能，检测是不是只能上行，忽略下行，应该能动态的双向向目标恢复
+- State "FINISHED"   from "TODO"       [2026-10-13 Tue 17:08]
