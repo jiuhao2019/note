@@ -53,3 +53,11 @@
 - State "FINISHED"   from "TODO"       [2026-10-13 Tue 16:43]
 * FINISHED 自动恢复功能，检测是不是只能上行，忽略下行，应该能动态的双向向目标恢复
 - State "FINISHED"   from "TODO"       [2026-10-13 Tue 17:08]
+* FINISHED 弹簧货道出货，实测
+- State "FINISHED"   from "TODO"       [2026-10-16 Fri 08:27]
+* FINISHED 撞击货斗，撞击一次升一点 检查 自动恢复高度任务逻辑
+- State "FINISHED"   from "TODO"       [2026-10-16 Fri 08:27]
+* FINISHED 弹簧货道掉货后没有蜂鸣器响声，得增加
+- State "FINISHED"   from "TODO"       [2026-10-16 Fri 17:28]
+* FINISHED 不带升降版本的 两个程序都没 该功能，得加。   每层的红外被挡住 则蜂鸣器报警, 把带升降版本里的复制过来即可，那里已经做好了
+- State "FINISHED"   from "TODO"       [2026-10-16 Fri 17:29]
