@@ -51,7 +51,7 @@ http://127.0.0.1:9090/ui/
 ** 一般是一个订阅链接，填入上面config.yaml里的url一栏
 ** 运行mihomo后会根据配置里的参数，自动下载订阅到一个yaml文件,分两种情形：
                                                                                                           -  1 生成的yaml文件只是纯订阅，那么默认运行mihomo，会用默认的config.yaml,即可使用
-                                                                                                          -  2 生成的yaml也是完整的配置，那么不能只运行mihomo, 运行须指定配置yaml文件: mihomo -f xxxx.yaml  注意提前修改yaml里的参数，下载的文件里默认的参数可能不同，比如没有没有external-ui  可以增加，比如端口号等
+                                                                                                          -  2 生成的yaml也是完整的配置，那么不能只运行mihomo, 运行须指定配置yaml文件: mihomo -f xxxx.yaml  注意提前修改yaml里的参数，下载的文件里默认的参数可能不同，比如没有没有external-ui  可以增加，比如端口号等, 这里有个问题，运行后首次会下载MMDB文件比较慢
 ** 判断是不是完整配置文件，如下方法：
 #+begin_src C
                                                  mihomo -t -f xxxx         提示信息里有success即为完整配置文件，否则为纯订阅文件
