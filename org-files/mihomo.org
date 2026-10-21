@@ -1,8 +1,5 @@
-* 星辰加速
-https://starlinkboost.com/#/dashboard
-* mihomo  配置文件 ~/.config/mihomo/
-文件夹里，打开mihomo后会自动生成cache.db和config.yaml
-只须修改config.yaml即可
+* mihomo, 处理核心的代理功能
+** 默认配置路径 ~/.config/mihomo/config.yaml
 基本配置[fn:1]
 #+begin_src C
 mixed-port: 7890
@@ -30,16 +27,15 @@ rules:
   - MATCH,PROXY
 #+end_src
 - 其中的mixed-port可以任意设置，不跟其他冲突即可，一般7890 ,7891等待都可以
-- proxy-providers里是订阅参数，mihomo启动后会自动下载订阅链接里内容到指定的路径里，比如上面的starlink.yaml,路径可以自定义
-- proxy-groups  只需在use 下增加栏目即可
+- proxy-providers里是订阅参数，mihomo启动后会自动下载订阅链接里内容到指定的路径里，比如上面的starlink.yaml,路径和文件名可以自定义，后缀用.yaml
 
-* 这三个选项则是在网页打开ui界面的参数
+** 如下三个选项是在网页打开ui界面的参数
 #+begin_src C
 external-controller: 127.0.0.1:9090
 secret: '135987'
 external-ui: /home/microvee/.config/mihomo/ui
 #+end_src
-* 订阅和ui可以分开，ui可以用如下方式
+* ui,只管ui功能，不管其他功能
 - 打开 MetaCubeXD 的 GitHub 仓库，然后切换到 gh-pages 分支：
 - 打开 MetaCubeXD GitHub
 - 点击分支选择器，选择 gh-pages
@@ -47,18 +43,26 @@ external-ui: /home/microvee/.config/mihomo/ui
 - 点击 Download ZIP
 - 把这些内容放进： ~/.config/mihomo/ui/
 - 而不是再套一层： ~/.config/mihomo/ui/metacubexd-gh-pages/index.html
-* 浏览器里，如下地址打开webui
+** 浏览器里，如下地址打开webui,端口号根据实际配置设置为准
 #+begin_src C
 http://127.0.0.1:9090/ui/
+#+end_src
+* 订阅
+** 一般是一个订阅链接，填入上面config.yaml里的url一栏
+** 运行mihomo后会根据配置里的参数，自动下载订阅到一个yaml文件,分两种情形：
+                                                                                                          -  1 生成的yaml文件只是纯订阅，那么默认运行mihomo，会用默认的config.yaml,即可使用
+                                                                                                          -  2 生成的yaml也是完整的配置，那么不能只运行mihomo, 运行须指定配置yaml文件: mihomo -f xxxx.yaml  注意提前修改yaml里的参数，下载的文件里默认的参数可能不同，比如没有没有external-ui  可以增加，比如端口号等
+** 判断是不是完整配置文件，如下方法：
+#+begin_src C
+                                                 mihomo -t -f xxxx         提示信息里有success即为完整配置文件，否则为纯订阅文件
 #+end_src
 * Footnotes
 
 [fn:1]
+    - 在proxy-providers里, type除了http
+    - 还可以直接用文件也可以,如下
 #+begin_src C
-  在proxy-providers里
-  可以type： file
-  path： xxx.yaml 或xxx.yml
-  直接用文件也可以
-
-另外fish的配置和configureation.nix里分别添加proxy配置或环境变量
+    type： file
+    path： xxx.yaml 或xxx.yml
 #+end_src
+  - 另外fish的配置和configureation.nix里分别添加proxy配置或环境变量
