@@ -466,3 +466,8 @@ umount -R /mnt
                         | .     | 显示/隐藏隐藏文件          |
                         | Tab   | Spot/文件信息            |
                         | o     | Open with...            |
+* nixos修改代理端口的几个地方
+-    config.fish
+-    .gitconfig
+-    configuration.nix
+-    .curlrc
