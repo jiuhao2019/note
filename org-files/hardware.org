@@ -329,3 +329,180 @@ tr / tf
 ** 最大数据率
 ** CMTI/CMR
 ** 输出驱动能力
+* 直流电机过流保护
+可以把整个“电机电流采集 + 滤波 + 保护”整理成下面这套逻辑。对于你当前 STM32 + 5 路 ADC DMA 的方案，我建议先保持简单。
+** 1. ADC 持续采样
+ADC 12 MHz，5 通道，239.5 cycles：
+
+T_{单通道}=(239.5+12.5)/12M=21\mu s
+
+5 路扫描： T_{scan}=105\mu s
+
+所以每个通道约 9.52 kHz。
+
+DMA 每得到一组数据，中断里只做累加：
+#+begin_src C
+sum[ch] += adc_dma[ch];
+cnt[ch]++;
+#+end_src
+不要在这里做 IIR、浮点运算或者复杂的保护逻辑。
+** 2. 电流任务：建议 10 ms
+*** 每 10 ms 处理一次：
+#+begin_src C
+raw_avg = sum / cnt;
+
+sum = 0;
+cnt = 0;
+#+end_src
+
+10 ms 内每个通道大约有： 10ms / 105\mu s \approx 95 个样本。
+
+所以 raw_avg 本身已经是一个比较稳定的电流值。
+
+然后转换成实际电流：
+#+begin_src C
+current_avg = adc_to_current(raw_avg);
+#+end_src
+
+这里的 current_avg 是后续过流/堵转判断的主要依据。
+** 3. 再做一阶 IIR
+current_filter += alpha * (current_avg - current_filter);
+
+例如：
+alpha = 0.1f;
+
+于是有两个电流：
+current_avg      // 10ms平均，响应快
+current_filter   // IIR后，稳定
+
+用途不要混：
+current_avg
+    → 过流判断
+    → 堵转判断
+
+current_filter
+    → 电流显示
+    → 状态监测
+    → 需要稳定电流值的控制逻辑
+
+保护逻辑优先使用 current_avg，不要等 current_filter 慢慢升上去。
+** 4. 电机启动时
+电机启动电流天然比较大，所以：
+STOP
+  ↓
+启动
+  ↓
+软启动阶段
+PWM逐渐增加
+  │
+  ├── 极端过流 → 停止
+  │
+  └── 普通过流暂不判断
+  ↓
+软启动完成
+  ↓
+正常运行
+  │
+  ├── 极端过流
+  └── 普通过流/堵转
+
+也就是：
+#+begin_src C
+if (current_avg > CURRENT_CRITICAL)
+{
+    motor_stop();
+}
+else if (soft_start_finished)
+{
+    /* 普通过流判断 */
+}
+#+end_src
+
+CURRENT_CRITICAL 是保护硬件的极端异常阈值，软启动也不能关闭。
+** 5. 正常运行后的过流不要一超就停
+建议加入持续时间：
+#+begin_src C
+if (current_avg > CURRENT_OVER)
+{
+    over_cnt++;
+
+    if (over_cnt >= 5)
+    {
+        motor_stop();
+    }
+}
+else
+{
+    over_cnt = 0;
+}
+#+end_src
+
+任务周期 10 ms：
+1 次 = 10 ms
+3 次 = 30 ms
+5 次 = 50 ms
+10次 = 100 ms
+20次 = 200 ms
+
+例如设置：
+#define CURRENT_OVER_TIME_MS     100
+
+那么：
+#define CURRENT_OVER_CNT \
+    (CURRENT_OVER_TIME_MS / 10)
+
+持续超过阈值 100 ms 才认为过流/堵转。
+** 6. 最终建议的完整数据链
+你的系统可以简化成：
+ADC 5通道连续扫描
+        │
+        │ 每通道约 9.52kHz
+        ↓
+DMA
+        │
+        ↓
+sum += adc
+cnt++
+        │
+        │ 每10ms
+        ↓
+ADC平均值
+sum / cnt
+        │
+        ├──────────────→ current_avg
+        │                    │
+        │                    ├─ 极端过流
+        │                    │   → 立即停
+        │                    │
+        │                    └─ 软启动完成
+        │                         ↓
+        │                    普通过流
+        │                    持续50~200ms
+        │                         ↓
+        │                       停机
+        │
+        ↓
+一阶IIR
+alpha = 0.1~0.2
+        │
+        ↓
+current_filter
+        │
+        └─ 显示/状态/控制
+
+因此代码层面最好明确维护：
+typedef struct
+{
+    uint32_t sum;
+    uint32_t cnt;
+
+    float current_avg;
+    float current_filter;
+
+    uint16_t over_cnt;
+
+} motor_current_t;
+
+** 核心原则就是一句：
+                           - ADC 高频采集 → 10 ms 窗口平均 → current_avg 做保护 → IIR 得到 current_filter 做稳定电流值；软启动期间只保留极端过流，软启动完成后再开启带时间确认的普通堵转/过流保护。
+                           - 对于普通直流电机堵转保护，我会先从 10 ms任务 + 100 ms连续过流确认 开始调，然后根据实际堵转波形调整阈值和确认时间。
