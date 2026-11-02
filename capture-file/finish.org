@@ -67,3 +67,6 @@
 - State "FINISHED"   from              [2026-10-17 Sat 09:30]
 * FINISHED h 桥驱动的睡眠脚控制上拉的电压用外部5V，不能用芯片自己输出的3.3V或4.8V，因为只有非睡眠状态芯片才有输出电压。
 - State "FINISHED"   from              [2026-10-17 Sat 09:02]
+* FINISHED 实验室在测试的那块冲泡器模块板子，电机停止后改为break,  程序已经改好，有时机时去烧录以下
+
+- State "FINISHED"   from "TODO"       [2026-10-31 Sat 13:34]
