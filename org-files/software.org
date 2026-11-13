@@ -1,0 +1,16 @@
+* gdb查看
+** 函数inner_flash_init的反汇编
+#+begin_src C
+arm-none-eabi-objdump -d --disassemble=inner_flash_init build/Release/PCB-V1.1.0.elf
+#+end_src
+** 函数inner_flash_init占用flash大小
+#+begin_src C
+  > arm-none-eabi-nm -S --size-sort build/Release/PCB-V1.1.0.elf | grep inner_flash_init
+    0800768c    000004f0         T         inner_flash_init
+    地址             size                 类型     函数名
+#+end_src
+** 筛选代码段中的函数，排除 _estack、g_threads、stk_buffer 等数据符号。
+#+begin_src C
+arm-none-eabi-nm -S --size-sort -r build/Release/PCB-V1.1.0.elf  | awk '$3 == "T" || $3 == "t"'  | head -30
+#+end_src
+

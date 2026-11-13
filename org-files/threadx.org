@@ -15,14 +15,47 @@
         }
 #+end_src
 ** 再恢复线程，线程就会从函数体最开始运行，不是while（1）里面,相当于线程刚被创建后运行。
-#+begin_src 
+#+begin_src
         tx_ret = tx_thread_resume(&obj.threads.pump_ctr);
         if (tx_ret != TX_SUCCESS)
         {
             RTT_RECV_INFO_E("error-> reset thread result= %d\r\n", tx_ret);
         }
 #+end_src
+** 具体说明
+*** tx_thread_terminate()
+**** 用于终止指定线程
+#+begin_src C
+     tx_thread_terminate(&g_threads.pump_ctr);
+#+end_src
+***** 主要限制：
+                  - 可以由其他线程调用。
+                  - 可以由线程自身调用，即终止当前线程。
+                  - 不能在 ISR 中调用。
+                  - 不能终止已经终止（TX_COMPLETED）的线程，重复终止可能返回 TX_THREAD_ERROR。
+                  - 被终止的线程不会自动删除，线程控制块和栈仍然存在。
+                  - 如果线程终止自己，后面的代码不会继续执行。
 
+*** tx_thread_reset()
+**** 用于复位一个已经终止的线程，使其重新具备启动条件。
+#+begin_src C
+   tx_thread_reset(&g_threads.pump_ctr);
+#+end_src
+**** 主要限制：
+               - 只能复位已经终止的线程。
+               - 不能复位正在运行或挂起的线程。
+               - 不能在 ISR 中调用。
+               - 不能用它代替 tx_thread_suspend() 或 tx_thread_resume()。
+
+*** 这里有几个需要特别注意的地方：
+                                          - terminate 会强制终止线程，不会等待线程主动退出。
+                                          - 被终止线程持有的 mutex 不会自动释放，可能造成其他线程永久等待。
+                                          - 线程入口函数重新执行时，局部变量会重新初始化，但全局变量不会。
+                                          - reset 后必须 resume 才会重新运行。
+| 函数                  | 普通线程 | 自身调用              | 定时器回调 | ISR   |
+|-----------------------+---------+----------------------+----------+-------|
+| tx_thread_terminate() | 可以    | 可以                 | 可以     | 不可以 |
+| tx_thread_reset()     | 可以    | 不适用（必须已终止或完成） | 不可以    | 不可以 |
 * 系统频率
 ** 在tx_user.h里
 #+begin_example
@@ -77,30 +110,30 @@ CubeIDE 会自动将文件的目录结构显示在工程中，如果没有显�
 #+end_example
 #+attr_org: :width 95%
 [[../pics/threadx/threadx在cubeide里移植stm32/工程目录结构.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #+begin_example
 工程目录结构和本地资源目录结构是一致的，这里只是修改了工程目录结构，但是源码并不会参与编译，而且头文件路径也没有设置。
 另一种方法添加源码，在cubeide里工程选中再右键，New → Source Folder,这个文件夹会自动显示C标志，然后手动复制源码文件到这个文件夹，这个文件夹里的源码会被cubeide自动添加为参与编译，就不用设置手动添加的源码文件的路径了，否则如果只是复制文件夹到工程里，就要按照如下方法将源码参与编译。
@@ -111,120 +144,120 @@ CubeIDE 会自动将文件的目录结构显示在工程中，如果没有显�
 #+end_example
 #+attr_org: :width 30%
 [[../pics/threadx/threadx在cubeide里移植stm32/工程属性.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ** 添加汇编文件的头文件路径
 #+attr_org: :width 30%
 [[../pics/threadx/threadx在cubeide里移植stm32/添加汇编头文件路径.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
 ** 汇编文件的头文件添加完成之后如下
 [[../pics/threadx/threadx在cubeide里移植stm32/添加汇编头文件路径后.png]]
- 
- 
- 
- 
+
+
+
+
 ** C 文件的头文件路径
 [[../pics/threadx/threadx在cubeide里移植stm32/添加C头文件路径.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ** c 文件头文件路径添加完成之后如下图
 [[../pics/threadx/threadx在cubeide里移植stm32/添加C头文件路径后.png]]
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
 #+begin_example
 汇编和 C 头文件添加完毕之后将设置保存
 #+end_example
 ** 将源码参与编译
 [[../pics/threadx/threadx在cubeide里移植stm32/添加参与编译的C文件.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #+begin_example
 添加完成之后 threadx 文件夹会有一个 c 的标志，如下图所示
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/添加参与编译的C文件后.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
 ** 编译程序
 #+begin_example
 将 threadx 源码加入工程参与编译后会报错，接下来就一个一个解决报错。
@@ -234,120 +267,120 @@ CubeIDE 会自动将文件的目录结构显示在工程中，如果没有显�
 threadx 系统中会用到这两个中断服务函数，所以需要屏蔽掉 stm32l4xx_it.c 文件中工程自带的这两个中断服务函数。
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/不需要的两个中断函数.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #+begin_example
 另一种方法，也可以在cubeide里设置不自动生成这两个中断的isr函数
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/cubeide里不生成该两个函数.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ** 中断向量表未定义报错
 #+begin_example
 threadx/ports/cortex_m4/gnu/example_build/tx_initialize_low_level.S:114: undefined reference to `_vectors'
 将 tx_initialize_low_level.S 文件中的 所有_vectors 换为自己的中断向量表，例如本例中 startup_stm32l475vetx.s 启动文件中定义了中断向量表为 g_pfnVectors，将其替换即可。
-设置时钟频率（80Mhz）和时钟节拍（1ms），该值用来初始化Systick定时器： 
+设置时钟频率（80Mhz）和时钟节拍（1ms），该值用来初始化Systick定时器：
 将 tx_initialize_low_level.S 文件中的如下图参数，根据板子实际频率设置
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/设置系统频率.png]]
- 
- 
- 
+
+
+
 ** 设置用户配置文件tx_user.h
 #+begin_example
 如下的文件名改为tx_user.h
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/设置tx_user.h头文件.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
 ** 默认里面参数都是屏蔽掉的，根据实际取消注释，设置对应的宏定义，配置threadx参数。 注意要添加一个宏定义才会使能该文件。如下图
 [[../pics/threadx/threadx在cubeide里移植stm32/添加tx_user.h的使能宏.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ** __RAM_segment_used_end__ 未定义报错
 #+begin_example
 undefined reference to `__RAM_segment_used_end__'
@@ -364,15 +397,15 @@ undefined reference to `__RAM_segment_used_end__'
 } >RAM
 #+end_example
 [[../pics/threadx/threadx在cubeide里移植stm32/修改ld文件.png]]
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
 ** 至此，编译报错已经全部解决
 #+begin_src  c
   启动操作系统内核
