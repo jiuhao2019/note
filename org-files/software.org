@@ -13,4 +13,92 @@ arm-none-eabi-objdump -d --disassemble=inner_flash_init build/Release/PCB-V1.1.0
 #+begin_src C
 arm-none-eabi-nm -S --size-sort -r build/Release/PCB-V1.1.0.elf  | awk '$3 == "T" || $3 == "t"'  | head -30
 #+end_src
+** 文件占用flash
+*** 列举文件里链接用到每个函数占用
+#+begin_src C
+  arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf  | grep 'drv_uart.c'
 
+#+end_src
+*** 统计以上列举结果
+#+begin_src C
+arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf \
+    | grep 'drv_param.c' \
+    | awk '
+    {
+        size = strtonum("0x"$2)
+        type = $3
+
+        if (type == "T" || type == "t" || type == "R" || type == "r")
+            flash += size
+        else if (type == "B" || type == "b" || type == "D" || type == "d")
+            ram += size
+    }
+    END {
+        printf "Flash: %u B (%.2f KiB)\n", flash, flash / 1024
+        printf "RAM:   %u B (%.2f KiB)\n", ram, ram / 1024
+        printf "Total: %u B\n", flash + ram
+    }'
+#+end_src
+*  组件框架
+#+begin_example
+真正需要优化的不是每次重构的过程，而是把之前重构中验证有效的设计经验沉淀下来，形成可以直接复用的设计规范和基础组件。
+也就是说，开发模式应该从： 快速实现 → 发现问题 → 重构 → 再次实现
+逐渐演进为： 快速实现 → 总结经验 → 沉淀设计模式 → 新功能直接应用
+#+end_example
+** 建立可复用的设计模式
+*** 例如，目前你已经涉及的这些设计：
+                                              | 场景            | 总结后的设计模式          | 复用组件             |
+                                              |-----------------+------------------------+---------------------|
+                                              | 大量 switch 分支 | 映射表 + 函数指针         | dispatcher          |
+                                              | 多协议解析        | 独立解析实例 + 嵌套分发    | parser / dispatcher |
+                                              | 多 UART 管理     | 设备实例 + 统一接口       | uart                |
+                                              | 非阻塞流程        | 状态机 + Process 周期调用 | state machine       |
+                                              | 定时任务         | 软定时器                | soft_timer          |
+                                              | 多实例注册        | 注册表 + 外部存储         | registry            |
+                                              | 重复业务步骤      | 公共流程 + 参数配置       | workflow            |
+
+*** 这些不应该每次开发时重新讨论，而应该成为项目的基础设计。
+** 区分三个层次,我建议以后设计时明确区分：
+*** 第一层：设计原则,例如：
+                                  - 优先组合，避免不必要的继承式抽象。
+                                  - 模块独立，不依赖不必要的全局变量。
+                                  - 多实例优先使用实例结构体。
+                                  - 资源由谁创建，原则上由谁管理生命周期。
+                                  - 静态分配优先，动态分配按需使用。
+*** 第二层：通用组件,例如：
+                                   - dispatcher
+                                   - registry
+                                   - parser
+                                   - soft_timer
+                                   - state_machine
+**** 这些是经过实际项目验证的代码，可以直接拿来使用。
+
+*** 第三层：业务应用,例如：
+                                  - 咖啡机命令处理
+                                  - 电机控制
+                                  - UART 协议解析
+                                  - 配方执行流程
+**** 业务层直接使用已有组件，不再重复实现底层机制。
+** 建立自己的嵌入式 C 设计模板库
+*** 每个组件都应该沉淀：
+                          - 1. 解决什么问题。
+                          - 2. 适用场景和不适用场景。
+                          - 3. 接口设计。
+                          - 4. 完整 C 实现。
+                          - 5. 使用示例。
+                          - 6. RAM、Flash 和性能开销。
+** 还需要建立一个重要机制：设计复盘
+*** 每次完成一个重构，不只是保存代码，还要总结：
+                                                                  - 原来的问题是什么？
+                                                                  - 为什么选择这种设计？
+                                                                  - 有哪些其他方案？
+                                                                  - 最终方案有什么优缺点？
+                                                                  - 下次遇到类似问题，应该直接采用什么方案？
+*** 这样才能真正积累经验，而不是只积累代码。
+
+#+begin_example
+我认为你现在应该逐渐建立一套自己的 Embedded C Design Pattern（嵌入式 C 设计模式库）。
+它不是一个庞大的通用框架，而是一套经过实际项目验证的设计方案。
+以后遇到新需求，先匹配已有设计模式；已有模式不适用时，再设计新的方案。新方案经过验证后，再纳入模板库。
+这样既不会过度设计，也不会每次从零开始。
+#+end_example

@@ -70,3 +70,5 @@
 * FINISHED 实验室在测试的那块冲泡器模块板子，电机停止后改为break,  程序已经改好，有时机时去烧录以下
 
 - State "FINISHED"   from "TODO"       [2026-10-31 Sat 13:34]
+* FINISHED 咖啡机代码优化flash占用，优先分析 action_make_coffee，其次检查 double 运算和 printf。 这三个方向比盲目优化小函
+- State "FINISHED"   from "TODO"       [2026-11-14 Sat 10:36]

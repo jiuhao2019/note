@@ -1,3 +1,4 @@
 * TODO 售后机给实验室测试时，跟孙工说一下，他要升级最新上位机
 * TODO 家用咖啡机制作结束后排渣前的再挤一次饼的压力，改为尽量大
-* TODO  咖啡机代码优化flash占用，优先分析 action_make_coffee，其次检查 double 运算和 printf。 这三个方向比盲目优化小函
+* TODO stm32的flash模拟存储扩展官方功能为能按块读写，官方只能单个uint16_t读写
+* TODO 温度计核对温度adc
