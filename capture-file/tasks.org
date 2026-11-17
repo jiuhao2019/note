@@ -1,5 +1,5 @@
 * TODO 售后机给实验室测试时，跟孙工说一下，他要升级最新上位机
 * TODO 家用咖啡机制作结束后排渣前的再挤一次饼的压力，改为尽量大
-* TODO stm32的flash模拟存储扩展官方功能为能按块读写，官方只能单个uint16_t读写
-* TODO 温度计核对温度adc
-* TODO 升降app的命令码统一用0xff
+* TODO 升级app的命令码统一用0xff
+* TODO 新pcb拿一块到实验室装机测试
+* TODO 售货机去掉lfs ，用storage模块，功能适合读写参数，flash，ram占用小，lfs适合文件

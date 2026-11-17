@@ -61,14 +61,17 @@
 - State "FINISHED"   from "TODO"       [2026-10-16 Fri 17:28]
 * FINISHED 不带升降版本的 两个程序都没 该功能，得加。   每层的红外被挡住 则蜂鸣器报警, 把带升降版本里的复制过来即可，那里已经做好了
 - State "FINISHED"   from "TODO"       [2026-10-16 Fri 17:29]
-* FINISHED H桥的en_ctrl 即pwm驱动光藕 输出oc的接地电阻改为1k，因为提高了pwm的频率，原来的6.8k电阻，在20kHz时pwm波形下降沿失真严重
-- State "FINISHED"   from              [2026-10-17 Sat 09:02]
 * FINISHED 2个大体积继电器是12V的，3个小体积的继电器是12V的,板子原理图也都按12V的，但样板焊接3个小体积的是24V的(因旧板子样机焊接的是24V,所以也照用，但其用错了，应该用12V)，不能正常使用，但是功能也用不到，所以等量产的板子更正为都12V的继电器，样板不用管。
 - State "FINISHED"   from              [2026-10-17 Sat 09:30]
-* FINISHED h 桥驱动的睡眠脚控制上拉的电压用外部5V，不能用芯片自己输出的3.3V或4.8V，因为只有非睡眠状态芯片才有输出电压。
-- State "FINISHED"   from              [2026-10-17 Sat 09:02]
 * FINISHED 实验室在测试的那块冲泡器模块板子，电机停止后改为break,  程序已经改好，有时机时去烧录以下
 
 - State "FINISHED"   from "TODO"       [2026-10-31 Sat 13:34]
 * FINISHED 咖啡机代码优化flash占用，优先分析 action_make_coffee，其次检查 double 运算和 printf。 这三个方向比盲目优化小函
 - State "FINISHED"   from "TODO"       [2026-11-14 Sat 10:36]
+* FINISHED stm32的flash模拟存储扩展官方功能为能按块读写，官方只能单个uint16_t读写
+- State "FINISHED"   from "TODO"       [2026-11-17 Tue 08:34]
+* FINISHED 温度计核对温度adc
+- State "FINISHED"   from "TODO"       [2026-11-17 Tue 11:10]
+* FINISHED stm32f1的内部flash写入前须擦除，特殊情况下，比如原7fff，写入3fff,按halfword写入，只须一个bit从1改为0，符合只能从1写为0的规则，但是须确定是否须先擦除为ffff才能写入成功。
+- State "FINISHED"   from "TODO"       [2026-11-17 Tue 13:25] \\
+  确定须ffff才能写入ok
