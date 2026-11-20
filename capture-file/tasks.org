@@ -1,5 +1,8 @@
 * TODO 售后机给实验室测试时，跟孙工说一下，他要升级最新上位机
 * TODO 家用咖啡机制作结束后排渣前的再挤一次饼的压力，改为尽量大
 * TODO 升级app的命令码统一用0xff
-* TODO 新pcb拿一块到实验室装机测试
-* TODO 售货机去掉lfs ，用storage模块，功能适合读写参数，flash，ram占用小，lfs适合文件
+* FINISHED 新pcb拿一块到实验室装机测试
+- State "FINISHED"   from "TODO"       [2026-11-20 Fri 16:05]
+* FINISHED 售货机去掉lfs ，用storage模块，功能适合读写参数，flash，ram占用小，lfs适合文件
+- State "FINISHED"   from "TODO"       [2026-11-20 Fri 16:03]
+* TODO 整数加后缀U
