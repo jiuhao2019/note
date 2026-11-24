@@ -1,0 +1,49 @@
+*  C 语言中结构体的前向声明
+#+begin_example
+如下例子前一个结构体里有个成员类型还没定义，定义在其下方，但是下方结构体又有该结构体类型的成员，
+似乎互锁，解决方法如下：
+#+end_example
+** 先声明 uart_dev_t，再定义 uart_rx_frame_t，最后定义 uart_dev_t。
+#+begin_src C
+typedef struct uart_dev uart_dev_t;
+
+typedef struct
+{
+    uart_dev_t *dev;
+
+    uint8_t  *buffer;
+    uint16_t received_size;
+    uint8_t  flag_need_free;
+
+} uart_rx_frame_t;
+
+
+struct uart_dev
+{
+    UART_HandleTypeDef *huart;
+
+    /* RX 独立资源 */
+    TX_BLOCK_POOL *rx_pool;
+    TX_QUEUE      *rx_queue;
+    ULONG          rx_event;
+
+    /* TX 独立资源 */
+    TX_MUTEX             *tx_mutex;
+    TX_EVENT_FLAGS_GROUP *events;
+    ULONG                tx_dma_event;
+
+    /* RX DMA */
+    uart_rx_frame_t *cur_block;
+    uart_rx_frame_t  dummy_block;
+
+    uint16_t rx_max_size;
+
+    fun_rs485_t_r_mode rs485_t_mode;
+    fun_rs485_t_r_mode rs485_r_mode;
+};
+#+end_src
+
+原理：
+- uart_rx_frame_t 只保存 uart_dev_t *，指针不要求编译器知道结构体完整大小。
+- uart_dev_t 内部包含 uart_rx_frame_t 实体，因此此时必须已经完整定义 uart_rx_frame_t。
+注意：这里使用 struct uart_dev 定义，是因为前面已经通过 typedef struct uart_dev uart_dev_t; 建立了类型别名。

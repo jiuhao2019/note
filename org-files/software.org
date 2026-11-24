@@ -39,7 +39,7 @@ arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf \
         printf "Total: %u B\n", flash + ram
     }'
 #+end_src
-*  组件框架
+* 组件框架
 #+begin_example
 真正需要优化的不是每次重构的过程，而是把之前重构中验证有效的设计经验沉淀下来，形成可以直接复用的设计规范和基础组件。
 也就是说，开发模式应该从： 快速实现 → 发现问题 → 重构 → 再次实现
@@ -102,3 +102,5 @@ arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf \
 以后遇到新需求，先匹配已有设计模式；已有模式不适用时，再设计新的方案。新方案经过验证后，再纳入模板库。
 这样既不会过度设计，也不会每次从零开始。
 #+end_example
+* c语言
+[[file:~/Downloads/note/org-category/software/c_language.org][c语言]]

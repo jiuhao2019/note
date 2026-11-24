@@ -75,3 +75,7 @@
 * FINISHED stm32f1的内部flash写入前须擦除，特殊情况下，比如原7fff，写入3fff,按halfword写入，只须一个bit从1改为0，符合只能从1写为0的规则，但是须确定是否须先擦除为ffff才能写入成功。
 - State "FINISHED"   from "TODO"       [2026-11-17 Tue 13:25] \\
   确定须ffff才能写入ok
+* FINISHED 新pcb拿一块到实验室装机测试
+- State "FINISHED"   from "TODO"       [2026-11-20 Fri 16:05]
+* FINISHED 售货机去掉lfs ，用storage模块，功能适合读写参数，flash，ram占用小，lfs适合文件
+- State "FINISHED"   from "TODO"       [2026-11-20 Fri 16:03]
