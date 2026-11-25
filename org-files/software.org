@@ -1,4 +1,4 @@
-* gdb查看
+* gdb
 ** 函数inner_flash_init的反汇编
 #+begin_src C
 arm-none-eabi-objdump -d --disassemble=inner_flash_init build/Release/PCB-V1.1.0.elf
@@ -38,6 +38,10 @@ arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf \
         printf "RAM:   %u B (%.2f KiB)\n", ram, ram / 1024
         printf "Total: %u B\n", flash + ram
     }'
+#+end_src
+** 擦除flash
+#+begin_src C
+monitor flash erase
 #+end_src
 * 组件框架
 #+begin_example
@@ -102,5 +106,9 @@ arm-none-eabi-nm -S -l build/Release/PCB-V1.1.0.elf \
 以后遇到新需求，先匹配已有设计模式；已有模式不适用时，再设计新的方案。新方案经过验证后，再纳入模板库。
 这样既不会过度设计，也不会每次从零开始。
 #+end_example
-* c语言
+* c language
 [[file:~/Downloads/note/org-category/software/c_language.org][c语言]]
+[[file:~/Downloads/note/org-category/software/mcu.org][mcu]]
+[[file:~/Downloads/note/org-category/software/littlefs.org][little-fs]]
+[[file:~/Downloads/note/org-category/software/iap.org][iap]]
+[[file:~/Downloads/note/org-category/software/pattern-记录文档模板.org][设计模式记录模板]]
